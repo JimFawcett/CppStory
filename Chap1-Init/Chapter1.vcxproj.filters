@@ -15,7 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Chap1-Init\Init.cpp">
+    <ClInclude Include="Init.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

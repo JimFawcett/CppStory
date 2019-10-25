@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Chap1-Init\Init.cpp">
+    <ClCompile Include="Sizes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
