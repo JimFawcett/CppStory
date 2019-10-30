@@ -17,11 +17,20 @@
 
 void demoInit()
 {
+  displayDemo("-- initializer_list type --");
+  std::initializer_list<int> ilInt{ 1, 2, 3 };
+  std::cout << "\n ";
+  for (auto item : ilInt)
+  {
+    std::cout << " " << item;
+  }
+  std::cout << std::endl;
+
   displayDemo("-- initialize integers --");
-  int i1 = 1;
-  int i2(2);
-  int i3 = { 3 };
-  int i4{ 4 };
+  int i1 = 1;      // classic initialization
+  int i2(2);       // classic, but less frequently used
+  int i3 = { 3 };  // 
+  int i4{ 4 };     // preferred initialization syntax
   displayValues({ i1, i2, i3, i4 });  // 1, 2, 3, 4
 
   displayDemo("\n  -- initialize strings --");
@@ -72,6 +81,15 @@ void demoInit()
   std::shared_ptr<double> sPtr2{ sPtr1 };
   displayValues({ *sPtr1 }, " is *shared_ptr<double>");
   displayValues({ *sPtr2 }, " is *shared_ptr<double>");
+
+  displayDemo("\n  -- structure bindings --");
+  auto [i5, i6] = std::pair{ 5, 6 };
+  displayValues({ i5, i6 });
+  auto [d, i, s] = std::tuple<double, int, std::string>{ 2.5, 3, "four" };
+  displayValues(d, i, s);
+  
+  /* initializer list must have all values of same type */
+  // displayValues({ d, i, s });
 }
 int main()
 {

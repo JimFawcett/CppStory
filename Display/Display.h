@@ -19,6 +19,10 @@ void displaySubtitle(const std::string& title)
   std::cout << "\n  " << title;
   std::cout << "\n " << std::string(title.size() + 2, '-');
 }
+void displayDemo(const std::string& msg)
+{
+  std::cout << "\n  " << msg;
+}
 
 /*---- display selected type values ----*/
 
@@ -74,13 +78,6 @@ void displayType(const T& t, const std::string& msg = "")
   std::cout << typeName;
   if (msg.size() > 0)
     std::cout << msg;
-}
-
-/*---- demonstrations ----*/
-
-void displayDemo(const std::string& msg)
-{
-  std::cout << "\n  " << msg;
 }
 
 // Template specialization that stops recursive evaluation
