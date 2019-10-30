@@ -1,5 +1,10 @@
 #pragma once
-// Display.h
+/////////////////////////////////////////////////////////////////////////
+// Display.h - template display functions                              //
+//           - most require use of custom type traits                  //
+//                                                                     //
+// Jim Fawcett, Emeritus Teaching Professor, EECS, Syracuse University //
+/////////////////////////////////////////////////////////////////////////
 
 #include "../CustomTraits/CustomTraits.h"
 #include <iostream>
@@ -18,9 +23,8 @@ void displaySubtitle(const std::string& title)
 /*---- display selected type values ----*/
 
 template <typename T>
-void display(const std::initializer_list<T>& lst, const std::string& msg = "", std::string prefix = "\n ")
+void displayValues(const std::initializer_list<T>& lst, const std::string& msg = "", std::string prefix = "\n  ")
 {
-  //std::string prefix = "\n  ";
   for (auto item : lst)
   {
     try {
@@ -36,7 +40,7 @@ void display(const std::initializer_list<T>& lst, const std::string& msg = "", s
       {
         for (auto elem : item)
         {
-          display({ elem }, "", prefix);
+          displayValues({ elem }, "", prefix);
           prefix = ", ";
         }
       }
@@ -61,7 +65,7 @@ void display(const std::initializer_list<T>& lst, const std::string& msg = "", s
 /*---- display type sizes ----*/
 
 template<typename T>
-void display(const T& t, const std::string& msg = "")
+void displayType(const T& t, const std::string& msg = "")
 {
   std::cout << "\n  " << sizeof(t) << " = size of ";
   std::string typeName = typeid(t).name();
@@ -82,9 +86,9 @@ void displayDemo(const std::string& msg)
 // Template specialization that stops recursive evaluation
 
 template<typename T>
-void vDisplay(T t)
+void displayValues(T t)
 {
-  display({ t });
+  displayValues({ t });
 }
 
 // Recursive definition of template function
@@ -92,8 +96,8 @@ void vDisplay(T t)
 // https://en.cppreference.com/w/cpp/language/parameter_pack
 
 template<typename T, typename... Args>
-void vDisplay(T t, Args... args)
+void displayValues(T t, Args... args)
 {
-  display({ t });
-  vDisplay(args...);
+  displayValues({ t });
+  displayValues(args...);
 }
