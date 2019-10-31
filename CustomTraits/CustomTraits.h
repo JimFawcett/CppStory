@@ -1,5 +1,9 @@
 #pragma once
-// CustomTraits.h
+/////////////////////////////////////////////////////////////////////////
+// CustomTraits.h - compile-time testing of types                      //
+//                                                                     //
+// Jim Fawcett, Emeritus Teaching Professor, EECS, Syracuse University //
+/////////////////////////////////////////////////////////////////////////
 
 #include <string>
 #include <vector>
