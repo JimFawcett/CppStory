@@ -19,16 +19,12 @@
 
 #include <string>
 #include <tuple>
+#include "IPerson.h"
 
 namespace Elementary {
 
-  class Person {
+  class Person : public IPerson {
   public:
-    using Name = std::string;
-    using Occupation = std::string;
-    using Age = int;
-    using Stats = std::tuple<Name, Occupation, Age>;
-
     Person(const Stats& sts);
     Stats stats() const;
     void stats(const Stats& sts);
@@ -39,7 +35,7 @@ namespace Elementary {
     Age age() const;
     void age(const Age& ag);
 
-  private:
+  protected:
     Stats personStats;
   };
 }

@@ -22,6 +22,7 @@
 #include <initializer_list>
 #include <any>
 #include "Person.h"
+#include "Soldier.h"
 
 int main() {
 
@@ -38,11 +39,11 @@ int main() {
     std::cout << std::endl;
   }
 
-  using namespace Intermediate;
   {
     std::cout << "\n  Demonstrate Intermediate Person Class";
     std::cout << "\n ---------------------------------------";
 
+    using namespace Intermediate;
     Person John = Person::createPerson({ "John", "is a Dev", 42, "" });
     checkedDisplay(John);
     Person Mary = Person::createPerson({ "Mary", "", 28, "skydiving" });
@@ -52,4 +53,10 @@ int main() {
     std::cout << std::endl;
   }
   std::cout << std::endl;
+
+  {
+    using namespace Elementary;
+    Private Sam({ { "Sam", "footsoldier", 19 }, "Private" });
+  }
+
 }
