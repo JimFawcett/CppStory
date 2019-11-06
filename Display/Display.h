@@ -69,9 +69,11 @@ void displayValues(const std::initializer_list<T>& lst, const std::string& msg =
 /*---- display type sizes ----*/
 
 template<typename T>
-void displayType(const T& t, const std::string& msg = "")
+void displayType(const T& t, const std::string& msg = "", bool showSize = true)
 {
-  std::cout << "\n  " << sizeof(t) << " = size of ";
+  std::cout << "\n  ";
+  if(showSize)
+    std::cout << sizeof(t) << " = size of ";
   std::string typeName = typeid(t).name();
   if (typeName.size() > 75)
     typeName = typeName.substr(0, 75) + "...";
@@ -86,6 +88,7 @@ template<typename T>
 void displayValues(T t)
 {
   displayValues({ t });
+  std::cout << "\n";
 }
 
 // Recursive definition of template function

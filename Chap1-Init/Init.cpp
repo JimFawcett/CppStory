@@ -52,6 +52,7 @@ void demoInit()
   std::pair<int, double> pair2(std::pair<int, double>(2, 2.5));
   std::pair<int, double> pair3 = { 3, 3.5 };
   std::pair<int, double> pair4{ 4, 4.5 };
+  displayType(pair1, "", false);
   displayValues({ pair1, pair2, pair2, pair4 });
 
   displayDemo("\n  -- initialize std::vector --");
@@ -89,7 +90,7 @@ void demoInit()
   displayValues(d, i, s);
   
   /* initializer list must have all values of same type */
-  // displayValues({ d, i, s });
+  // displayValues({ d, i, s }); => compile failure
 }
 int main()
 {

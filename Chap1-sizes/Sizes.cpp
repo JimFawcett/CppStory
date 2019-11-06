@@ -122,6 +122,8 @@ void demoMiscellaneousTypes()
   std::byte Byte; displayType(Byte);
   std::vector<int>::size_type sType{ 3 }; 
   displayType(sType, ", is size_type");
+  std::tuple<int, double, std::string> tType{ 1, 1.5, "two" };
+  displayType(tType);
   std::unique_ptr<double> uPtr{ std::make_unique<double>(3.14159) };
   displayType(uPtr);
   std::shared_ptr<double> sPtr{ std::make_shared<double>(2 * 3.14159) };
