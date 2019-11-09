@@ -12,6 +12,9 @@ namespace Elementary {
     personStats = sts;
   }
 
+  Person::~Person() {
+    std::cout << "\n  destroying Person instance\n";
+  }
   Person::Stats Person::stats() const {
     return personStats;
   }
@@ -43,52 +46,23 @@ namespace Elementary {
   bool Person::isValid() const {
     return name() != "" && age() >= 0;
   }
-}
 
-namespace Intermediate {
+//  std::unique_ptr<IPerson> createPerson(const IPerson::Stats& sts);
 
-  Person::Person(const Stats& sts) {
-    personStats = sts;
-  }
 
-  Person::Name Person::name() const {
-    return std::get<0>(personStats);
-  }
-
-  Person::Occupation& Person::occupation() {
-    return std::get<1>(personStats);
-  }
-
-  Person::Age& Person::age() {
-    return std::get<2>(personStats);
-  }
-
-  Person::Hobbies& Person::hobby()
-  {
-    return std::get<3>(personStats);
-  }
-
-  Person::Stats Person::stats() const {
-    return personStats;
-  }
-
-  void Person::stats(const Stats& sts) {
-    personStats = sts;
-  }
-
-  bool Person::isValid() const {
-    auto [name, occup, age, hobby] = personStats;
-    if (name == "" || age < 0)
-      return false;
-    return true;
-  }
-
-  Person Person::createPerson(const Stats& sts) {
-    Person person(sts);
-    if (person.occupation() == "")
-      person.occupation() = "is unemployed";
-    if (person.hobby() == "")
-      person.hobby() = "- dull person, no hobbies";
-    return person;
+  std::unique_ptr<IPerson> createPerson(const IPerson::Stats& stats) {
+    return std::make_unique<Person>(*new Person(stats));
   }
 }
+
+#ifdef TEST_PERSON
+
+int main() {
+
+  using namespace Elementary;
+  //Person Jack({ "Jack", "Unemployed", 35 });
+  std::unique_ptr<IPerson> pJack = createPerson({ "Jack", "Unemployed", 35 });
+  checkedDisplay(*pJack);
+}
+
+#endif

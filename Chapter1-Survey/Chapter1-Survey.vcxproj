@@ -125,12 +125,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Person.cpp" />
-    <ClCompile Include="Soldier.cpp" />
     <ClCompile Include="Survey.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dev.h" />
     <ClInclude Include="IPerson.h" />
-    <ClInclude Include="ISoldier.h" />
+    <ClInclude Include="IDev.h" />
     <ClInclude Include="Person.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
