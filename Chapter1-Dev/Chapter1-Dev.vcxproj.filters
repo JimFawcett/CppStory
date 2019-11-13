@@ -15,7 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Survey.cpp">
+    <ClInclude Include="IDev.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dev.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Person.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Dev.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

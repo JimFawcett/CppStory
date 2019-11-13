@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{98908B5D-D589-4068-AE11-1D1B634AA040}</ProjectGuid>
-    <RootNamespace>Chapter1Survey</RootNamespace>
+    <ProjectGuid>{31D8A611-AEC7-4FB5-A676-9120E5B5F4B2}</ProjectGuid>
+    <RootNamespace>Chapter1DevTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -124,7 +124,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Survey.cpp" />
+    <ClCompile Include="TestDev.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chapter1-Dev\Chapter1-Dev.vcxproj">
+      <Project>{d143b5fd-7ddf-4d18-8564-22d276e6b436}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Chapter1-Person\Chapter1-Person.vcxproj">
+      <Project>{fa8fbfe1-0ab5-415d-80d6-05a1eaa36629}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

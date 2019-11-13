@@ -63,6 +63,8 @@ void demoCompoundTypes()
   double pi{ 3.14159 };
   double* pDouble = &pi;  displayType(pDouble);
   double& rDouble = pi;   displayType(rDouble, ", note: is double&");
+  std::cout << "\n  pDouble:   " << pDouble << " --> " << reinterpret_cast<int>(pDouble);
+  std::cout << "\n  ++pDouble: " << ++pDouble << " --> " << reinterpret_cast<int>(pDouble);
 
   displayDemo("\n  -- arrays --");
   int iArray[]{ 1, 2, 3, 4 }; displayType(iArray);

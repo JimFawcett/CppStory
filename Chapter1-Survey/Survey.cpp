@@ -21,37 +21,28 @@
 #include <tuple>
 #include <initializer_list>
 #include <any>
-#include "IPerson.h"
-#include "IDev.h"
+#include "../Chapter1-Person/IPerson.h"
+#include "../Chapter1-Dev/IDev.h"
 
 int main() {
-
-  {
-    std::cout << "\n  Demonstrate Elementary Person Class";
-    std::cout << "\n -------------------------------------";
-
-    using namespace Elementary;
-    std::unique_ptr<IPerson> pJack = createPerson({ "Jack", "has retired early", 35 });
-    checkedDisplay(*pJack);
-    pJack->age(36);
-    pJack->occupation("ran out of money - pumping gas");
-    checkedDisplay(*pJack);
-    std::cout << std::endl;
-  }
-
-  //{
-  //  std::cout << "\n  Demonstrate Intermediate Person Class";
-  //  std::cout << "\n ---------------------------------------";
-
-  //  using namespace Intermediate;
-  //  Person John = Person::createPerson({ "John", "is a Dev", 42, "" });
-  //  checkedDisplay(John);
-  //  Person Mary = Person::createPerson({ "Mary", "", 28, "skydiving" });
-  //  checkedDisplay(Mary);
-  //  Person Joey = Person::createPerson({ "Joey", "", -2, "watching TV" });
-  //  checkedDisplay(Joey);
-  //  std::cout << std::endl;
-  //}
-  std::cout << std::endl;
-
+//
+//  {
+//    std::cout << "\n  Demonstrate Elementary Person Class";
+//    std::cout << "\n -------------------------------------";
+//
+//    using namespace Elementary;
+//    std::unique_ptr<IPerson> pJack = createPerson({ "Jack", "has retired early", 35 });
+//    checkedDisplay(*pJack);
+//    pJack->age(36);
+//    pJack->occupation("ran out of money - pumping gas");
+//    checkedDisplay(*pJack);
+//    std::cout << std::endl;
+//
+//    IDev::Projects janeProj{ "Testla Navigation View", "Python side project" };
+//    std::unique_ptr<IDev> pJane
+//      = createDev({ { "Jane", "UI designer", 27}, "MSCE Syracuse Univ", "B1-23", janeProj });
+//  }
+//
+//  std::cout << std::endl;
+//
 }
