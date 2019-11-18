@@ -8,6 +8,7 @@
 
 #include "../CustomTraits/CustomTraits.h"
 #include <iostream>
+#include <typeinfo>
 
 void displayTitle(const std::string& title)
 {
@@ -72,7 +73,7 @@ template<typename T>
 void displayType(const T& t, const std::string& msg = "", bool showSize = true)
 {
   std::cout << "\n  ";
-  if(showSize)
+  if (showSize)
     std::cout << sizeof(t) << " = size of ";
   std::string typeName = typeid(t).name();
   if (typeName.size() > 75)
@@ -81,6 +82,33 @@ void displayType(const T& t, const std::string& msg = "", bool showSize = true)
   if (msg.size() > 0)
     std::cout << msg;
 }
+
+template<typename T>
+void displayOnlyType(const T& t, const std::string& msg = "")
+{
+  std::cout << "\n  ";
+  std::string typeName = typeid(t).name();
+  if (typeName.size() > 75)
+    typeName = typeName.substr(0, 75) + "...";
+  std::cout << typeName;
+  if (msg.size() > 0)
+    std::cout << msg;
+}
+
+template<typename T>
+void displayTypeArgument(const std::string& msg = "", bool showSize = true) {
+  std::cout << "\n  ";
+  if (showSize)
+    std::cout << sizeof(T) << " = size of ";
+  std::string typeName = typeid(T).name();
+  if (typeName.size() > 75)
+    typeName = typeName.substr(0, 75) + "...";
+  std::cout << typeName;
+  if (msg.size() > 0)
+    std::cout << msg;
+}
+
+/*--- variadic display function ---*/
 
 // Template specialization that stops recursive evaluation
 

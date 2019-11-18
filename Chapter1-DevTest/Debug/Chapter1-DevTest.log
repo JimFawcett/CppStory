@@ -1,1 +1,37 @@
-﻿
+﻿  TestDev.cpp
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): error C2259: 'Elementary::Dev': cannot instantiate abstract class
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : due to following members:
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : 'void Elementary::IPerson::stats(const Elementary::IPerson::Stats &)': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(16): message : see declaration of 'Elementary::IPerson::stats'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : 'Elementary::IPerson::Stats Elementary::IPerson::stats(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(15): message : see declaration of 'Elementary::IPerson::stats'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : 'Elementary::IPerson::Name Elementary::IPerson::name(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(17): message : see declaration of 'Elementary::IPerson::name'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : 'void Elementary::IPerson::occupation(const Elementary::IPerson::Occupation &)': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(19): message : see declaration of 'Elementary::IPerson::occupation'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : 'Elementary::IPerson::Occupation Elementary::IPerson::occupation(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(18): message : see declaration of 'Elementary::IPerson::occupation'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : 'void Elementary::IPerson::age(const Elementary::IPerson::Age &)': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(21): message : see declaration of 'Elementary::IPerson::age'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : 'Elementary::IPerson::Age Elementary::IPerson::age(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(20): message : see declaration of 'Elementary::IPerson::age'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(15): message : 'bool Elementary::IPerson::isValid(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(22): message : see declaration of 'Elementary::IPerson::isValid'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): error C2259: 'Elementary::Dev': cannot instantiate abstract class
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : due to following members:
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : 'void Elementary::IPerson::stats(const Elementary::IPerson::Stats &)': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(16): message : see declaration of 'Elementary::IPerson::stats'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : 'Elementary::IPerson::Stats Elementary::IPerson::stats(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(15): message : see declaration of 'Elementary::IPerson::stats'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : 'Elementary::IPerson::Name Elementary::IPerson::name(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(17): message : see declaration of 'Elementary::IPerson::name'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : 'void Elementary::IPerson::occupation(const Elementary::IPerson::Occupation &)': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(19): message : see declaration of 'Elementary::IPerson::occupation'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : 'Elementary::IPerson::Occupation Elementary::IPerson::occupation(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(18): message : see declaration of 'Elementary::IPerson::occupation'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : 'void Elementary::IPerson::age(const Elementary::IPerson::Age &)': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(21): message : see declaration of 'Elementary::IPerson::age'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : 'Elementary::IPerson::Age Elementary::IPerson::age(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(20): message : see declaration of 'Elementary::IPerson::age'
+C:\github\JimFawcett\CppStory\Chapter1-DevTest\TestDev.cpp(17): message : 'bool Elementary::IPerson::isValid(void) const': is abstract
+C:\github\JimFawcett\CppStory\Chapter1-Person\IPerson.h(22): message : see declaration of 'Elementary::IPerson::isValid'
