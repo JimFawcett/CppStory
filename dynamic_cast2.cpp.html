@@ -1,0 +1,58 @@
+<pre>/*--------------------------------------------------------------------------------------
+  dynamic_cast grants access to derived class interfaces starting with base pointer
+  --------------------------------------------------------------------------------------*/
+
+class Base {
+public:
+  virtual ~Base() {}
+  virtual void say() {
+    std::cout &lt;&lt; "\n  hello from Base::say() via " &lt;&lt; typeid(*this).name();
+  }
+};
+
+class Derived1 : public Base {
+public:
+  virtual ~Derived1() {}
+  void say1() {
+    std::cout &lt;&lt; "\n  hello from Derived1::say1() via " &lt;&lt; typeid(*this).name();
+  }
+};
+
+class Derived2 : public Base {
+public:
+  virtual ~Derived2() {}
+  void say2() {
+    std::cout &lt;&lt; "\n  hello from Derived2::say2() via " &lt;&lt; typeid(*this).name();
+  }
+};
+
+auto putline = [](int n=1) { 
+  for(int i=0; i&lt;n; ++i)
+    std::cout &lt;&lt; std::endl; 
+};
+
+void demoDynamicCast() {
+
+  displaySubtitle("dynamic_cast");
+
+  std::cout &lt;&lt; "\n --- calls from objects ---\n";
+  Base b; b.say();
+  putline();
+  Derived1 d1; d1.say(); d1.say1();
+  putline();
+  Derived2 d2; d2.say(); d2.say2();
+  putline();
+
+  std::cout &lt;&lt; "\n --- call via base pointer ---\n";
+  Base* pBase = &amp;d1; pBase-&gt;say(); // pBase-&gt;say1(); not accessible from B*
+  putline();
+
+  std::cout &lt;&lt; "\n --- call via dynamic_cast derived pointer ---\n";
+
+  Derived1* pDer1 = dynamic_cast&lt;Derived1*&gt;(pBase);
+  if (pDer1) {
+    pDer1-&gt;say1();
+  }
+  putline();
+}
+</pre>

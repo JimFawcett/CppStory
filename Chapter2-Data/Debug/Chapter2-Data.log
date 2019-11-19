@@ -1,3 +1,1 @@
-﻿  Data.cpp
-C:\github\JimFawcett\CppStory\Chapter2-Data\Data.cpp(26,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  Chapter2-Data.vcxproj -> C:\github\JimFawcett\CppStory\Debug\Chapter2-Data.exe
+﻿

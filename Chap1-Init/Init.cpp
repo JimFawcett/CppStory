@@ -89,6 +89,29 @@ void demoInit()
   auto [d, i, s] = std::tuple<double, int, std::string>{ 2.5, 3, "four" };
   displayValues(d, i, s);
   
+  struct S { int i; char c; std::string s; };
+  S foobar{ 2, 'Z', "a string" };
+  auto [fee, fie, foe] = foobar;
+  displayValues(fee, fie, foe);
+
+  class C {
+  public:
+    C(const std::string& str) : str_(str) {}     // promotion ctor
+    void say() { std::cout << "\n  " << str_; }
+    operator std::string() { return str_; }      // cast operator
+  private:
+    std::string str_;
+  };
+
+  /* uniform initialization works with promotion ctors */
+  C c{ "hello world" };
+  
+  /* these fail to compile: can only bind to public data */
+  //auto [gotit] {c};
+  //auto [gotit] = { static_cast<std::string>(c) };
+  
+  auto gotit = c;
+  
   /* initializer list must have all values of same type */
   // displayValues({ d, i, s }); => compile failure
 }

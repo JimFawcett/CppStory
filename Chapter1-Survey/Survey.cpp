@@ -148,8 +148,8 @@ void demoOptional() {
   }
 }
 /*--------------------------------------------------------------------------------------
-  purpose of static_cast is to create a new instance of a foreign type, base on
-  data stored in the source type.
+   purpose of static_cast is to create a new instance of a foreign type, based on
+   data stored in the source type.
   --------------------------------------------------------------------------------------*/
 
 void demoStaticCast() {
@@ -164,19 +164,24 @@ void demoStaticCast() {
 }
 
 /*--------------------------------------------------------------------------------------
-  purpose of const_cast is to allow indexing and passing to functions that won't change
-  the value, even though they are not const functions, OS API calls for example.
+   purpose of const_cast is to allow passing const data to functions that won't change
+   value even though not declared const functions, OS API calls for example.
   --------------------------------------------------------------------------------------*/
+void mockAPIfunction(std::string* pStr) {
+  std::cout << "\n  inside mock API function: " << *pStr;
+}
 
 void demoConstCast(const std::string& str) {
 
   displaySubtitle("const_cast");
 
   std::cout << "\n  " << str;
+  //mockAPIfunction(&str);  fails to compile since str is const
 
-  // str = "changed";  fails to compile, str is const
-
+  /*--- useful operation using sRef ---*/
   std::string& sRef = const_cast<std::string&>(str);
+  // created non-const reference to const str
+  mockAPIfunction(&sRef);
 
   /*--- evil operation on sRef, violates contract of function interface ---*/
   sRef = "changed";
@@ -243,7 +248,11 @@ void demoDynamicCast() {
 }
 
 /*--------------------------------------------------------------------------------------
-  purpose of reinterpret_cast is to apply new type rules to an existing instance. 
+  purpose of reinterpret_cast is to apply new type rules to an existing instance.
+  - packing double's bytes into byte array
+  - unpacking byte array into another double
+  - illustrates how data might be marshalled over a socket channel, where the
+    byte array pretends to be the socket channel
   --------------------------------------------------------------------------------------*/
 
 void demoReinterpretCast() {
@@ -254,13 +263,13 @@ void demoReinterpretCast() {
   double d2;
   size_t Max = sizeof(d1);
 
-  std::byte* pBuffer = new std::byte[Max];
-  std::byte* pBuffIndex = pBuffer;
+  std::unique_ptr<std::byte> pBuffer(new std::byte[Max]);  // owning pointer
+  std::byte* pBuffIndex = pBuffer.get();  // non-owning pointer
 
   /* pack double d1 into byte array */
 
   std::byte* pByteSrc = reinterpret_cast<std::byte*>(&d1);
-  std::byte* pSrcIndex = pByteSrc;
+  std::byte* pSrcIndex = pByteSrc;  // non-owning pointers
 
   for (size_t i = 0; i < Max; ++i) {
     *pBuffIndex++ = *pSrcIndex++;
@@ -270,14 +279,17 @@ void demoReinterpretCast() {
 
   if (sizeof(d2) == sizeof(d1)) {
     std::byte* pByteDst = reinterpret_cast<std::byte*>(&d2);
-    std::byte* pDstIndex = pByteDst;
-    pBuffIndex = pBuffer;
+    std::byte* pDstIndex = pByteDst;  // non-owning pointers
+    pBuffIndex = pBuffer.get();
     for (size_t i = 0; i < Max; ++i) {
       *pDstIndex++ = *pBuffIndex++;
     }
   }
   std::cout << "\n  src double = " << d1;
   std::cout << "\n  dst double = " << d2;
+
+  // byte array on heap will be deallocated here
+  // as std::unique_ptr goes out of scope
 }
 
 void demoCasts() {
