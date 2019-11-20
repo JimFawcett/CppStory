@@ -104,10 +104,10 @@ void demoFloatGranularity(size_t Max) {
 int main() {
 
   //demoInitialization();
-  demoStructuredBinding();
+  //demoStructuredBinding();
   //demoCast();
   //demoFloatGranularity(5);
-  //demoFloatGranularity(10);
+  demoFloatGranularity(10);
   
   std::cout << "\n\n";
 }
