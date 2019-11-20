@@ -1,6 +1,7 @@
 // Data.cpp
 
 #include <iostream>
+#include <iomanip>
 #include "../Display/Display.h"
 
 class Y {};
@@ -15,14 +16,16 @@ X::operator Y () {
   return Y();
 }
 
-int main() {
+void demoCast() {
+  displayDemo("--- demo cast ---");
 
-  /*--- demo cast operator ---*/
   X x;
   Y y = static_cast<Y>(x);
   std::cout << "\n";
+}
+void demoInitialization() {
+  displayDemo("--- demo initialization ---");
 
-  /*--- demo initialization ---*/
   int i = 1.75;  // compiles with warning
   // int j{ 1.75 };  compile failure
 
@@ -44,7 +47,7 @@ int main() {
   class Z {
   public:
     Z(const std::string& s, bool cool) : str_(s), cool_(cool) {}
-    void say() { 
+    void say() {
       std::cout << "\n  " << str_;
       if (cool_)
         std::cout << "\n  Z is cool";
@@ -58,6 +61,53 @@ int main() {
 
   Z z{ "a string for Z" , true };
   z.say();
+}
 
+void demoStructuredBinding() {
+  displayDemo("--- demo structured binding ---");
+  std::vector<int> test{ 1, 2, 3, 4 };
+  //auto [v1, v2] = test;
+  struct S {
+    std::vector<int> vecInt;
+    std::vector<double> vecDbl;
+  };
+  S s{ {1, 3, 4}, {1.5, 2.0, 2.5} };
+  auto [v1, v2] = s;
+  displayValues(v1, v2);
+}
+
+void demoFloatGranularity(size_t Max) {
+  displayDemo("--- demo float granularity ---\n");
+
+  float f{ 1.0 };
+  std::cout.setf(std::ios::adjustfield, std::ios::left);
+  std::cout.setf(std::ios::showpoint);
+  std::cout.precision(6);
+  std::cout << "\n  " << std::setw(22) << "float f = " << f;
+  //displayValues({ f }, " = float f");
+ 
+  for (size_t i = 0; i < Max; ++i) {
+    f = (f + 1.0)/3.0;
+    std::cout << "\n  " << std::setw(22) << "f = (f + 1.0)/3.0 ==> " << f;
+    //displayValues({ f }, " <== f = (f + 1.0)/3.0");
+  }
+  
+  std::cout << "\n\n  Reversing process:\n";
+
+  for (size_t i = 0; i < Max; ++i) {
+    f = 3.0 * f - 1.0;;
+    std::cout << "\n  " << std::setw(22) << "f = 3.0 * f - 1.0 ==> " << f;
+  }
+  std::cout << std::endl;
+}
+
+int main() {
+
+  //demoInitialization();
+  demoStructuredBinding();
+  //demoCast();
+  //demoFloatGranularity(5);
+  //demoFloatGranularity(10);
+  
   std::cout << "\n\n";
 }
