@@ -1,4 +1,31 @@
-// STL_DataStructures.cpp
+/////////////////////////////////////////////////////////////////////
+// STL_DataStructures.cpp - Data Structure for file and path info  //
+// ver 1.0                                                         //
+// Jim Fawcett, Teaching Professor Emeritus, Syracuse University   //
+/////////////////////////////////////////////////////////////////////
+/*
+ *  Package Operations:
+ * ---------------------
+ *  Uses class:
+ *  - DirWalker<App>     - Navigates directory tree from specified root
+ *                         calling functions doDir and doFile in instance
+ *                         of App class.
+ *  - DateTime           - Provides conversions from std::filesystem times
+ *  Provides classes:
+ *  - FileInfoContainer  - efficiently holds file and path information
+ *  - AppCollectFileInfo - Provides receiver of DirWalker file and Dir events
+ *
+ *  Required Files:
+ * -----------------
+ *  - STL_DataStructures.cpp
+ *  - DirWalker.h, DirWalker.cpp
+ *  - DateTime
+ *
+ *  Maintenance History:
+ * ----------------------
+ *  ver 1.0 : 20 Nov 2019
+ *  - first release
+ */
 
 #include <unordered_map>
 #include <map>
@@ -16,6 +43,8 @@
 
 namespace CustomContainers {
 
+  enum class Stats { File, Path };
+
   class FileInfoContainer {
   public:
     // file to path structure
@@ -27,11 +56,6 @@ namespace CustomContainers {
     using FileInfo = std::map<File, PathRefs>;
     using iterator = FileInfo::iterator;
     using PathInfo = FileInfo;
-
-    //// path to file structure
-    //using FileSet = std::set<File>;
-    //using FileRef = 
-    //using PathInfo = std::map<Path, >;
 
     FileInfoContainer& add(const File& file, const Path& path);
     FileInfoContainer invertFileInfo(FileInfoContainer* pFIC);
@@ -85,7 +109,7 @@ namespace CustomContainers {
     return pathSet_.size();
   }
 
-  void showFiles(FileInfoContainer& fic, const std::string& msg = "") {
+  void showFiles(FileInfoContainer& fic, const std::string& msg = "", Stats sts = Stats::File) {
     
     if (msg.size() > 0) {
       std::cout << msg;
@@ -96,8 +120,14 @@ namespace CustomContainers {
         std::cout << "\n    " << *pathItem;
       }
     }
-    std::cout << "\n\n  number of files: " << fic.fileCount();
-    std::cout << "\n  number of paths: " << fic.pathCount();
+    if (sts == Stats::File) {
+      std::cout << "\n\n  number of files: " << fic.fileCount();
+      std::cout << "\n  number of paths: " << fic.pathCount();
+    }
+    else {
+      std::cout << "\n\n  number of files: " << fic.pathCount();
+      std::cout << "\n  number of paths: " << fic.fileCount();
+    }
     std::cout << std::endl;
   }
 }
@@ -140,11 +170,14 @@ int main() {
   DirWalker<AppCollectFileInfo> dw;
   std::set<std::string> patterns{ ".h", ".cpp", ".html" };
   dw.DisplayDirectoryTree("..", patterns);
-  std::unique_ptr<AppCollectFileInfo>& pInfo = dw.app();
+  std::shared_ptr<AppCollectFileInfo> pInfo = dw.app();
   std::string title = makeTitle("FileInfo from path \"..\"");
   showFiles(pInfo->fileInfo(), title);
+  std::cout << std::endl;
 
-
+  FileInfoContainer pic = fic.invertFileInfo(&(pInfo->fileInfo()));
+  std::string title2 = makeTitle("PathInfo from path \"..\"");
+  showFiles(pic, title2, Stats::Path);
   std::cout << "\n";
 
 

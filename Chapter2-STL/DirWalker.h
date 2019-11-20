@@ -54,7 +54,7 @@ namespace Utilities {
     DirWalker();
     void DisplayDirectoryTree(const fs::path& pathToShow, const Patterns& pats);
     void DisplayDirTree(const fs::path& pathToShow, int level, const Patterns& pats);
-    std::unique_ptr<App>& app();
+    std::shared_ptr<App> app();
   private:
     std::uintmax_t ComputeFileSize(const fs::path& pathToCheck);
     void DisplayFileInfo(
@@ -62,7 +62,7 @@ namespace Utilities {
       std::string& lead,
       std::filesystem::path& filename
     );
-    std::unique_ptr<App> pApp_ = nullptr;
+    std::shared_ptr<App> pApp_ = nullptr;
   };
   /*-------------------------------------------------------------------
  *  size of file in bytes
@@ -115,7 +115,7 @@ namespace Utilities {
    *  return pointer to application instance
    */
   template<typename App>
-  std::unique_ptr<App>& DirWalker<App>::app() {
+  std::shared_ptr<App> DirWalker<App>::app() {
     return pApp_;
   }
   /*-------------------------------------------------------------------
