@@ -1,5 +1,1 @@
-﻿  Data.cpp
-C:\github\JimFawcett\CppStory\Chapter2-Data\Data.cpp(29,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\github\JimFawcett\CppStory\Chapter2-Data\Data.cpp(90,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\github\JimFawcett\CppStory\Chapter2-Data\Data.cpp(98,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Chapter2-Data.vcxproj -> C:\github\JimFawcett\CppStory\Debug\Chapter2-Data.exe
+﻿
