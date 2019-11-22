@@ -27,6 +27,8 @@
 #include <typeinfo>
 #include "../Display/Display.h"
 
+#pragma warning (disable : 4244)  // intentionally narrowing conversions
+
 /*--- arraySize from Effective Modern C++, Meyers ---*/
 
 template<typename T, std::size_t N>

@@ -8,6 +8,8 @@
 #include <iomanip>
 #include "../Display/Display.h"
 
+#pragma warning (disable : 4244)  // intentionally narrowing conversions
+
 class Y {};
 
 class X {
