@@ -1,4 +1,8 @@
-// Data.cpp
+/////////////////////////////////////////////////////////////////////
+// Data.cpp - Initialization Examples for Chapter 2                //
+//                                                                 //
+// Jim Fawcett, Teaching Professor Emeritus, Syracuse University   //
+/////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <iomanip>
@@ -61,6 +65,7 @@ void demoInitialization() {
 
   Z z{ "a string for Z" , true };
   z.say();
+  putline();
 }
 
 void demoStructuredBinding() {
@@ -103,10 +108,10 @@ void demoFloatGranularity(size_t Max) {
 
 int main() {
 
-  //demoInitialization();
-  //demoStructuredBinding();
-  //demoCast();
-  //demoFloatGranularity(5);
+  demoInitialization();
+  demoStructuredBinding();
+  demoCast();
+  demoFloatGranularity(5);
   demoFloatGranularity(10);
   
   std::cout << "\n\n";

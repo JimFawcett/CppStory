@@ -24,6 +24,22 @@ struct is_string<std::basic_string<T, Traits, Alloc>>
   static const bool value = true;
 };
 
+/*---- is_tuple trait ----*/
+
+// https://stackoverflow.com/questions/13101061/detect-if-a-type-is-a-stdtuple
+
+template <typename>
+struct is_tuple
+{
+  static const bool value = false;
+};
+
+template <typename ...T>
+struct is_tuple<std::tuple<T...>>
+{
+  static const bool value = true;
+};
+
 /*---- is_vector trait ----*/
 
 template <typename T>

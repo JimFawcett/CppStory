@@ -7,6 +7,7 @@
 #include "../Display/Display.h"
 #include <climits>
 #include <algorithm>
+#include <iostream>
 
 void demoLimits()
 {
@@ -44,6 +45,14 @@ void demoIntegralTypes()
   long long int LLint;            displayType(LLint, " <==> long long int");
   unsigned long long int ULLint;  displayType(ULLint, " <==> unsigned long long int");
   std::size_t STDsize_t;          displayType(STDsize_t, " <==> size_t");
+  putline();
+  std::cout << "\n  demonstrate integer roll-over:";
+  unsigned int i = UINT_MAX;
+  unsigned int j = i + 1;
+  std::cout << "\n  i = UINT_MAX : " << i;
+  std::cout << "\n  i + 1 = " << j;
+  std::cout << "\n";
+
   std::cout << std::endl;
 }
 /*---- character types ----*/
@@ -199,12 +208,11 @@ void demoMiscellaneousTypes()
   displayType(f);
   std::cout << std::endl;
 
-  //std::string str("content of a std::string");
-  //const char* pContents = str.c_str();
-  //displayType(str);
-  //displayType(pContents);
-
   std::string str("content of a std::string");
+  const char* pContents = str.c_str();
+  displayType(str);
+  displayType(pContents);
+
   std::cout << "\n  " << str;
   std::cout << "\n  string size = " << (str.size() + 1) * sizeof(char);  // count terminating null
   std::cout << "\n  allocation size = " << str.capacity() * sizeof(char);
@@ -215,11 +223,6 @@ int main()
   displayTitle("Type sizes");
   demoLimits();
   demoIntegralTypes();
-  unsigned int i = UINT_MAX;
-  unsigned int j = i + 1;
-  std::cout << "\n  i = UINT_MAX : " << i;
-  std::cout << "\n  i + 1 = " << j;
-  std::cout << "\n";
   demoCharTypes();
   demoFloatTypes();
   demoCompoundTypes();

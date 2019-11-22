@@ -27,7 +27,7 @@
 #include <typeinfo>
 #include "../Display/Display.h"
 
-/*--- from Effective Modern C++, Meyers ---*/
+/*--- arraySize from Effective Modern C++, Meyers ---*/
 
 template<typename T, std::size_t N>
 constexpr std::size_t arraySize(T(&)[N]) noexcept {
@@ -217,10 +217,10 @@ public:
   }
 };
 
-auto putline = [](int n=1) { 
-  for(int i=0; i<n; ++i)
-    std::cout << std::endl; 
-};
+//auto putline = [](int n=1) { 
+//  for(int i=0; i<n; ++i)
+//    std::cout << std::endl; 
+//};
 
 void demoDynamicCast() {
 
@@ -287,7 +287,8 @@ void demoReinterpretCast() {
   }
   std::cout << "\n  src double = " << d1;
   std::cout << "\n  dst double = " << d2;
-
+  
+  putline();
   // byte array on heap will be deallocated here
   // as std::unique_ptr goes out of scope
 }
@@ -316,6 +317,8 @@ pStr max(pStr s1, pStr s2) {
 }
 
 void demoOverload() {
+
+  displaySubtitle("demoTemplateFunctionOverload");
   int maxInt = max(2, 3);
   std::cout << "\n  max(2, 3) = " << maxInt;
   double maxDbl = max(2.5, 1.5);
@@ -325,10 +328,10 @@ void demoOverload() {
 }
 int main(int argc, char* argv[]) {
 
-  //demoArraysAndPointers(argc, argv);
-  //demoSTL();
-  //demoOptional();
+  demoArraysAndPointers(argc, argv);
+  demoSTL();
+  demoOptional();
   demoCasts();
-  //demoOverload();
+  demoOverload();
   std::cout << "\n\n";
 }

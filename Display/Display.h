@@ -10,6 +10,11 @@
 #include <iostream>
 #include <typeinfo>
 
+inline auto putline = [](size_t n = 1) {
+  for (size_t i = 0; i < n; ++i)
+    std::cout << "\n";
+};
+
 void displayTitle(const std::string& title)
 {
   std::cout << "\n  " << title;
@@ -27,6 +32,21 @@ void displayDemo(const std::string& msg)
 
 /*---- display selected type values ----*/
 
+// https://stackoverflow.com/questions/1198260/how-can-you-iterate-over-the-elements-of-an-stdtuple
+
+template<std::size_t I = 0, typename... Tp>
+inline typename std::enable_if<I == sizeof...(Tp), void>::type
+displayTuple(std::tuple<Tp...>& t) { }
+
+template<std::size_t I = 0, typename... Tp>
+inline typename std::enable_if < I < sizeof...(Tp), void>::type
+displayTuple(std::tuple<Tp...> & t)
+{
+  std::cout << std::get<I>(t) << " ";
+  displayTuple<I + 1, Tp...>(t);
+}
+
+
 template <typename T>
 void displayValues(const std::initializer_list<T>& lst, const std::string& msg = "", std::string prefix = "\n  ")
 {
@@ -40,6 +60,11 @@ void displayValues(const std::initializer_list<T>& lst, const std::string& msg =
       else if constexpr (is_pair<T>::value)
       {
         std::cout << prefix << "{ " << item.first << ", " << item.second << " }";
+      }
+      else if constexpr (is_tuple<T>::value)
+      {
+        std::cout << prefix;
+        displayTuple(item);
       }
       else if constexpr (is_vector<T>::value)
       {

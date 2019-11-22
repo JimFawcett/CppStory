@@ -1,4 +1,8 @@
-// Overloading.cpp
+/////////////////////////////////////////////////////////////////////////
+// Overloading.cpp - code for overloading example                      //
+//                                                                     //
+// Jim Fawcett, Emeritus Teaching Professor, EECS, Syracuse University //
+/////////////////////////////////////////////////////////////////////////
 
 #include <utility>
 #include <optional>

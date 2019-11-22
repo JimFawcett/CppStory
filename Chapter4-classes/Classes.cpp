@@ -1,3 +1,8 @@
+/////////////////////////////////////////////////////////////////////
+// Classes.cpp - Demonstrate class anatomy                         //
+//                                                                 //
+// Jim Fawcett, Teaching Professor Emeritus, Syracuse University   //
+/////////////////////////////////////////////////////////////////////
 
 #include <string>
 #include <iostream>

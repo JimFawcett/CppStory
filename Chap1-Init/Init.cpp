@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <string>
+#include <tuple>
 #include <vector>
 #include <initializer_list>
 #include <memory>
@@ -54,6 +55,11 @@ void demoInit()
   std::pair<int, double> pair4{ 4, 4.5 };
   displayType(pair1, "", false);
   displayValues({ pair1, pair2, pair2, pair4 });
+
+  displayDemo("\n  -- initialize std::tuple --");
+  std::tuple<int, double, std::string> tupl1(1, 1.5, "a string");
+  std::tuple<int, double, std::string> tupl2{ 2, 3.1415927, "another string" };
+  displayValues(tupl1, tupl2);
 
   displayDemo("\n  -- initialize std::vector --");
   std::vector<int> iVec{ 1, 2, 3, 4 };
