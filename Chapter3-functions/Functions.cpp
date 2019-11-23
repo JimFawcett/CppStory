@@ -48,7 +48,38 @@ void demoFunctionPointers() {
   message("\n ------------------------\n");
 }
 
+class X {
+public:
+  void say() {
+    std::cout << "\n  X::say() here";
+  }
+  template<typename T>
+  void message(T t) {
+    std::cout << t;
+  }
+};
+
+template<typename T>
+using FP1 = void(X::*)(T t);
+
+void demoMethodPointers()
+{
+  displayDemo("--- demoMethodPointers ---");
+  putLine();
+
+  using FP2 = void(X::*)();
+  FP2 pSay = &X::say;
+  X x1;
+  (x1.*pSay)();
+  std::invoke(pSay, x1);
+
+  FP1<const std::string&> pMsg = &X::message;
+  (x1.*pMsg)("\n  a message from x1");
+  std::invoke(pMsg, x1, "\n  another message from x1");
+}
+
 int main() {
   demoFunctionPointers();
+  demoMethodPointers();
   putline(2);
 }
