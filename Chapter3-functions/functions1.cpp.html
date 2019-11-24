@@ -2,6 +2,7 @@
 
 #include &lt;iostream&gt;
 #include &lt;string&gt;
+#include &lt;charconv&gt;
 #include "../Display/Display.h"
 
 void putLine(size_t n = 1) {
@@ -9,46 +10,80 @@ void putLine(size_t n = 1) {
     std::cout &lt;&lt; "\n";
 }
 
+size_t size(const std::string&amp; s) {
+  return s.size();
+}
+
 template &lt;typename T&gt;
 void message(T t) {
   std::cout &lt;&lt; t;
 }
 
-template&lt;class T&gt;
-using FP2 = void(*)(T t);
+/* templates must be declared at namespace scope */
+
+template&lt;class Tr, class Ta&gt;
+using FP2 = Tr(*)(Ta t);
 
 void demoFunctionPointers() {
 
   displayDemo("--- demoFunctionPointers ---");
   putLine();
+
   using FP1 = void(*)(size_t n);
   FP1 pl1 = putLine;
-  FP2&lt;size_t&gt; pl2 = putLine;
-  FP2&lt;const std::string&amp;&gt; msg1 = message;
+
+  FP2&lt;void, size_t&gt; pl2 = putLine;
+  FP2&lt;size_t, const std::string&amp;&gt; pSz = size;
+  FP2&lt;void, const std::string&amp;&gt; msg1 = message;
   
   auto&amp; pl3 = putLine;
   auto&amp; msg2 = message&lt;const std::string&amp;&gt;;
   auto&amp; msg3 = message&lt;const char*&gt;;
-
-  ///////////////////////////////////////////////
-  // code below fails to compile
-  // Can't declare templates in function scope
-  //
-  // template&lt;class T&gt;
-  // using FP2 = typename void(*)(T t);
 
   message("\n ------------------------");
   msg1("\n  testing PL1");
   pl1(1);
   msg2("\n  testing PL2");
   pl2(1);
+  size_t sz = pSz("this is a string");
+  msg2("\n  size of \"this is a string\" = " + std::to_string(sz));
   msg3("\n --------------");
-  pl3(1);
   message("\n  done with testing");
   message("\n ------------------------\n");
 }
 
+class X {
+public:
+  void say() {
+    std::cout &lt;&lt; "\n  X::say() here";
+  }
+  template&lt;typename T&gt;
+  void message(T t) {
+    std::cout &lt;&lt; t;
+  }
+};
+
+template&lt;typename T&gt;
+using FP1 = void(X::*)(T t);
+
+void demoMethodPointers()
+{
+  displayDemo("--- demoMethodPointers ---");
+  putLine();
+
+  using FP2 = void(X::*)();
+  FP2 pSay = &amp;X::say;
+  X x1;
+  (x1.*pSay)();
+  std::invoke(pSay, x1);
+
+  FP1&lt;const std::string&amp;&gt; pMsg = &amp;X::message;
+  (x1.*pMsg)("\n  a message from x1");
+  std::invoke(pMsg, x1, "\n  another message from x1");
+}
+
 int main() {
   demoFunctionPointers();
+  demoMethodPointers();
   putline(2);
 }</pre>
