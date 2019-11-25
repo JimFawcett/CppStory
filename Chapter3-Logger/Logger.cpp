@@ -1,4 +1,8 @@
-// Logger.cpp
+///////////////////////////////////////////////////////////////////////
+// Logger.cpp - send log messages to multiple current std::ostreams  //
+// ver 1.0                                                           //
+// Jim Fawcett, Teaching Professor Emeritus, Syracuse University     //
+///////////////////////////////////////////////////////////////////////
 
 #include <string>
 #include "Logger.h"
@@ -7,9 +11,11 @@ int main() {
 
   displayTitle("Testing Logger");
   using namespace Utilities;
+
   Logger<std::string> logger("test");
   logger.add(makeStream("test.log"));
-  logger.prefix(" ");  // ??????????????
+  logger.add(makeStream("does not exist"));
+  logger.prefix("  ");
   logger.head();
   logger.prefix("");
   logger.write("\n  Hi ").write("there ");
@@ -54,6 +60,13 @@ int main() {
   logInstance2.head("test 2nd instance of logger factory");
   logInstance2.write("log2 msg #1").write("log2 msg #2");
   logInstance2.write("log2 msg #3").write("log2 msg #4");
+
+  const auto& logFactory = 
+    []()->ILogger<std::string,0>& { 
+      return makeLogger<std::string, 0>(); 
+  };
+  logFactory().write("\n  using makeLogger");
+
   logger.wait();
   logInstance.write("\n  done waiting for logger");
   logInstance.wait();

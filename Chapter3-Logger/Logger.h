@@ -1,5 +1,45 @@
 #pragma once
-// Logger.h
+/////////////////////////////////////////////////////////////////////
+// Logger.h - send log messages to multiple current std::ostreams  //
+// ver 1.0                                                         //
+// Jim Fawcett, Teaching Professor Emeritus, Syracuse University   //
+/////////////////////////////////////////////////////////////////////
+/*
+ * Package Operations:
+ *---------------------
+ * Send a sequence of log messages to one or more std::ostreams
+ * - default stream is std::cout
+ * - can add std::ofstream and std::ostringstream instances as well
+ * - logger expects all std::ofstream instances to be created on the heap
+ * - helper std::ostream makeStream(const std::string& filename) does that.
+ * - use it like this: logger.add(makeStream("someFileName"));
+ * - logger closes and deletes all std::ofstream pointers.
+ * - logger.write accepts a T t instance to write and, optionally, a 
+ *   level: debug or demo or results
+ * - calling logger.level(Level::debug) will make write do nothing unless
+ *   called like this: 
+ *     logger.write(t, Level::debug);
+ *     logger.write(t, Level::debug + Level::aLevel);
+ *     aLevel = Level::demo or Level::results or level::demo + Level::results
+ * - The package also provides a factory, makeLogger, that returns an 
+ *   instance of a static logger.  That allows any code that compiles 
+ *   Logger.cpp and includes Logger.h to share the same logger.
+ * - All writes enQueue a message that a write thread services.  That
+ *   was done so that log.write returns quickly, while the write thread
+ *   does the slow writing to streams.
+ *
+ *  Required Files:
+ * -----------------
+ *  Logger.h, Logger.cpp
+ *  DateTime.h, DateTime.cpp
+ *  Cpp11-BlockingQueue.h
+ *  Display.h
+ *
+ *  Maintenance History:
+ * ----------------------
+ *  ver 1.0 : 25 Nov 2019
+ *  - first release
+ */
 
 #include <iostream>
 #include <fstream>
@@ -9,17 +49,17 @@
 #include <memory>
 #include "Cpp11-BlockingQueue.h"
 #include "DateTime.h"
-#include "../Display/Display.h"
+#include "Display.h"
 
 namespace Utilities {
   
-  enum Level { results = 1, demo = 2, debug = 4 };
+  enum Level { results = 1, demo = 2, debug = 4, all = 7 };
 
   template <typename T, size_t C = 0>
   struct ILogger {
     virtual ~ILogger() {}
     virtual ILogger<T, C>& add(std::ostream*) = 0;
-    virtual ILogger<T, C>& write(T t, size_t level = 0x7) = 0;
+    virtual ILogger<T, C>& write(T t, size_t level = Level::all) = 0;
     virtual void head(T t = "") = 0;
     virtual void prefix(T prfix = "\n  ") = 0;
     virtual void wait() = 0;
@@ -117,7 +157,8 @@ namespace Utilities {
 
   template<typename T, size_t C>
   ILogger<T, C>& Logger<T, C>::add(std::ostream* pOstrm) {
-    dstStrm.push_back(pOstrm);
+    if(pOstrm != nullptr)
+      dstStrm.push_back(pOstrm);
     return *this;
   }
   /*-----------------------------------------------------------------
@@ -140,7 +181,7 @@ namespace Utilities {
   void Logger<T, C>::head(T t) {
 
     T temp = (t.size() > 0) ? t : name();
-    head_ = prefix_ + temp + "\t" + DateTime().now();
+    head_ = temp + "\t" + DateTime().now();
     write(head_);
   }
   /*--- set message prefix ----------------------------------------*/

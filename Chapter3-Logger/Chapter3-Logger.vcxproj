@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="Cpp11-BlockingQueue.h" />
     <ClInclude Include="DateTime.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="Logger.h" />
   </ItemGroup>
   <ItemGroup>
