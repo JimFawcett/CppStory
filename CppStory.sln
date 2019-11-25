@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter3-Coercion", "Chapte
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter3-functions", "Chapter3-functions\Chapter3-functions.vcxproj", "{B3B0C3BD-0557-4515-9E21-C27BECF52180}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter3-Logger", "Chapter3-Logger\Chapter3-Logger.vcxproj", "{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -141,6 +143,14 @@ Global
 		{B3B0C3BD-0557-4515-9E21-C27BECF52180}.Release|x64.Build.0 = Release|x64
 		{B3B0C3BD-0557-4515-9E21-C27BECF52180}.Release|x86.ActiveCfg = Release|Win32
 		{B3B0C3BD-0557-4515-9E21-C27BECF52180}.Release|x86.Build.0 = Release|Win32
+		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Debug|x64.ActiveCfg = Debug|x64
+		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Debug|x64.Build.0 = Debug|x64
+		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Debug|x86.ActiveCfg = Debug|Win32
+		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Debug|x86.Build.0 = Debug|Win32
+		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Release|x64.ActiveCfg = Release|x64
+		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Release|x64.Build.0 = Release|x64
+		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Release|x86.ActiveCfg = Release|Win32
+		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

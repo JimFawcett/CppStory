@@ -1,0 +1,13 @@
+
+  
+  test logger factory	Sun Nov 24 20:08:41 2019
+  log msg #1
+  log msg #2
+  
+  test 2nd instance of logger factory	Sun Nov 24 20:08:41 2019
+  log2 msg #1
+  log2 msg #2
+  log2 msg #3
+  log2 msg #4
+  
+  done waiting for logger
