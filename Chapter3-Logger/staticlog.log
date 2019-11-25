@@ -1,8 +1,10 @@
 
-  test logger factory	Mon Nov 25 11:23:19 2019
+  test logger factory
+  Mon Nov 25 17:35:56 2019
   log msg #1
   log msg #2
-  test 2nd instance of logger factory	Mon Nov 25 11:23:19 2019
+  test 2nd instance of logger factory
+  Mon Nov 25 17:35:56 2019
   log2 msg #1
   log2 msg #2
   log2 msg #3

@@ -1,4 +1,6 @@
-  test	Mon Nov 25 11:23:19 2019
+
+  test
+  Mon Nov 25 17:35:56 2019
   Hi there from Logger.cpp
 
   setting level = results
@@ -7,6 +9,6 @@
   a demo
   setting level = debug
   a debug msg
-  setting level = results & demo
+  setting level = results + demo
   a demo
   a result

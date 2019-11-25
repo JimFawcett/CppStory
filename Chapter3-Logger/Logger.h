@@ -90,8 +90,18 @@ namespace Utilities {
     std::thread writeThread_;
     T head_;
     std::string prefix_ = "\n  ";
-    size_t level_ = 0x7; // Level::debug + Level::demo + Level::results; 
+    size_t level_ = 0x7; // Level::debug + Level::demo + Level::results;
   };
+  /*--- object factory ----------------------------------------------
+   *
+   *  Creates static logger, so everyone calling makeLogger with
+   *  the same value for C will use the same logger.
+   */
+  template<typename T, size_t C>
+  inline ILogger<T, C>& makeLogger() {
+    static Logger<T, C> logger;
+    return logger;
+  }
   /*--- initialize logger with name -------------------------------*/
 
   template<typename T, size_t C>
@@ -179,9 +189,9 @@ namespace Utilities {
    */
   template<typename T, size_t C>
   void Logger<T, C>::head(T t) {
-
     T temp = (t.size() > 0) ? t : name();
-    head_ = temp + "\t" + DateTime().now();
+    T prfix = (prefix_ == "") ? "\n" : prefix_;
+    head_ = temp + prfix + DateTime().now();
     write(head_);
   }
   /*--- set message prefix ----------------------------------------*/
@@ -211,14 +221,40 @@ namespace Utilities {
     else
       return nullptr;
   }
-  /*--- object factory ----------------------------------------------
-   *
-   *  Creates static logger, so everyone calling makeLogger with
-   *  the same value for C will use the same logger.
-   */
-  template<typename T, size_t C>
-  inline ILogger<T,C>& makeLogger() {
-    static Logger<T, C> logger;
-    return logger;
+
+  inline void Assert(bool predicate, const std::string& message = "", size_t ln = 0, bool doThrow = false) {
+    if (predicate)
+      return;
+    std::string sentMsg = "Assertion raised";
+    if (ln > 0)
+      sentMsg += " at line number " + std::to_string(ln);
+    if (message.size() > 0)
+      sentMsg += "\n  message: \"" + message + "\"";
+    if (doThrow)
+      throw std::exception(sentMsg.c_str());
+    else
+      std::cout << "\n  " + sentMsg;
+  }
+
+  inline void Requires(bool predicate, const std::string& message, size_t lineNo, bool doThrow = false) {
+    if (predicate)
+      return;
+    std::string sentMsg = "Requires " + message + " raised";
+    sentMsg += " at line number " + std::to_string(lineNo);
+    if (doThrow)
+      throw std::exception(sentMsg.c_str());
+    else
+      std::cout << "\n  " + sentMsg;
+  }
+
+  inline void Ensures(bool predicate, const std::string& message, size_t lineNo, bool doThrow = false) {
+    if (predicate)
+      return;
+    std::string sentMsg = "Ensures " + message + " raised";
+    sentMsg += " at line number " + std::to_string(lineNo);
+    if (doThrow)
+      throw std::exception(sentMsg.c_str());
+    else
+      std::cout << "\n  " + sentMsg;
   }
 }
