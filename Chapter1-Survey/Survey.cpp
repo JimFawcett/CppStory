@@ -50,6 +50,24 @@ auto showTitle = [=](const std::string& title) {
   std::cout << "\n " << std::string(title.size() + 2, ul);
 };
 
+void demoFundamentalTypes() {
+
+  showTitle("Demo fundamental types");
+
+  int i{ 3 };
+  char c{ 'z' };
+  double d{ 3.1415927 };
+  bool b{ true };
+  
+  std::cout << "\n  value of integer i   = " << i;
+  std::cout << "\n  value of character c = " << c;
+  std::cout << "\n  value of double d    = " << d;
+  std::cout << "\n  value of bool b      = " << b;
+  std::cout << "\n  value of nullptr     = " << nullptr;
+  std::cout << "\n  numerical value of nullptr = " << static_cast<size_t*>(nullptr);
+  std::cout << "\n";
+}
+
 void demoArraysAndPointers(int argc, char* argv[]) {
 
   showTitle("Demo pointers and arrays");
@@ -330,6 +348,7 @@ void demoOverload() {
 }
 int main(int argc, char* argv[]) {
 
+  demoFundamentalTypes();
   demoArraysAndPointers(argc, argv);
   demoSTL();
   demoOptional();
