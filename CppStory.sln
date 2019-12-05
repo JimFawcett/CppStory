@@ -31,6 +31,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter3-functions", "Chapt
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter3-Logger", "Chapter3-Logger\Chapter3-Logger.vcxproj", "{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter3-CallableObjects", "Chapter3-CallableObjects\Chapter3-CallableObjects.vcxproj", "{D15874C9-CAFD-4672-B98B-ADE4044FB324}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter3-STL", "Chapter3-STL\Chapter3-STL.vcxproj", "{456CE94A-FFD8-4F84-9419-20B227E192FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -151,6 +155,22 @@ Global
 		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Release|x64.Build.0 = Release|x64
 		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Release|x86.ActiveCfg = Release|Win32
 		{9370B1BD-84BC-4A21-8CF0-5E4274A0DDEE}.Release|x86.Build.0 = Release|Win32
+		{D15874C9-CAFD-4672-B98B-ADE4044FB324}.Debug|x64.ActiveCfg = Debug|x64
+		{D15874C9-CAFD-4672-B98B-ADE4044FB324}.Debug|x64.Build.0 = Debug|x64
+		{D15874C9-CAFD-4672-B98B-ADE4044FB324}.Debug|x86.ActiveCfg = Debug|Win32
+		{D15874C9-CAFD-4672-B98B-ADE4044FB324}.Debug|x86.Build.0 = Debug|Win32
+		{D15874C9-CAFD-4672-B98B-ADE4044FB324}.Release|x64.ActiveCfg = Release|x64
+		{D15874C9-CAFD-4672-B98B-ADE4044FB324}.Release|x64.Build.0 = Release|x64
+		{D15874C9-CAFD-4672-B98B-ADE4044FB324}.Release|x86.ActiveCfg = Release|Win32
+		{D15874C9-CAFD-4672-B98B-ADE4044FB324}.Release|x86.Build.0 = Release|Win32
+		{456CE94A-FFD8-4F84-9419-20B227E192FF}.Debug|x64.ActiveCfg = Debug|x64
+		{456CE94A-FFD8-4F84-9419-20B227E192FF}.Debug|x64.Build.0 = Debug|x64
+		{456CE94A-FFD8-4F84-9419-20B227E192FF}.Debug|x86.ActiveCfg = Debug|Win32
+		{456CE94A-FFD8-4F84-9419-20B227E192FF}.Debug|x86.Build.0 = Debug|Win32
+		{456CE94A-FFD8-4F84-9419-20B227E192FF}.Release|x64.ActiveCfg = Release|x64
+		{456CE94A-FFD8-4F84-9419-20B227E192FF}.Release|x64.Build.0 = Release|x64
+		{456CE94A-FFD8-4F84-9419-20B227E192FF}.Release|x86.ActiveCfg = Release|Win32
+		{456CE94A-FFD8-4F84-9419-20B227E192FF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
