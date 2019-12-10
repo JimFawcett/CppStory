@@ -9,8 +9,63 @@
 #include <tuple>
 #include <initializer_list>
 #include <any>
+#include "../Display/Display.h"
 
 namespace Chap4 {
+
+  class X1 {
+  public:
+    X1(const std::string& name) : name_(name) {
+      for (size_t i = 0; i < 5; ++i) {
+        buffer[i] = i;
+      }
+    }
+    std::string& name() {
+      return name_;
+    }
+    int& operator[](size_t i) {
+      if (i < 0 || 5 <= i)
+        throw std::exception("invalid index");
+      return buffer[i];
+    }
+    size_t size() const {
+      return 5;
+    }
+  private:
+    std::string name_;
+    int buffer[5];
+  };
+
+  void show(X1 x) {
+    std::cout << "\n  " << x.name() << "\n  ";
+    for (size_t i = 0; i < x.size(); ++i) {
+      std::cout << x[i] << " ";
+    }
+    std::cout << std::endl;
+  }
+
+  //class X {
+  //public:
+  //  X(const std::string& name, size_t N = 1);
+  //  ~X();
+
+  //private:
+  //  std::string name_;
+  //  int* pBuffer = nullptr;
+  //  const size_t BufSize = 0;
+  //};
+
+  void demoBasicClasses() {
+
+    displayDemo("--- Demo Basic Classes ---");
+
+    X1 x1("x1");
+    show(x1);
+    X1 x2 = x1;
+    x2.name() = "x2";
+    x2[0] = -1;
+    show(x2);
+  }
 
   bool Assert(bool predicate, const std::string& msg = "") {
     if (!predicate) {
@@ -158,7 +213,8 @@ struct Cosmetic {
   ~Cosmetic() { std::cout << "\n\n"; }
 } cosm;
 
-int main() {
+void demoClassAnatomy() {
+
   using namespace Chap4;
 
   std::cout << "\n  Demonstrate Class Anatomy";
@@ -181,5 +237,14 @@ int main() {
   Anatomy a4;
   a4 = makeAnatomy(5);
   showAnatomy<int>(a4, __LINE__);
+}
 
+int main() {
+
+  using namespace Chap4;
+
+  demoBasicClasses();
+  putline();
+  demoClassAnatomy();
+  putline(2);
 }
