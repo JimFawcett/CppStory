@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////
 
 #include <string>
+#include <vector>
 #include <iostream>
 #include <tuple>
 #include <initializer_list>
@@ -44,27 +45,145 @@ namespace Chap4 {
     std::cout << std::endl;
   }
 
-  //class X {
-  //public:
-  //  X(const std::string& name, size_t N = 1);
-  //  ~X();
+  class X2 {
+  public:
+    X2(const std::string& name, size_t N = 1);
+    std::string& name();
+    int& operator[](size_t i);
+    int operator[](size_t i) const;
+    size_t size() const;
+  private:
+    std::string name_;
+    std::vector<int> buffer_;
+  };
+  /*--- constructor ---*/
+  X2::X2(const std::string& name, size_t N)
+    : name_(name), buffer_(N) {
+  }
+  /*--- name accessor ---*/
+  std::string& X2::name() {
+    return name_;
+  }
+  /*--- indexer for non-const instances ---*/
+  int& X2::operator[](size_t i) {
+    if (i < 0 || buffer_.size() <= i)
+      throw std::exception("index out of range");
+    return buffer_[i];
+  }
+  /*--- indexer for const instances ---*/
+  int X2::operator[](size_t i) const {
+    if (i < 0 || buffer_.size() <= i)
+      throw std::exception("index out of range");
+    return buffer_[i];
+  }
+  /*--- buffer size accessor ---*/
+  size_t X2::size() const {
+    return buffer_.size();
+  }
+  /*--- generic display function ---*/
+  template<typename T>
+  void show(T t) {
+    std::cout << "\n  " << t.name() << "\n  ";
+    for (size_t i = 0; i < t.size(); ++i) {
+      std::cout << t[i] << " ";
+    }
+    std::cout << std::endl;
+  }
 
-  //private:
-  //  std::string name_;
-  //  int* pBuffer = nullptr;
-  //  const size_t BufSize = 0;
-  //};
+  class X3 {
+  public:
+    X3(const std::string& name, size_t N = 1);
+    X3(const X3& x);
+    ~X3();
+    X3& operator=(const X3& x);
+    std::string& name();
+    int& operator[](size_t i);
+    int operator[](size_t i) const;
+    size_t size() const;
+  private:
+    std::string name_;
+    int* pBuffer_ = nullptr;
+    size_t bufSize_ = 0;
+  };
+  /*--- constructor ---*/
+  X3::X3(const std::string& name, size_t N)
+    : name_(name), bufSize_(N), pBuffer_(new int[N]) {
+  }
+  /*--- copy constructor ---*/
+  X3::X3(const X3& x)
+    : bufSize_(x.bufSize_), pBuffer_(new int[x.bufSize_]) {
+    name_ = x.name_;
+    memcpy(pBuffer_, x.pBuffer_, bufSize_ * sizeof(int));
+  }
+  /*--- destructor ---*/
+  X3::~X3() {
+    delete[] pBuffer_;
+  }
+  /*--- copy assignment operator ---*/
+  X3& X3::operator=(const X3& x) {
+    if (this != &x) {
+      /* won't assign name */
+      bufSize_ = x.bufSize_;
+      delete pBuffer_;
+      pBuffer_ = new int[bufSize_];
+      memcpy(pBuffer_, x.pBuffer_, bufSize_ * sizeof(int));
+    }
+    return *this;
+  }
+  /*--- name accessor ---*/
+  std::string& X3::name() {
+    return name_;
+  }
+  /*--- indexer for non-const instances ---*/
+  int& X3::operator[](size_t i) {
+    if (i < 0 || bufSize_ <= i)
+      throw std::exception("index out of range");
+    return *(pBuffer_ + i);
+  }
+  /*--- indexer for const instances ---*/
+  int X3::operator[](size_t i) const {
+    if (i < 0 || bufSize_ <= i)
+      throw std::exception("index out of range");
+    return *(pBuffer_ + i);
+  }
+  /*--- buffer size accessor ---*/
+  size_t X3::size() const {
+    return bufSize_;
+  }
 
   void demoBasicClasses() {
 
-    displayDemo("--- Demo Basic Classes ---");
+    displayDemo("=== Demo Basic Classes ===");
 
-    X1 x1("x1");
-    show(x1);
-    X1 x2 = x1;
-    x2.name() = "x2";
-    x2[0] = -1;
-    show(x2);
+    displayDemo("--- class X1 ---");
+    X1 xa("xa");
+    show(xa);
+    X1 xb = xa;
+    xb.name() = "xb";
+    show(xb);
+
+    displayDemo("--- class X2 ---");
+    X2 xc("xc",3);
+    xc[0] = 1;
+    xc[1] = 2;
+    xc[2] = 3;
+    show(xc);
+    
+    X2 xd("xd");
+    xd = xc;
+    show(xd);
+
+
+    displayDemo("--- class X3 ---");
+    X3 xe("xe", 3);
+    xe[0] = 1;
+    xe[1] = 2;
+    xe[2] = 1;
+    show(xe);
+
+    X3 xf("xf");
+    xf = xe;
+    show(xf);
   }
 
   bool Assert(bool predicate, const std::string& msg = "") {
