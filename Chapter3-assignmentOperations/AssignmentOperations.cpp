@@ -58,11 +58,12 @@ void showArray(int iArray[5], const std::string msg) {
   }
 }
 void demoAssignArray() {
-  displayDemo("--- demo assign array ---");
+  displayDemo("--- demo \"assign\" array-- - ");
   int iArray1[5]{ 1, 2, 3, 4, 5 };
   int iArray2[5]{ 4, 3, 2, 1, 0 };
   showArray(iArray1, "iArray1");
   showArray(iArray2, "iArray2");
+  /*-- can't directly assign array without wrapping in a struct --*/
   std::cout << "\n  after assigning iArray1 to iArray2:";
   std::memcpy(iArray2, iArray1, 5 * sizeof(int));
   showArray(iArray2, "iArray2");

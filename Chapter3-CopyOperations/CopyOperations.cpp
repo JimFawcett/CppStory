@@ -26,7 +26,7 @@ namespace Chap3 {
 
   void demoCopyFundamental() {
 
-    displayDemo("--- demo copy fundamental types ---");
+    displayDemo("--- demo copy construct fundamental types ---");
 
     std::byte b1{ 0xf };
     std::byte b2{ b1 };
@@ -55,9 +55,10 @@ void showArray(int iArray[5], const std::string msg) {
   }
 }
 void demoCopyArray() {
-  displayDemo("--- demo copy array ---");
+  displayDemo("--- demo \"copy construct\" array ---");
   int iArraySrc[5]{ 1, 2, 3, 4, 5 };
   int iArrayCpy[5];
+  /*-- can't copy construct array without wrapping in struct --*/
   std::memcpy(iArrayCpy, iArraySrc, 5*sizeof(int));
   showArray(iArraySrc, "src");
   showArray(iArraySrc, "cpy");
@@ -74,9 +75,13 @@ void showStruct(S& s, const std::string& msg) {
   std::cout << "] }";
 }
 void demoCopyStruct() {
-  displayDemo("--- demo copy struct ---");
-  struct S { int i = 1; double d = 1.0 / 3.0; char c = 'Q'; int iArr[3]{ 1,2,3 }; } s1;
-  S s2{ s1 };
+  displayDemo("--- demo copy construct struct ---");
+  struct S { int i; double d; char c; int iArr[3]; };
+  S s1{ 1, 1.0 / 3.0, 'Q', { 1, 2, 3 } };
+  //-- this works too --
+  //struct S { int i = 1; double d = 1.0 / 3.0; char c = 'Q'; int iArr[3]{ 1,2,3 }; } s1;
+
+  S s2{ s1 };  // copy construction
   showStruct(s1, "src");
   showStruct(s2, "cpy");
   putline();
@@ -93,7 +98,7 @@ void showPtr(T* pSrc, T* pCpy) {
 }
 
 void demoCopyPointers() {
-  displayDemo("--- demo copy pointers ---");
+  displayDemo("--- demo copy construct pointers ---");
   double dArr[5]{ 0.0, 0.5, 1.0, 1.5, 2.0 };
   double* pSrc = &dArr[0];
   double* pCpy{ pSrc };
