@@ -82,11 +82,37 @@ void demoCopyStruct() {
   putline();
 }
 
+template<typename T>
+void showPtr(T* pSrc, T* pCpy) {
+  long int flags = std::cout.flags();
+  std::cout.setf(std::ios::left, std::ios::adjustfield);
+  std::cout.setf(std::ios::showbase);
+  std::cout << "\n  src: " << std::hex << std::setw(9) << reinterpret_cast<int&>(pSrc);
+  std::cout << " cpy: " << std::hex << std::setw(9) << reinterpret_cast<int&>(pCpy);
+  std::cout.flags(flags);
+}
+
+void demoCopyPointers() {
+  displayDemo("--- demo copy pointers ---");
+  double dArr[5]{ 0.0, 0.5, 1.0, 1.5, 2.0 };
+  double* pSrc = &dArr[0];
+  double* pCpy{ pSrc };
+  showPtr(pSrc, pCpy);
+  std::cout << "\n  the contents pointed to by pSrc and pCpy are:";
+  Chap3::show(*pSrc, *pCpy);
+  *pSrc = -1.0;
+  std::cout << "\n  after changing contents of pSrc:";
+  Chap3::show(*pSrc, *pCpy);
+  std::cout << "\n  illustrates that copying pointer does not copy contents";
+  putline();
+}
+
 int main() {
 
   using namespace Chap3;
   demoCopyFundamental();
   demoCopyArray();
   demoCopyStruct();
+  demoCopyPointers();
   putline(2);
 }
