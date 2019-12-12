@@ -13,76 +13,73 @@
 #include "../Display/Display.h"
 
 namespace Chap4 {
-  namespace Example1 {
 
-    class Point {
-    public:
-      Point(const std::string& name = "none") 
-        : name_(name), coordinates_{ 0.0, 0.0, 0.0 } {
+  class X1 {
+  public:
+    X1(const std::string& name) : name_(name) {
+      for (size_t i = 0; i < 5; ++i) {
+        buffer[i] = i;
       }
-      std::string& name() {
-        return name_;
-      }
-      double& operator[](size_t i) {
-        if (i < 0 || 3 <= i)
-          throw std::exception("invalid index");
-        return coordinates_[i];
-      }
-      size_t size() const {
-        return 3;
-      }
-    private:
-      std::string name_;
-      double coordinates_[3];
-    };
-
-    void show(Point p) {
-      std::cout << "\n  " << p.name() << "\n  ";
-      for (size_t i = 0; i < p.size(); ++i) {
-        std::cout << p[i] << " ";
-      }
-      std::cout << std::endl;
     }
-  }
-  namespace Example2 {
-
-    class Point {
-    public:
-      Point(const std::string& name = "none", size_t N = 3);
-      std::string& name();
-      double& operator[](size_t i);
-      double operator[](size_t i) const;
-      size_t size() const;
-    private:
-      std::string name_;
-      std::vector<double> coordinates_;
-    };
-    /*--- constructor ---*/
-    Point::Point(const std::string& name, size_t N)
-      : name_(name), coordinates_(N) {
-    }
-    /*--- name accessor ---*/
-    std::string& Point::name() {
+    std::string& name() {
       return name_;
     }
-    /*--- indexer for non-const instances ---*/
-    double& Point::operator[](size_t i) {
-      if (i < 0 || coordinates_.size() <= i)
-        throw std::exception("index out of range");
-      return coordinates_[i];
+    int& operator[](size_t i) {
+      if (i < 0 || 5 <= i)
+        throw std::exception("invalid index");
+      return buffer[i];
     }
-    /*--- indexer for const instances ---*/
-    double Point::operator[](size_t i) const {
-      if (i < 0 || coordinates_.size() <= i)
-        throw std::exception("index out of range");
-      return coordinates_[i];
+    size_t size() const {
+      return 5;
     }
-    /*--- buffer size accessor ---*/
-    size_t Point::size() const {
-      return coordinates_.size();
+  private:
+    std::string name_;
+    int buffer[5];
+  };
+
+  void show(X1 x) {
+    std::cout << "\n  " << x.name() << "\n  ";
+    for (size_t i = 0; i < x.size(); ++i) {
+      std::cout << x[i] << " ";
     }
+    std::cout << std::endl;
   }
 
+  class X2 {
+  public:
+    X2(const std::string& name, size_t N = 1);
+    std::string& name();
+    int& operator[](size_t i);
+    int operator[](size_t i) const;
+    size_t size() const;
+  private:
+    std::string name_;
+    std::vector<int> buffer_;
+  };
+  /*--- constructor ---*/
+  X2::X2(const std::string& name, size_t N)
+    : name_(name), buffer_(N) {
+  }
+  /*--- name accessor ---*/
+  std::string& X2::name() {
+    return name_;
+  }
+  /*--- indexer for non-const instances ---*/
+  int& X2::operator[](size_t i) {
+    if (i < 0 || buffer_.size() <= i)
+      throw std::exception("index out of range");
+    return buffer_[i];
+  }
+  /*--- indexer for const instances ---*/
+  int X2::operator[](size_t i) const {
+    if (i < 0 || buffer_.size() <= i)
+      throw std::exception("index out of range");
+    return buffer_[i];
+  }
+  /*--- buffer size accessor ---*/
+  size_t X2::size() const {
+    return buffer_.size();
+  }
   /*--- generic display function ---*/
   template<typename T>
   void show(T t) {
@@ -93,120 +90,100 @@ namespace Chap4 {
     std::cout << std::endl;
   }
 
-  namespace Example3 {
-
-    class Point {
-    public:
-      Point(const std::string& name = "none", size_t N = 1);
-      Point(const Point& x);
-      ~Point();
-      Point& operator=(const Point& x);
-      std::string& name();
-      double& operator[](size_t i);
-      double operator[](size_t i) const;
-      size_t size() const;
-    private:
-      std::string name_;
-      double* pBuffer_ = nullptr;
-      size_t bufSize_ = 0;
-    };
-    /*--- constructor ---*/
-    Point::Point(const std::string& name, size_t N)
-      : name_(name), bufSize_(N), pBuffer_(new double[N]) {
+  class X3 {
+  public:
+    X3(const std::string& name, size_t N = 1);
+    X3(const X3& x);
+    ~X3();
+    X3& operator=(const X3& x);
+    std::string& name();
+    int& operator[](size_t i);
+    int operator[](size_t i) const;
+    size_t size() const;
+  private:
+    std::string name_;
+    int* pBuffer_ = nullptr;
+    size_t bufSize_ = 0;
+  };
+  /*--- constructor ---*/
+  X3::X3(const std::string& name, size_t N)
+    : name_(name), bufSize_(N), pBuffer_(new int[N]) {
+  }
+  /*--- copy constructor ---*/
+  X3::X3(const X3& x)
+    : bufSize_(x.bufSize_), pBuffer_(new int[x.bufSize_]) {
+    name_ = x.name_;
+    memcpy(pBuffer_, x.pBuffer_, bufSize_ * sizeof(int));
+  }
+  /*--- destructor ---*/
+  X3::~X3() {
+    delete[] pBuffer_;
+  }
+  /*--- copy assignment operator ---*/
+  X3& X3::operator=(const X3& x) {
+    if (this != &x) {
+      /* won't assign name */
+      bufSize_ = x.bufSize_;
+      delete pBuffer_;
+      pBuffer_ = new int[bufSize_];
+      memcpy(pBuffer_, x.pBuffer_, bufSize_ * sizeof(int));
     }
-    /*--- copy constructor ---*/
-    Point::Point(const Point& x)
-      : bufSize_(x.bufSize_), pBuffer_(new double[x.bufSize_]) {
-      name_ = x.name_;
-      memcpy(pBuffer_, x.pBuffer_, bufSize_ * sizeof(double));
-    }
-    /*--- destructor ---*/
-    Point::~Point() {
-      delete[] pBuffer_;
-    }
-    /*--- copy assignment operator ---*/
-    Point& Point::operator=(const Point& x) {
-      if (this != &x) {
-        /* won't assign name */
-        bufSize_ = x.bufSize_;
-        delete pBuffer_;
-        pBuffer_ = new double[bufSize_];
-        memcpy(pBuffer_, x.pBuffer_, bufSize_ * sizeof(int));
-      }
-      return *this;
-    }
-    /*--- name accessor ---*/
-    std::string& Point::name() {
-      return name_;
-    }
-    /*--- indexer for non-const instances ---*/
-    double& Point::operator[](size_t i) {
-      if (i < 0 || bufSize_ <= i)
-        throw std::exception("index out of range");
-      return *(pBuffer_ + i);
-    }
-    /*--- indexer for const instances ---*/
-    double Point::operator[](size_t i) const {
-      if (i < 0 || bufSize_ <= i)
-        throw std::exception("index out of range");
-      return *(pBuffer_ + i);
-    }
-    /*--- buffer size accessor ---*/
-    size_t Point::size() const {
-      return bufSize_;
-    }
+    return *this;
+  }
+  /*--- name accessor ---*/
+  std::string& X3::name() {
+    return name_;
+  }
+  /*--- indexer for non-const instances ---*/
+  int& X3::operator[](size_t i) {
+    if (i < 0 || bufSize_ <= i)
+      throw std::exception("index out of range");
+    return *(pBuffer_ + i);
+  }
+  /*--- indexer for const instances ---*/
+  int X3::operator[](size_t i) const {
+    if (i < 0 || bufSize_ <= i)
+      throw std::exception("index out of range");
+    return *(pBuffer_ + i);
+  }
+  /*--- buffer size accessor ---*/
+  size_t X3::size() const {
+    return bufSize_;
   }
 
   void demoBasicClasses() {
 
     displayDemo("=== Demo Basic Classes ===");
 
-    displayDemo("--- Example1::Point ---");
-    Example1::Point p1("p1");
-    p1[0] = 1.0;
-    p1[1] = 2.0;
-    p1[2] = 3.0;
-    show(p1);
-    displayDemo("--- copy construction of p2 using src p1 ---");
-    Example1::Point p2{ p1 };
-    p2.name() = "p2";
-    show(p2);
-    displayDemo("--- copy assignment of p3 from src p2");
-    Example1::Point p3("p3");
-    p3 = p2;
-    p3.name() = "p3";
-    show(p3);
+    displayDemo("--- class X1 ---");
+    X1 xa("xa");
+    show(xa);
+    X1 xb = xa;
+    xb.name() = "xb";
+    show(xb);
 
-    displayDemo("--- Example2::Point ---");
-    Example2::Point p4("p4", 3);
-    p4[0] = -1.0;
-    p4[1] = 0.0;
-    p4[2] = 1.0;
-    show(p4);
-    displayDemo("--- copy construction of p5 using src p4 ---");
-    Example2::Point p5{ p4 };
-    p5.name() = "p5";
-    show(p5);
-    displayDemo("--- copy assignment of p6 from src p5");
-    Example2::Point p6("p6");
-    p6 = p5;
-    p6.name() = "p6";
-    show(p6);
+    displayDemo("--- class X2 ---");
+    X2 xc("xc",3);
+    xc[0] = 1;
+    xc[1] = 2;
+    xc[2] = 3;
+    show(xc);
+    
+    X2 xd("xd");
+    xd = xc;
+    show(xd);
 
-    displayDemo("--- Example3::Point ---");
-    Example3::Point p7("p7", 3);
-    p7[0] = -0.5;
-    p7[1] = 0.0;
-    p7[2] = 0.5;
-    show(p7);
-    displayDemo("--- copy construction of p8 using src p7 ---");
-    Example3::Point p8{ p7 };
-    p8.name() = "p8";
-    show(p8);
-    displayDemo("--- copy assignment of p9 from src p8");
-    Example3::Point p9("p9");
-    p9 = p8;
-    show(p8);
+
+    displayDemo("--- class X3 ---");
+    X3 xe("xe", 3);
+    xe[0] = 1;
+    xe[1] = 2;
+    xe[2] = 1;
+    show(xe);
+
+    X3 xf("xf");
+    xf = xe;
+    show(xf);
   }
 
   bool Assert(bool predicate, const std::string& msg = "") {
