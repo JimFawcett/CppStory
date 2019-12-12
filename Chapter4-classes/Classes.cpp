@@ -131,7 +131,7 @@ namespace Chap4 {
         bufSize_ = x.bufSize_;
         delete pBuffer_;
         pBuffer_ = new double[bufSize_];
-        memcpy(pBuffer_, x.pBuffer_, bufSize_ * sizeof(int));
+        memcpy(pBuffer_, x.pBuffer_, bufSize_ * sizeof(double));
       }
       return *this;
     }
