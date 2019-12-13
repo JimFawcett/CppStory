@@ -260,30 +260,30 @@ namespace Chap4 {
     if (msg.size() > 0)
       std::cout << ", " << msg;
   }
-
+  /*--- default constructor ---*/
   Anatomy::Anatomy() : value(std::any()), name_("unknown") {
     myCount = ++count;
     showMsg(0, "obj #" + std::to_string(myCount));
   }
-
+  /*--- promotion constructor ---*/
   Anatomy::Anatomy(const std::string& nameStr)
     : value(std::any()), name_(nameStr) {
     myCount = ++count;
     showMsg(0, "obj #" + std::to_string(myCount));
   }
-
+  /*--- copy constructor ---*/
   Anatomy::Anatomy(const Anatomy& a)
     : value(a.value), name_(a.name_) {
     myCount = ++count;
     showMsg(1, "obj #" + std::to_string(myCount));
   }
-
+  /*--- move constructor ---*/
   Anatomy::Anatomy(Anatomy&& a) noexcept
     : value(std::move(a.value)), name_(std::move(a.name_)) {
     myCount = ++count;
     showMsg(2, "obj #" + std::to_string(myCount));
   }
-
+  /*--- copy assignment operator ---*/
   Anatomy& Anatomy::operator=(const Anatomy& a) {
     if (this != &a) {
       // don't want to rename, so no copy
@@ -292,7 +292,7 @@ namespace Chap4 {
     showMsg(3, "obj #" + std::to_string(myCount));
     return *this;
   }
-
+  /*--- move assignment operator ---*/
   Anatomy& Anatomy::operator=(Anatomy&& a) noexcept {
     if (this != &a) {
       // don't want to rename, so no copy
@@ -301,12 +301,12 @@ namespace Chap4 {
     showMsg(4, "obj #" + std::to_string(myCount));
     return *this;
   }
-
+  /*--- destructor ---*/
   Anatomy::~Anatomy() {
     showMsg(5, "obj #" + std::to_string(myCount));
     // name_ and value are composed, so their dtors will be called here
   }
-
+  /*--- name setter ----*/
   void Anatomy::name(const std::string& nameStr) {
     name_ = nameStr;
   }
@@ -314,16 +314,16 @@ namespace Chap4 {
   std::string Anatomy::name() const {
     return name_;
   }
-
+  /*--- objNumber getter ---*/
   size_t Anatomy::objNumber() const {
     return myCount;
   }
-
+  /*--- value setter ---*/
   template<typename T>
   void Anatomy::setValue(const T& t) {
     value = t;
   }
-
+  /*--- value getter ---*/
   template<typename T>
   T Anatomy::getValue() const {
     try {
@@ -334,14 +334,14 @@ namespace Chap4 {
       return T();
     }
   }
-
+  /*--- Anatomy object factory ---*/
   template<typename T>
   Anatomy makeAnatomy(const T& t = T()) {
     Anatomy temp("created");
     temp.setValue(t);
     return temp;
   }
-
+  /*--- show Anatomy state ---*/
   template<typename T>
   void showAnatomy(const Anatomy& a, size_t line = 0) {
     if (line > 0)
@@ -364,21 +364,21 @@ void demoClassAnatomy() {
 
   Anatomy a1;
   a1.setValue(1.5);
-  showAnatomy<double>(a1, __LINE__);
+  showAnatomy<double>(a1, __LINE__ - 2);
 
   Anatomy a2{ a1 };
   a2.name("a2");
-  showAnatomy<double>(a2, __LINE__);
+  showAnatomy<double>(a2, __LINE__ - 2);
 
   a1 = a2;
-  showAnatomy<double>(a1, __LINE__);
+  showAnatomy<double>(a1, __LINE__ - 1);
 
   Anatomy a3 = makeAnatomy(std::string("some string"));
-  showAnatomy<std::string>(a3, __LINE__);
+  showAnatomy<std::string>(a3, __LINE__ - 1);
 
   Anatomy a4;
   a4 = makeAnatomy(5);
-  showAnatomy<int>(a4, __LINE__);
+  showAnatomy<int>(a4, __LINE__ - 1);
 }
 
 int main() {
