@@ -2,8 +2,9 @@
 // IPerson.h
 
 #include <memory>
+#include <string>
 
-namespace Elementary {
+namespace Chap1 {
 
   struct IPerson {
     using Name = std::string;
@@ -22,53 +23,25 @@ namespace Elementary {
     virtual bool isValid() const = 0;
   };
 
-  /* defining isElemntaryPerson type trait */
+  template<typename P>
+  void displayPerson(const P& person)
+  {
+    std::cout << "\n  " << person.name() << ", " << person.age() << ", " << person.occupation();
+  }
 
-  template<typename T>
-  struct isElementaryIPerson {
-    static const bool value = false;
-  };
+  /* generic displayInvalid does not need type traits */
 
-  template<>
-  struct isElementaryIPerson<Elementary::IPerson> {
-    static const bool value = true;
-  };
+  template<typename P>
+  void displayInvalid(const P& person) {
+    std::cout << "\n  " << person.name() << " has invalid data";
+  }
 
-  //template<typename T>
-  //struct isElementaryPerson {
-  //  static const bool value = false;
-  //};
-
-  //template<>
-  //struct isElementaryPerson<Elementary::Person> {
-  //  static const bool value = true;
-  //};
-
-  //template<typename P>
-  //void displayPerson(const P& person)
-  //{
-  //  if constexpr (isElementaryIPerson<P>::value) {
-  //    std::cout << "\n  " << person.name() << ", " << person.age() << ", " << person.occupation();
-  //  }
-  //  else if constexpr (isElementaryPerson<P>::value) {
-  //    std::cout << "\n  " << person.name() << ", " << std::get<2>(person.stats()) << ", "
-  //      << std::get<1>(person.stats()) << ", with hobby " << std::get<3>(person.stats());
-  //  }
-  //}
-
-  ///* generic displayInvalid does not need type traits */
-
-  //template<typename P>
-  //void displayInvalid(const P& person) {
-  //  std::cout << "\n  " << person.name() << " has invalid data";
-  //}
-
-  //template<typename P>
-  //void checkedDisplay(const P& person) {
-  //  displayPerson(person);
-  //  if (!person.isValid())
-  //    displayInvalid(person);
-  //}
+  template<typename P>
+  void checkedDisplay(const P& person) {
+    displayPerson(person);
+    if (!person.isValid())
+      displayInvalid(person);
+  }
 
   std::unique_ptr<IPerson> createPerson(const IPerson::Stats& sts);
 }

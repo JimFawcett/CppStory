@@ -5,8 +5,9 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #include "Person.h"
+#include <iostream>
 
-namespace Elementary {
+namespace Chap1 {
 
   Person::Person() {}
 
@@ -61,7 +62,7 @@ namespace Elementary {
 
 int main() {
 
-  using namespace Elementary;
+  using namespace Chap1;
   //Person Jack({ "Jack", "Unemployed", 35 });
   std::unique_ptr<IPerson> pJack = createPerson({ "Jack", "Unemployed", 35 });
   checkedDisplay(*pJack);

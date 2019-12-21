@@ -3,19 +3,12 @@
 
 #include "Person.h"
 
-namespace Elementary {
+namespace Chap1 {
 
   template<typename P>
   void displayPerson(const P& person)
   {
-    if constexpr (isElementaryIPerson<P>::value) {
-      std::cout << "\n  " << person.name() << ", " << person.age() << ", " << person.occupation();
-    }
-    else if constexpr (isElementaryPerson<P>::value) {
-      std::cout << "\n  " << person.name() << ", " << person.age() << ", " << person.occupation();
-      //std::cout << "\n  " << person.name() << ", " << std::get<2>(person.stats()) << ", "
-      //  << std::get<1>(person.stats()) << ", with hobby " << std::get<3>(person.stats());
-    }
+    std::cout << "\n  " << person.name() << ", " << person.age() << ", " << person.occupation();
   }
 
   /* generic displayInvalid does not need type traits */
