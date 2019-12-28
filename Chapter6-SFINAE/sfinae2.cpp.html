@@ -1,0 +1,55 @@
+<pre>// SFINAE.cpp
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include "../Display/Display.h"
+
+template&lt;typename T, size_t N&gt;
+void show(const T (&amp;array)[N]) {
+  displayDemo("--- show array contents ---");
+  std::cout &lt;&lt; "\n  ";
+  for (size_t i = 0; i &lt; N; ++i)
+    std::cout &lt;&lt; array[i] &lt;&lt; " ";
+}
+
+template&lt;typename C&gt;
+void show(const C&amp; cont) {
+  displayDemo("--- show container contents ---");
+  std::cout &lt;&lt; "\n  ";
+  for (auto item : cont) {
+    std::cout &lt;&lt; item &lt;&lt; " ";
+  }
+}
+
+int main() {
+
+  displayTitle("SFINAE Demo");
+
+  std::cout &lt;&lt; "\n  displaying array:";
+  double array[5]{ -0.5, 0.0, 0.5, 1.0, 1.5 };
+  show(array);
+
+  std::cout &lt;&lt; "\n  displaying vector";
+  std::vector&lt;int&gt; vInt{ -1, 0, 1, 2, 3 };
+  show(vInt);
+
+  // show(array);
+  // attempted template argument deduction for both show functions
+  // - show(const T (&amp;array)[n]) succeeded, built, and used
+  // - show(const C&amp; cont) succeeded but less specific so not used
+
+  // show(vInt)
+  // attempted template argument deduction for both show functions
+  // - show(const T (&amp;array)[n]) failed, vInt is not an array, 
+  //   but this is not a compilation error (SFINAE)
+  // - show(const C&amp; cont) succeeded, built, and used
+
+  // show(3.14159);
+  // argument deduction for show(const T (&amp;array)[N]) fails
+  // - double is not an array
+  // argument deduction succeeds with show(const C&amp; cont)
+  // - compilation of body for double fails, i.e., 
+  //   no iterator, begin(), or end() for range-based for
+
+  std::cout &lt;&lt; "\n\n";
+}</pre>

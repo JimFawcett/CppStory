@@ -37,6 +37,11 @@ namespace Chap6 {
     static T t = "static string";
     return t;
   }
+
+  auto genericLambda = [](auto arg) {
+    std::cout << "\n  the type of genericLambda's arg is: " << typeid(arg).name();
+    std::cout << "\n  arg's value is: " << arg;
+  };
 }
 
 int main() {
@@ -84,6 +89,11 @@ int main() {
   int j = g<int>(d, s, 'z');
 
   std::cout << "\n  " << h<std::string>();
+  putline();
+
+  displaySubtitle("Demo generic lambda");
+  genericLambda(double{ 3.5 });
+  genericLambda("this is a string");
 
   std::cout << "\n\n";
 }

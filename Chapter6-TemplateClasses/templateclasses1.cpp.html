@@ -1,0 +1,39 @@
+<pre>// TemplateClasses.cpp
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include "../Display/Display.h"
+
+namespace Chap6 {
+
+  template&lt;typename T&gt;
+  class SynDemo {
+  public:
+    void value(T t);
+    T value();
+  private:
+    T t_;
+  };
+
+  template&lt;typename T&gt;
+  void SynDemo&lt;T&gt;::value(T t) {
+    t_ = t;
+  }
+
+  template&lt;typename T&gt;
+  T SynDemo&lt;T&gt;::value() {
+    return t_;
+  }
+}
+
+int main() {
+
+  displayTitle("Demonstrating Template Syntax");
+
+  using namespace Chap6;
+
+  SynDemo&lt;std::string&gt; sd;
+  sd.value("hello world");
+  std::cout &lt;&lt; "\n  " &lt;&lt; sd.value();
+  putline(2);
+}</pre>

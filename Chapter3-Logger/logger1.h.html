@@ -1,0 +1,260 @@
+<pre>#pragma once
+/////////////////////////////////////////////////////////////////////
+// Logger.h - send log messages to multiple current std::ostreams  //
+// ver 1.0                                                         //
+// Jim Fawcett, Teaching Professor Emeritus, Syracuse University   //
+/////////////////////////////////////////////////////////////////////
+/*
+ * Package Operations:
+ *---------------------
+ * Send a sequence of log messages to one or more std::ostreams
+ * - default stream is std::cout
+ * - can add std::ofstream and std::ostringstream instances as well
+ * - logger expects all std::ofstream instances to be created on the heap
+ * - helper std::ostream makeStream(const std::string&amp; filename) does that.
+ * - use it like this: logger.add(makeStream("someFileName"));
+ * - logger closes and deletes all std::ofstream pointers.
+ * - logger.write accepts a T t instance to write and, optionally, a 
+ *   level: debug or demo or results
+ * - calling logger.level(Level::debug) will make write do nothing unless
+ *   called like this: 
+ *     logger.write(t, Level::debug);
+ *     logger.write(t, Level::debug + Level::aLevel);
+ *     aLevel = Level::demo or Level::results or level::demo + Level::results
+ * - The package also provides a factory, makeLogger, that returns an 
+ *   instance of a static logger.  That allows any code that compiles 
+ *   Logger.cpp and includes Logger.h to share the same logger.
+ * - All writes enQueue a message that a write thread services.  That
+ *   was done so that log.write returns quickly, while the write thread
+ *   does the slow writing to streams.
+ *
+ *  Required Files:
+ * -----------------
+ *  Logger.h, Logger.cpp
+ *  DateTime.h, DateTime.cpp
+ *  Cpp11-BlockingQueue.h
+ *  Display.h
+ *
+ *  Maintenance History:
+ * ----------------------
+ *  ver 1.0 : 25 Nov 2019
+ *  - first release
+ */
+
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;vector&gt;
+#include &lt;thread&gt;
+#include &lt;chrono&gt;
+#include &lt;memory&gt;
+#include "Cpp11-BlockingQueue.h"
+#include "DateTime.h"
+#include "Display.h"
+
+namespace Utilities {
+  
+  enum Level { results = 1, demo = 2, debug = 4, all = 7 };
+
+  template &lt;typename T, size_t C = 0&gt;
+  struct ILogger {
+    virtual ~ILogger() {}
+    virtual ILogger&lt;T, C&gt;&amp; add(std::ostream*) = 0;
+    virtual ILogger&lt;T, C&gt;&amp; write(T t, size_t level = Level::all) = 0;
+    virtual void head(T t = "") = 0;
+    virtual void prefix(T prfix = "\n  ") = 0;
+    virtual void wait() = 0;
+    virtual void waitForWrites() = 0;
+    virtual void level(size_t lv) = 0;
+    virtual void name(const std::string&amp; nm) = 0;
+  };
+
+  template &lt;typename T, size_t C = 0&gt;
+  class Logger : public ILogger&lt;T, C&gt; {
+  public:
+    Logger(const std::string&amp; nm = "");
+    ~Logger();
+    ILogger&lt;T, C&gt;&amp; add(std::ostream* pOstrm);
+    virtual ILogger&lt;T, C&gt;&amp; write(T t, size_t level = 0x7);
+    virtual void head(T t = "");
+    virtual void prefix(T prfix = "\n  ");
+    virtual void level(size_t lv);
+    void name(const std::string&amp; nm);
+    std::string name();
+    void wait();
+    void waitForWrites();
+  protected:
+    std::vector&lt;std::ostream*&gt; dstStrm;
+    BlockingQueue&lt;T&gt; blockingQueue_;
+    void threadProc();
+    std::string name_;
+    std::thread writeThread_;
+    T head_;
+    std::string prefix_ = "\n  ";
+    size_t level_ = 0x7; // Level::debug + Level::demo + Level::results;
+  };
+  /*--- object factory ----------------------------------------------
+   *
+   *  Creates static logger, so everyone calling makeLogger with
+   *  the same value for C will use the same logger.
+   */
+  template&lt;typename T, size_t C&gt;
+  inline ILogger&lt;T, C&gt;&amp; makeLogger() {
+    static Logger&lt;T, C&gt; logger;
+    return logger;
+  }
+  /*--- initialize logger with name -------------------------------*/
+
+  template&lt;typename T, size_t C&gt;
+  Logger&lt;T, C&gt;::Logger(const std::string&amp; nm) : name_(nm) {
+    dstStrm.push_back(&amp;std::cout);
+    std::thread temp(&amp;Logger&lt;T, C&gt;::threadProc, this);
+    writeThread_ = std::move(temp);
+  }
+  /*--- wait for all writes to be sent ----------------------------*/
+
+  template&lt;typename T, size_t C&gt;
+  Logger&lt;T, C&gt;::~Logger() {
+    if (writeThread_.joinable())
+      writeThread_.detach();
+    for (auto ptrStrm : dstStrm) {
+      std::ofstream* ptrOfStrm = dynamic_cast&lt;std::ofstream*&gt;(ptrStrm);
+      if (ptrOfStrm) {
+        ptrOfStrm-&gt;close();
+        delete ptrOfStrm;
+      }
+    }
+  }
+  /*--- reset name ------------------------------------------------*/
+
+  template&lt;typename T, size_t C&gt;
+  void Logger&lt;T, C&gt;::name(const std::string&amp; nm) {
+    name_ = nm;
+  }
+  /*--- retrieve name ---------------------------------------------*/
+
+  template&lt;typename T, size_t C&gt;
+  std::string Logger&lt;T, C&gt;::name() {
+    return name_;
+  }
+  /*--- deQ thread processing -------------------------------------*/
+
+  template&lt;typename T, size_t C&gt;
+  void Logger&lt;T,C&gt;::threadProc() {
+    while (true) {
+      T t = blockingQueue_.deQ();
+      if (t == "quit")
+        break;
+      for (auto item : dstStrm) {
+        (*item) &lt;&lt; t;
+      }
+    }
+  }
+  /*--- enQ stop message and wait for write thread exit -----------*/
+
+  template&lt;typename T, size_t C&gt;
+  void Logger&lt;T, C&gt;::wait() {
+    blockingQueue_.enQ("quit");
+    writeThread_.join();
+  }
+  /*--- wait for Q to empty before writing again ------------------*/
+
+  template&lt;typename T, size_t C&gt;
+  void Logger&lt;T, C&gt;::waitForWrites() {
+    while (blockingQueue_.size() &gt; 0)
+      std::this_thread::sleep_for(std::chrono::milliseconds(20));
+  }
+  /*--- add another stream for concurrent writes ------------------*/
+
+  template&lt;typename T, size_t C&gt;
+  ILogger&lt;T, C&gt;&amp; Logger&lt;T, C&gt;::add(std::ostream* pOstrm) {
+    if(pOstrm != nullptr)
+      dstStrm.push_back(pOstrm);
+    return *this;
+  }
+  /*-----------------------------------------------------------------
+  *  write a log message
+  *  - probably one of many in a log stream
+  */
+
+  template&lt;typename T, size_t C&gt;
+  ILogger&lt;T, C&gt;&amp; Logger&lt;T, C&gt;::write(T t, size_t lv) {
+    if (lv &amp; level_) {
+      blockingQueue_.enQ(prefix_ + t);
+    }
+    return *this;
+  }
+  /*-----------------------------------------------------------------
+   *  write a head message
+   *  - expected to be the first in a log conversation
+   */
+  template&lt;typename T, size_t C&gt;
+  void Logger&lt;T, C&gt;::head(T t) {
+    T temp = (t.size() &gt; 0) ? t : name();
+    T prfix = (prefix_ == "") ? "\n" : prefix_;
+    head_ = temp + prfix + DateTime().now();
+    write(head_);
+  }
+  /*--- set message prefix ----------------------------------------*/
+
+  template&lt;typename T, size_t C&gt;
+  void Logger&lt;T,C&gt;::prefix(T prfix) {
+    prefix_ = prfix;
+  }
+  /*-----------------------------------------------------------------
+   *  set logging level
+   *  - results ==&gt; normal output
+   *  - demo    ==&gt; demonstration output
+   *  - debug   --&gt; show debugging information
+   *  can be any combination, e.g., demo + results
+   */
+  template&lt;typename T, size_t C&gt;
+  void Logger&lt;T, C&gt;::level(size_t lv) {
+    level_ = lv;
+  }
+  /*--- helper to open file stream --------------------------------*/
+
+  inline std::ostream* makeStream(const std::string&amp; fileName) {
+    std::ofstream* pOfstrm = new std::ofstream;
+    pOfstrm-&gt;open(fileName);
+    if (pOfstrm-&gt;good())
+      return pOfstrm;
+    else
+      return nullptr;
+  }
+
+  inline void Assert(bool predicate, const std::string&amp; message = "", size_t ln = 0, bool doThrow = false) {
+    if (predicate)
+      return;
+    std::string sentMsg = "Assertion raised";
+    if (ln &gt; 0)
+      sentMsg += " at line number " + std::to_string(ln);
+    if (message.size() &gt; 0)
+      sentMsg += "\n  message: \"" + message + "\"";
+    if (doThrow)
+      throw std::exception(sentMsg.c_str());
+    else
+      std::cout &lt;&lt; "\n  " + sentMsg;
+  }
+
+  inline void Requires(bool predicate, const std::string&amp; message, size_t lineNo, bool doThrow = false) {
+    if (predicate)
+      return;
+    std::string sentMsg = "Requires " + message + " raised";
+    sentMsg += " at line number " + std::to_string(lineNo);
+    if (doThrow)
+      throw std::exception(sentMsg.c_str());
+    else
+      std::cout &lt;&lt; "\n  " + sentMsg;
+  }
+
+  inline void Ensures(bool predicate, const std::string&amp; message, size_t lineNo, bool doThrow = false) {
+    if (predicate)
+      return;
+    std::string sentMsg = "Ensures " + message + " raised";
+    sentMsg += " at line number " + std::to_string(lineNo);
+    if (doThrow)
+      throw std::exception(sentMsg.c_str());
+    else
+      std::cout &lt;&lt; "\n  " + sentMsg;
+  }
+}</pre>

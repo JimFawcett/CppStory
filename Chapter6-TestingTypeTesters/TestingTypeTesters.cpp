@@ -1,4 +1,5 @@
-// TypeTransformations.cpp
+// TestingTypeTesters.cpp
+
 
 #include <type_traits>
 #include <iostream>
@@ -7,22 +8,31 @@
 
 void testTrans0(int i) {
   displayDemo("--- testTrans0(int i) ---");
+  std::cout << "\n  typeid of i is " << typeid(i).name();
+  std::cout << "\n  typeid of decltype(i) is " << typeid(decltype(i)).name();
   std::cout << "\n  boost type of i is " << boost::typeindex::type_id_runtime(i).pretty_name();
   std::cout << "\n  boost type of decltype(i) is " << boost::typeindex::type_id_with_cvr<decltype(i)>().pretty_name();
 }
 void testTrans0(const int* pI) {
   displayDemo("--- testTrans0(const int* pI) ---");
+  std::cout << "\n  typeid of pI is " << typeid(pI).name();
+  std::cout << "\n  typeid of decltype(pI) is " << typeid(decltype(pI)).name();
   std::cout << "\n  boost type of pI is " << boost::typeindex::type_id_runtime(pI).pretty_name();
   std::cout << "\n  boost type of decltype(pI) is " << boost::typeindex::type_id_with_cvr<decltype(pI)>().pretty_name();
 }
 void testTrans0(int iarr[3]) {
   displayDemo("--- testTrans0(int iarr[3]) ---");
+  std::cout << "\n  typeid of iarr is " << typeid(iarr).name();
+  std::cout << "\n  typeid of decltype(iarr) is " << typeid(decltype(iarr)).name();
   std::cout << "\n  boost type of iarr is " << boost::typeindex::type_id_runtime(iarr).pretty_name();
   std::cout << "\n  boost type of decltype(iarr) is " << boost::typeindex::type_id_with_cvr<decltype(iarr)>().pretty_name();
 }
 template<typename T>
 void testTrans1(T t) {
   displayDemo("--- testTrans1(T t) ---");
+  std::cout << "\n  typeid of T is " << typeid(T).name();
+  std::cout << "\n  typeid of t is " << typeid(t).name();
+  std::cout << "\n  typeid of decltype(t) is " << typeid(decltype(t)).name();
   std::cout << "\n  boost type of T is " << boost::typeindex::type_id_with_cvr<T>().pretty_name();
   std::cout << "\n  boost type of t is " << boost::typeindex::type_id_runtime(t).pretty_name();
   std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
@@ -30,7 +40,9 @@ void testTrans1(T t) {
 template<typename T>
 void testTrans2(T& t) {
   displayDemo("--- testTrans2(T& t) ---");
-  std::cout << "\n  boost type of T& is " << boost::typeindex::type_id_with_cvr<T&>().pretty_name();
+  std::cout << "\n  typeid of T is " << typeid(T).name();
+  std::cout << "\n  typeid of t is " << typeid(t).name();
+  std::cout << "\n  typeid of decltype(t) is " << typeid(decltype(t)).name();
   std::cout << "\n  boost type of T is " << boost::typeindex::type_id_with_cvr<T>().pretty_name();
   std::cout << "\n  boost type of t is " << boost::typeindex::type_id_runtime(t).pretty_name();
   std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
@@ -38,46 +50,22 @@ void testTrans2(T& t) {
 template<typename T>
 void testTrans2C(const T& t) {
   displayDemo("--- testTrans2C(const T& t) ---");
-  std::cout << "\n  boost type of const T& is " << boost::typeindex::type_id_with_cvr<const T&>().pretty_name();
+  std::cout << "\n  typeid of T is " << typeid(T).name();
+  std::cout << "\n  typeid of t is " << typeid(t).name();
+  std::cout << "\n  typeid of decltype(t) is " << typeid(decltype(t)).name();
   std::cout << "\n  boost type of T is " << boost::typeindex::type_id_with_cvr<T>().pretty_name();
   std::cout << "\n  boost type of t is " << boost::typeindex::type_id_runtime(t).pretty_name();
   std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
 }
 template<typename T>
-void testTrans3(T* t) {
-  displayDemo("--- testTrans3(T* pT) ---");
-  std::cout << "\n  boost type of T* is " << boost::typeindex::type_id_with_cvr<T*>().pretty_name();
+void testTrans3(T&& t) {
+  displayDemo("--- testTrans3(T&& t) ---");
+  std::cout << "\n  typeid of T is " << typeid(T).name();
+  std::cout << "\n  typeid of t is " << typeid(t).name();
+  std::cout << "\n  typeid of decltype(t) is " << typeid(decltype(t)).name();
   std::cout << "\n  boost type of T is " << boost::typeindex::type_id_with_cvr<T>().pretty_name();
   std::cout << "\n  boost type of t is " << boost::typeindex::type_id_runtime(t).pretty_name();
   std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
-}
-template<typename T>
-void testTrans3C(const T* t) {
-  displayDemo("--- testTrans3C(const T* pT) ---");
-  std::cout << "\n  boost type of const T* is " << boost::typeindex::type_id_with_cvr<const T*>().pretty_name();
-  std::cout << "\n  boost type of T is " << boost::typeindex::type_id_with_cvr<T>().pretty_name();
-  std::cout << "\n  boost type of t is " << boost::typeindex::type_id_runtime(t).pretty_name();
-  std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
-}
-template<typename T>
-void testTrans4(T&& t) {
-  displayDemo("--- testTrans4(T&& t) ---");
-  std::cout << "\n  boost type of T&& is " << boost::typeindex::type_id_with_cvr<T&&>().pretty_name();
-  std::cout << "\n  boost type of T is " << boost::typeindex::type_id_with_cvr<T>().pretty_name();
-  std::cout << "\n  boost type of t is " << boost::typeindex::type_id_runtime(t).pretty_name();
-  std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
-}
-
-void f(int iarr[4]) {
-  *iarr *= 2;
-}
-
-void showArray(int iarr[], size_t size) {
-  std::cout << "\n  ";
-  for (size_t i = 0; i < size; ++i) {
-    std::cout << *(iarr + i) << " ";
-  }
-  std::cout << std::endl;
 }
 
 int main() {
@@ -86,18 +74,26 @@ int main() {
 
   int i{ 42 };
   std::cout << "\n  ---  int i{ 42 }; ---";
+  std::cout << "\n  before call typeid of i is " << typeid(i).name();
+  std::cout << "\n  before call typeid of decltype(i) is " << typeid(decltype(i)).name();
   std::cout << "\n  before call Boost type of i is " << boost::typeindex::type_id_runtime(i).pretty_name();
 
   const int& j = i;
   std::cout << "\n\n  ---  const int& j = i; ---";
+  std::cout << "\n  before call typeid of j is " << typeid(j).name();
+  std::cout << "\n  before call typeid of decltype(j) is " << typeid(decltype(j)).name();
   std::cout << "\n  before call Boost type of j is " << boost::typeindex::type_id_runtime(j).pretty_name();
 
   const int* pI = &i;
   std::cout << "\n\n  ---  int* pI = &i; ---";
+  std::cout << "\n  before call typeid of pI is " << typeid(pI).name();
+  std::cout << "\n  before call typeid of decltype(pI) is " << typeid(decltype(pI)).name();
   std::cout << "\n  before call Boost type of pI is " << boost::typeindex::type_id_runtime(pI).pretty_name();
 
   int iarr[4];
   std::cout << "\n\n  ---  int iarr[4]; ---";
+  std::cout << "\n  before call typeid of iarr is " << typeid(iarr).name();
+  std::cout << "\n  before call typeid of decltype(iarr) is " << typeid(decltype(iarr)).name();
   std::cout << "\n  before call Boost type of iarr[4] is " << boost::typeindex::type_id_runtime(iarr).pretty_name();
 
   std::cout << "\n\n  testTrans0";
@@ -109,7 +105,7 @@ int main() {
   testTrans0(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans0(iarr);
-  
+
   std::cout << "\n\n  testTrans1";
   std::cout << "\n\n  param is i declared as int i";
   testTrans1(i);
@@ -141,40 +137,14 @@ int main() {
   testTrans2C(iarr);
 
   std::cout << "\n\n  testTrans3";
-  //std::cout << "\n\n  param is i declared as int i";
-  //testTrans3(i);
-  //std::cout << "\n\n  param is j declared as const int& j";
-  //testTrans3(j);
+  std::cout << "\n\n  param is i declared as int i";
+  testTrans3(i);
+  std::cout << "\n\n  param is j declared as const int& j";
+  testTrans3(j);
   std::cout << "\n\n  param is pI declared as const int* pI";
   testTrans3(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans3(iarr);
-
-  std::cout << "\n\n  testTrans3C";
-  //std::cout << "\n\n  param is i declared as int i";
-  //testTrans3(i);
-  //std::cout << "\n\n  param is j declared as const int& j";
-  //testTrans3(j);
-  std::cout << "\n\n  param is pI declared as const int* pI";
-  testTrans3C(pI);
-  std::cout << "\n\n  param is iarr declared as int iarr[4]";
-  testTrans3C(iarr);
-
-  std::cout << "\n\n  testTrans4";
-  std::cout << "\n\n  param is i declared as int i";
-  testTrans4(i);
-  std::cout << "\n\n  param is j declared as const int& j";
-  testTrans4(j);
-  std::cout << "\n\n  param is pI declared as const int* pI";
-  testTrans4(pI);
-  std::cout << "\n\n  param is iarr declared as int iarr[4]";
-  testTrans4(iarr);
-  putline();
-
-  displaySubtitle("Passing Array");
-  int iarray[4]{ 1, 2, 3, 4 };
-  f(iarray);
-  showArray(iarray, 4);
 
   std::cout << "\n\n";
 }
