@@ -121,6 +121,7 @@ void demoSTL() {
   auto sumer = [&sum](auto element) { sum += element; };
   std::for_each(test.begin(), test.end(), sumer);
   std::cout << "\n  sum = " << sum;
+  std::cout << std::endl;
 }
 
 void demoOptional() {
