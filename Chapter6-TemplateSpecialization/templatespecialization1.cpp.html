@@ -1,171 +1,34 @@
-<pre>// TemplateSpecialization
+<pre>///////////////////////////////////////////////////////////////
+// TemplateSpecialization.cpp - template specialization demo //
+//                                                           //
+// Jim Fawcett, Teaching Professor Emeritus, Syracuse Univ   //
+///////////////////////////////////////////////////////////////
 
-enum class PropertyType { Numeric, SeqContr, AssocContr, Nil };
 
-template&lt;typename T, PropertyType PT = PropertyType::Nil &gt;
-class Property {
-public:
-  Property() : t_{ T() } {}
+#include "TemplateSpecialization.h"
+#include &lt;string&gt;
+#include "../Display/Display.h"
 
-  Property(const T&amp; t) : t_{ t } {}
-
-  void operator()(const T&amp; t) {
-    t_ = t;
-  }
-  T operator()() {
-    return t_;
-  }
-protected:
-  T t_;
-};
-
-template&lt;typename T&gt;
-class Property&lt;T, PropertyType::Numeric&gt; : public Property&lt;T&gt; {
-public:
-  Property() {}
-
-  Property(const T&amp; t) : Property&lt;T&gt;{ t } {}
-
-  void operator+=(T t) {
-    Property&lt;T&gt;::t_ += t;
-  }
-  T operator+(T t) {
-    return Property&lt;T&gt;::t_ + t;
-  }
-  void operator-=(const T&amp; t) {
-    Property&lt;T&gt;::t_ -= t;
-  }
-  T operator-(const T&amp; t) {
-    return Property&lt;T&gt;::t_ - t;
-  }
-  void operator*=(const T&amp; t) {
-    Property&lt;T&gt;::t_ *= t;
-  }
-  T operator*(const T&amp; t) {
-    return Property&lt;T&gt;::t_ * t;
-  }
-  void operator/=(const T&amp; t) {
-    Property&lt;T&gt;::t_ /= t;
-  }
-  T operator/(const T&amp; t) {
-    return Property&lt;T&gt;::t_ / t;
-  }
-};
-
-template&lt;typename T&gt;
-class Property&lt;T, PropertyType::SeqContr&gt; : public Property&lt;T&gt; {
-public:
-  using iterator = typename T::iterator;
-
-  Property() {}
-
-  Property(const T&amp; t) : Property&lt;T&gt;{ t } {}
-
-  size_t size() {
-    return Property &lt; T&gt;::t_.size();
-  }
-  typename T::value_type back() {
-    return Property &lt; T&gt;::t_.back();
-  }
-  void push_back(const typename T::value_type&amp; v) {
-    Property&lt;T&gt;::t_.push_back(v);
-  }
-  void pop_back() {
-    Property&lt;T&gt;::t_.pop_back();
-  }
-  typename T::value_type front() {
-    return Property &lt; T&gt;::t_.back();
-  }
-  void push_front(const typename T::value_type&amp; v) {
-    Property&lt;T&gt;::t_.push_front(v);
-  }
-  void pop_front() {
-    Property&lt;T&gt;::t_.pop_front();
-  }
-  iterator insert(iterator iter, const typename T::value_type&amp; v) {
-    return Property&lt;T&gt;::t_.insert(iter, v);
-  }
-  typename iterator erase(iterator iter) {
-    return Property&lt;T&gt;::t_.erase(iter);
-  }
-  iterator begin() {
-    return Property&lt;T&gt;::t_.begin();
-  }
-  iterator end() {
-    return Property&lt;T&gt;::t_.end();
-  }
-};
-
-#include &lt;iostream&gt;
-#include &lt;vector&gt;
-
-template&lt;typename T&gt;
-using baseProp = Property&lt;T&gt;;
-
-template&lt;typename T&gt;
-using numProp = Property&lt;T, PropertyType::Numeric&gt;;
-
-template&lt;typename T&gt;
-using seqProp = Property&lt;T, PropertyType::SeqContr&gt;;
-
-template&lt;typename T&gt;
-void show(seqProp&lt;T&gt;&amp; prop) {
-  std::cout &lt;&lt; "\n  ";
-  for (auto item : prop) {
-    std::cout &lt;&lt; item &lt;&lt; " ";
-  }
-}
-
-class Widget {
-public:
-  void say() {
-    std::cout &lt;&lt; "\n  Widget instance here";
-  }
-};
+using namespace Chap6;
 
 int main() {
+  
+  displayTitle("Demonstrate Logger Specialization");
 
-  baseProp&lt;Widget&gt; wProp;
-  wProp().say();
-  std::cout &lt;&lt; std::endl;
+  displayDemo("--- Generic Logger ---\n");
+  Logger&lt;std::string&gt; log(&amp;std::cout);
+  log.write("  first");
+  log.write("  second");
 
-  class X {
-  public:
-    numProp&lt;int&gt; iProp;
-    numProp&lt;double&gt; dProp;
-    seqProp&lt;std::vector&lt;int&gt;&gt; viProp;
-  };
+  displayDemo(
+    "\n--- Logger specialization for timed logs ---\n"
+  );
+  Logger&lt;std::string, Timer&gt; tlog(&amp;std::cout);
+  tlog.start();
+  tlog.write("first timed");
+  tlog.write("second timed");
 
-  X x;
-  x.iProp(1);
-  std::cout &lt;&lt; "\n  x.iProp(1) = " &lt;&lt; x.iProp();
-  x.iProp += 3;
-  std::cout &lt;&lt; "\n  x.iProp += 3, x.iProp = " &lt;&lt; x.iProp();
-  x.iProp = -2;
-  std::cout &lt;&lt; "\n  x.iProp = -2, x.iProp = " &lt;&lt; x.iProp();
-  x.dProp(3.14159);
-  x.dProp += 1.0;
-  x.dProp(3.14159);
-  std::cout &lt;&lt; "\n  x.dProp(3.14159) = " &lt;&lt; x.dProp();
-  std::cout &lt;&lt; std::endl;
-
-  x.viProp.push_back(1);
-  x.viProp.push_back(2);
-  x.viProp.push_back(3);
-
-  std::cout &lt;&lt; "\n  contents of x.vProp are:";
-  show(x.viProp);
-
-  x.viProp.pop_back();
-  std::cout &lt;&lt; "\n  contents of x.vProp are, after pop_back:";
-  show(x.viProp);
-  x.viProp.insert(x.viProp.begin() + 1, -4);
-  std::cout &lt;&lt; "\n  after inserting -4 in the second position:";
-  show(x.viProp);
-  x.viProp.erase(x.viProp.begin() + x.viProp.size() - 1);
-  std::cout &lt;&lt; "\n  after erasing last element:";
-  show(x.viProp);
-
+  char ch;
+  std::cin &gt;&gt; ch;
   std::cout &lt;&lt; "\n\n";
-}
-</pre>
+}</pre>
