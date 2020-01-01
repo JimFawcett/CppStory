@@ -1,18 +1,15 @@
 #pragma once
-///////////////////////////////////////////////////////////////
-// TemplateSpecialization.h - template specialization demo   //
-//                                                           //
-// Jim Fawcett, Teaching Professor Emeritus, Syracuse Univ   //
-///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+// TmpTemplateSpecialization.h
 
+#include "Timer.h"
 #include <iostream>
 #include <iomanip>
 #include <type_traits>
-#include "Timer.h"
 
-namespace Chap6 {
+namespace Chap7 {
 
-  /*--------------------------------------------------------- 
+  /*---------------------------------------------------------
     unspecialized template class
     - U is a placeholder, used only to provide a place for
       specialization.
@@ -28,7 +25,10 @@ namespace Chap6 {
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {}
     void write(T t) {
-      (*pStream_) << prefix_ << t;
+      if constexpr (std::is_empty<U>::value)
+        (*pStream_) << prefix_ << t;
+      else
+        (*pStream_) << u.transform(t);
     }
   private:
     std::string prefix_ = "\n  ";
@@ -37,8 +37,7 @@ namespace Chap6 {
   };
 
   /*---------------------------------------------------------
-    template class partial specialization on Formatter class
-    Formatter class used to specialize Logger<T,Formatter>
+    formatting class used to specialize Logger<T,Formatter>
     - this is partial class specialization since T is
       still unspecified
   ---------------------------------------------------------*/
@@ -51,20 +50,6 @@ namespace Chap6 {
     }
   };
 
-  template<typename T>
-  class Logger<T, Formatter> {
-  public:
-    Logger(std::ostream* pStr) : pStream_(pStr) {}
-    ~Logger() {}
-    void write(T t) {
-      (*pStream_) << u.transform(t);
-    }
-  private:
-    std::string prefix_ = "\n  ";
-    std::ostream* pStream_;
-    Formatter u;
-  };
-  
   /*---------------------------------------------------------
     template class partial specialization on Timer class
     - See Timer.h for details
@@ -84,9 +69,9 @@ namespace Chap6 {
       timer_.stop();
     }
     void write(T t) {
-      (*pStream_) << prefix_ << std::setw(6) 
-                  << timer_.elapsedMicroseconds() 
-                  << " microsec : " << t;
+      (*pStream_) << prefix_ << std::setw(6)
+        << timer_.elapsedMicroseconds()
+        << " microsec : " << t;
     }
   private:
     std::string prefix_ = "\n  ";

@@ -65,10 +65,10 @@ public:
   Property(const T& t) : Property<T>{ t } {}
 
   size_t size() {
-    return Property < T>::t_.size();
+    return Property< T>::t_.size();
   }
   typename T::value_type back() {
-    return Property < T>::t_.back();
+    return Property< T>::t_.back();
   }
   void push_back(const typename T::value_type& v) {
     Property<T>::t_.push_back(v);
