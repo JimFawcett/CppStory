@@ -1,4 +1,8 @@
-// Property.cpp
+/////////////////////////////////////////////////////////////////////
+// Property.cpp - Useful C++ Properties class                      //
+//                                                                 //
+// Jim Fawcett, Teaching Professor Emeritus, ECE, Syracuse Univ    //
+/////////////////////////////////////////////////////////////////////
 
 #include "Property.h"
 
@@ -20,13 +24,27 @@ public:
   }
 };
 
-template<>
-class Property<Widget> : public BaseProperty<Widget> {
+using namespace Chap6;
+
+/*-----------------------------------------------------------------
+  Property specialization for a custom Widget type
+  - Use this as an example to provide Properties for other types.
+-----------------------------------------------------------------*/
+template< template<typename> typename Null>
+class Property<Widget, Null> : public BaseProperty<Widget,Null> {
 public:
-  Property() {}
-  Property(const Widget& w) : BaseProperty<Widget>{ w } {}
-  void say() { Property<Widget>::t_.say(); }
+  Property() : BaseProperty<Widget,Null>{ Widget() } {}
+  Property(const Widget& t) : BaseProperty<Widget, Null>{ Widget() } {}
+  Property<Widget, Null>& operator=(const Widget& t) {
+    BaseProperty<Widget, Null>::c_.set(t);
+    return *this;
+  }
+  void say() { Property<Widget,Null>::t_.say(); }
 };
+
+/*-----------------------------------------------------------------
+  Property Demonstration
+-----------------------------------------------------------------*/
 
 int main() {
 
@@ -49,17 +67,13 @@ int main() {
   viProperty.insert(iterp + 1, -33);
   show(viProperty);
 
-  Property<double> vdProperty(3.1415927);
-  vdProperty(3.1415927);
-  std::cout << "\n  " << vdProperty();
-
   displayDemo("\n  -- Property<Widget> --");
 
-  Property<Widget> wwProp;
+  Property<Widget,Null> wwProp;
   wwProp().say();
   wwProp.say();
 
-  displayDemo("\n  -- X properties --");
+  displayDemo("\n  -- class X properties --");
 
   /*-- defining class using properties --*/
 
@@ -77,17 +91,20 @@ int main() {
   std::cout << "\n  x.iProp(1) = " << x.iProp();
   x.iProp += 3;
   std::cout << "\n  x.iProp += 3 => x.iProp = " << x.iProp();
+  x.iProp = x.iProp + 2;
+  std::cout << "\n  x.iProp + 2 => x.iProp = " << x.iProp();
+  //x.iProp(-2);
   x.iProp = -2;
   std::cout << "\n  x.iProp = -2 => x.iProp = " << x.iProp();
   std::cout << "\n  x.wProp.say() => "; x.wProp.say();
 
-  displayDemo("\n-- Property<double> --");
-  x.dProp(3.14159);
-  x.dProp += 1.0;
+  displayDemo("\n  -- Property<double> --");
   x.dProp(3.14159);
   std::cout << "\n  x.dProp(3.14159) = " << x.dProp();
+  x.dProp += 1.0;
+  std::cout << "\n  x.dProp += 1.0 => " << x.dProp();
 
-  displayDemo("\n-- Property<std::vector<int>> --");
+  displayDemo("\n  -- methods of Property<std::vector<int>> --");
   x.viProp.push_back(1);
   x.viProp.push_back(2);
   x.viProp.push_back(3);

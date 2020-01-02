@@ -11,7 +11,7 @@ public:
   Property() : t_{ T() } {}
 
   Property(const T& t) : t_{ t } {}
-
+  
   void operator()(const T& t) {
     t_ = t;
   }

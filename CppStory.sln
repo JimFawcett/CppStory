@@ -61,8 +61,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter6-TemplateSpecializa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter6-SFINAE", "Chapter6-SFINAE\Chapter6-SFINAE.vcxproj", "{5281845C-F574-43CC-929E-8704D6E80A51}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter6-Properties", "Chapter6-Properties\Chapter6-Properties.vcxproj", "{72EB3C52-6D1C-4715-B962-3966BEC98B27}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter7-TemplateSpecialization", "Chapter7-TemplateSpecialization\Chapter7-TemplateSpecialization.vcxproj", "{85199370-9E7F-4C8B-9215-D1A66600CD6A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter6-Property", "Chapter6-Property\Chapter6-Property.vcxproj", "{E59E774F-E699-48F6-82A4-4F1410E0A9A4}"
@@ -307,14 +305,6 @@ Global
 		{5281845C-F574-43CC-929E-8704D6E80A51}.Release|x64.Build.0 = Release|x64
 		{5281845C-F574-43CC-929E-8704D6E80A51}.Release|x86.ActiveCfg = Release|Win32
 		{5281845C-F574-43CC-929E-8704D6E80A51}.Release|x86.Build.0 = Release|Win32
-		{72EB3C52-6D1C-4715-B962-3966BEC98B27}.Debug|x64.ActiveCfg = Debug|x64
-		{72EB3C52-6D1C-4715-B962-3966BEC98B27}.Debug|x64.Build.0 = Debug|x64
-		{72EB3C52-6D1C-4715-B962-3966BEC98B27}.Debug|x86.ActiveCfg = Debug|Win32
-		{72EB3C52-6D1C-4715-B962-3966BEC98B27}.Debug|x86.Build.0 = Debug|Win32
-		{72EB3C52-6D1C-4715-B962-3966BEC98B27}.Release|x64.ActiveCfg = Release|x64
-		{72EB3C52-6D1C-4715-B962-3966BEC98B27}.Release|x64.Build.0 = Release|x64
-		{72EB3C52-6D1C-4715-B962-3966BEC98B27}.Release|x86.ActiveCfg = Release|Win32
-		{72EB3C52-6D1C-4715-B962-3966BEC98B27}.Release|x86.Build.0 = Release|Win32
 		{85199370-9E7F-4C8B-9215-D1A66600CD6A}.Debug|x64.ActiveCfg = Debug|x64
 		{85199370-9E7F-4C8B-9215-D1A66600CD6A}.Debug|x64.Build.0 = Debug|x64
 		{85199370-9E7F-4C8B-9215-D1A66600CD6A}.Debug|x86.ActiveCfg = Debug|Win32
