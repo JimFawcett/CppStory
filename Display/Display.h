@@ -95,7 +95,7 @@ void displayValues(const std::initializer_list<T>& lst, const std::string& msg =
 /*---- display type sizes ----*/
 
 template<typename T>
-void displayType(const T& t, const std::string& msg = "", bool showSize = true)
+void displayType(T&& t, const std::string& msg = "", bool showSize = true)
 {
   std::cout << "\n  ";
   if (showSize)

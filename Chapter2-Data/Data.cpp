@@ -47,8 +47,19 @@ void demoInitialization() {
     std::string c;
   };
   S s{ 1, 1.5, "two" };
-  auto [f, g, h] = s;
-  displayValues(f, g, h);
+  displayType(s, "\n  <= struct S{ int a; double b; std::string c; } s{ 1, 1.5, \"two\" }", false);
+  auto [sa, sb, sc] = s;
+  displayValues(sa, sb, sc);
+
+  std::tuple tp{ 1, 1.5, "two" };
+  auto [ta, tb, tc] = tp;
+
+  displayType(
+    tp, 
+    " <= std::tuple tp{ 1, 1.5, \"two\" }", 
+    false
+  );
+  displayValues(ta, tb, tc);
 
   class Z {
   public:

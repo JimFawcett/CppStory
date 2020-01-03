@@ -34,6 +34,15 @@ void demoInit()
   int i4{ 4 };     // preferred initialization syntax
   displayValues({ i1, i2, i3, i4 });  // 1, 2, 3, 4
 
+  displayDemo("\n  -- auto and initializers --");
+
+  int ia{ 3 };
+  displayType(ia, " <= int ia{ 3 }", false);
+  auto ib{ 3 };
+  displayType(ib, " <= auto ib{ 3 }", false);
+  auto ic = { 3, 4, 5 };
+  displayType(ic, " <= auto ic = { 3, 4, 5 }", false);
+
   displayDemo("\n  -- initialize strings --");
   std::string s1 = "one";
   std::string s2("two");
