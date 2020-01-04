@@ -72,7 +72,7 @@ namespace Chap6 {
     BaseProperty class provides automatic invocation of Null methods
     for a standard getter, setter interface.
   -----------------------------------------------------------------*/
-  template<typename T, template<typename> typename C = Null>
+  template<typename T, template<typename T> typename C = Null>
   class BaseProperty {
   public:
     BaseProperty() : t_{ T() }, c_(t_) {}
@@ -105,7 +105,7 @@ namespace Chap6 {
   /*-----------------------------------------------------------------
     NumericOps provides arithmetic methods for fundamental types
   -----------------------------------------------------------------*/
-  template<typename T, template<typename> typename C = Null>
+  template<typename T, template<typename T> typename C = Null>
   class NumericOps : public virtual BaseProperty<T, C> {
   public:
     NumericOps() {}
@@ -154,7 +154,7 @@ namespace Chap6 {
   /*-----------------------------------------------------------------
     CommonContOps provides methods needed by all STL containers
   -----------------------------------------------------------------*/
-  template<typename T, template<typename> typename C = Null>
+  template<typename T, template<typename T> typename C = Null>
   class CommonContOps : virtual public BaseProperty<T, C> {
   public:
     using iterator = typename T::iterator;
@@ -181,6 +181,9 @@ namespace Chap6 {
     iterator insert(iterator iter, const typename T::value_type& v) {
       return BaseProperty<T>::t_.insert(iter, v);
     }
+    void clear() {
+      BaseProperty<T>::t_.clear();
+    }
     typename iterator erase(iterator iter) {
       return BaseProperty<T>::t_.erase(iter);
     }
@@ -195,7 +198,7 @@ namespace Chap6 {
   /*-----------------------------------------------------------------
     SeqContOps provides methods needed by STL sequential containers
   -----------------------------------------------------------------*/
-  template<typename T, template<typename> typename C = Null>
+  template<typename T, template<typename T> typename C = Null>
   class SeqContOps : virtual public BaseProperty<T, C> {
   public:
 
@@ -226,11 +229,43 @@ namespace Chap6 {
     }
   };
 
+  /*-----------------------------------------------------------------
+    AssocContOps provides methods needed by STL associative containers
+  -----------------------------------------------------------------*/
+  template<typename T, template<typename T> typename C = Null>
+  class AssocContOps : virtual public BaseProperty<T, C> {
+  public:
+
+    AssocContOps() {}
+    AssocContOps(const T& t) : BaseProperty<T, C>{ t } {}
+    AssocContOps<T, C>& operator=(const T& t) {
+      BaseProperty<T, C>::c_.set(t);
+      return *this;
+    }
+
+    typename T::value_type& operator[](typename const T::key_type& key) {
+      return BaseProperty<T>::t_[key];
+    }
+    typename std::pair<typename T::iterator, bool> insert(typename const T::value_type& val) {
+      return BaseProperty<T>::t_.insert(val);
+    }
+    typename T::iterator find(typename const T::key_type& key) {
+      BaseProperty<T>::t_.find(key);
+    }
+    bool contains(typename const T::key_type& key) {
+      BaseProperty<T>::t_.contains(key);
+    }
+  };
+
   /*-------------------------------------------------------------------
     Generic Property class mixes in all of the above for STL containers
   -------------------------------------------------------------------*/
-  template<typename T, template<typename> typename C = Null>
-  class Property : public CommonContOps<T, C>, public NumericOps<T, C>, public SeqContOps<T, C> {
+  template<typename T, template<typename T> typename C = Null>
+  class Property : 
+    public CommonContOps<T, C>, 
+    public NumericOps<T, C>, 
+    public SeqContOps<T, C>/*, 
+    public AssocContOps<T,C>*/ {
   public:
     Property() {}
     Property(const T& t) : BaseProperty<T, C>{ t } {}

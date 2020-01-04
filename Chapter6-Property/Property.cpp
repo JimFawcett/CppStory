@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 
 template<typename P>
 void show(P& prop) {
@@ -83,6 +84,7 @@ int main() {
     Property<int> iProp;
     Property<double> dProp;
     Property<std::vector<int>> viProp;
+    Property<std::map<std::string, int>> msiProp;
     Property<Widget> wProp;
   };
 
@@ -122,5 +124,14 @@ int main() {
   std::cout << "\n  after erasing last element:";
   show(x.viProp);
 
+  std::map<std::string, int> m1 { { "one", 1 }, { "two", 2 }, { "three", 3 } };
+  x.msiProp(m1);
+
+  displayDemo("\n  -- methods of Property<std::map<std::string, int>> --");
+  std::cout << "\n  ";
+  for (auto item : x.msiProp) {
+    std::cout << "{ " << item.first << ", " << item.second << " } ";
+  }
+  //x.msiProp.insert({ "twelve", 12 });
   std::cout << "\n\n";
 }
