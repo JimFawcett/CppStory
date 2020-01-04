@@ -8,7 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include <type_traits>
-//#include "Timer.h"
+#include "Timer.h"
 
 namespace Chap6 {
 
@@ -20,36 +20,20 @@ namespace Chap6 {
       into a useful facility
   ---------------------------------------------------------*/
 
-  struct TNull {};
+  struct Null {};
 
-  template<typename S>
-  struct FNull {};
-
-  //template<typename T, typename U = Null>
-  template<typename S, template<typename> typename F = FNull, typename T = TNull>
+  template<typename T, typename U = Null>
   class Logger {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {}
-    void write(S s) {
-      (*pStream_) << prefix_ << s;
+    void write(T t) {
+      (*pStream_) << prefix_ << t;
     }
   private:
     std::string prefix_ = "\n  ";
     std::ostream* pStream_;
-  };
-
-  template<typename S>
-  class Logger<S, FNull, TNull> {
-  public:
-    Logger(std::ostream* pStr) : pStream_(pStr) {}
-    ~Logger() {}
-    void write(S s) {
-      (*pStream_) << prefix_ << s;
-    }
-  private:
-    std::string prefix_ = "\n  ";
-    std::ostream* pStream_;
+    U u;
   };
 
   /*---------------------------------------------------------
@@ -59,27 +43,26 @@ namespace Chap6 {
       still unspecified
   ---------------------------------------------------------*/
 
-  template<typename S>
   struct Formatter {
     const char* prefix_ = "\n  <-- ";
     const char* suffix_ = " -->";
-    std::string transform(const S& s) {
+    std::string transform(const std::string& s) {
       return prefix_ + s + suffix_;
     }
   };
 
-  template<typename S, template<typename> typename F>
-  class Logger<S, F, TNull> {
+  template<typename T>
+  class Logger<T, Formatter> {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {}
-    void write(S s) {
-      (*pStream_) << f.transform(s);
+    void write(T t) {
+      (*pStream_) << u.transform(t);
     }
   private:
     std::string prefix_ = "\n  ";
     std::ostream* pStream_;
-    F<S> f;
+    Formatter u;
   };
   
   /*---------------------------------------------------------
@@ -87,8 +70,8 @@ namespace Chap6 {
     - See Timer.h for details
   ---------------------------------------------------------*/
 
-  template<typename S, typename T>
-  class Logger<S, FNull, T> {
+  template<typename T>
+  class Logger<T, Timer> {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {
@@ -100,14 +83,14 @@ namespace Chap6 {
     void stop() {
       timer_.stop();
     }
-    void write(S s) {
+    void write(T t) {
       (*pStream_) << prefix_ << std::setw(6) 
                   << timer_.elapsedMicroseconds() 
-                  << " microsec : " << s;
+                  << " microsec : " << t;
     }
   private:
     std::string prefix_ = "\n  ";
-    T timer_;
+    Timer timer_;
     std::ostream* pStream_;
   };
 }
