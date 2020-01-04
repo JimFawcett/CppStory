@@ -1,4 +1,8 @@
-// Chap6QuickExample.cpp
+///////////////////////////////////////////////////////////////////////
+// Chap6QuickExample.cpp - Illustrates Lazy Compilation of Templates //
+//                                                                   //
+// Jim Fawcett, Teaching Professor Emeritus, ECE, Syracuse Univ      //
+///////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <string>
@@ -48,6 +52,11 @@ int main() {
      Uncommenting the next line will cause
      compilation error, because Parameter
      does not define shout.
+
+     Note that compilation does not fail
+     because LazyDemo::shout depends on
+     Parameter::shout which is commented
+     out. You only pay for what you need.
   */
   //ld.shout();
 

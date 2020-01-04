@@ -10,30 +10,39 @@
 namespace Chap7 {
 
   /*---------------------------------------------------------
-    unspecialized template class
-    - U is a placeholder, used only to provide a place for
-      specialization.
-    - This is a simple demo, but could easily be expanded
-      into a useful facility
+    unspecialized template class Logger
+    - S is the type of logged entities, often std::string
+      but could be a Message type.
+    - F is a templated formatter, F<S>
+    - T is a timer type.
+    This is a relatively simple demo, but could easily
+    be expanded into a useful facility.
   ---------------------------------------------------------*/
 
-  struct Null {};
+  template<typename F>
+  struct FNull {};
 
-  template<typename T, typename U = Null>
+  struct TNull {};
+
+  template<
+    typename S, 
+    template<typename S> typename F = FNull , 
+    typename T = TNull
+  >
   class Logger {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {}
-    void write(T t) {
-      if constexpr (std::is_empty<U>::value)
-        (*pStream_) << prefix_ << t;
+    void write(S s) {
+      if constexpr (std::is_empty<F<S>>::value)
+        (*pStream_) << prefix_ << s;
       else
-        (*pStream_) << u.transform(t);
+        (*pStream_) << f.transform(s);
     }
   private:
     std::string prefix_ = "\n  ";
     std::ostream* pStream_;
-    U u;
+    F<S> f;
   };
 
   /*---------------------------------------------------------
@@ -42,11 +51,12 @@ namespace Chap7 {
       still unspecified
   ---------------------------------------------------------*/
 
+  template<typename T>
   struct Formatter {
     const char* prefix_ = "\n  <-- ";
     const char* suffix_ = " -->";
-    std::string transform(const std::string& s) {
-      return prefix_ + s + suffix_;
+    std::string transform(T& t) {
+      return prefix_ + t + suffix_;
     }
   };
 
@@ -56,7 +66,7 @@ namespace Chap7 {
   ---------------------------------------------------------*/
 
   template<typename T>
-  class Logger<T, Timer> {
+  class Logger<T, FNull, Timer> {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {

@@ -1,13 +1,13 @@
-#pragma once
+<pre>#pragma once
 ///////////////////////////////////////////////////////////////
 // TemplateSpecialization.h - template specialization demo   //
 //                                                           //
 // Jim Fawcett, Teaching Professor Emeritus, Syracuse Univ   //
 ///////////////////////////////////////////////////////////////
 
-#include <iostream>
-#include <iomanip>
-#include <type_traits>
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+#include &lt;type_traits&gt;
 //#include "Timer.h"
 
 namespace Chap6 {
@@ -22,24 +22,24 @@ namespace Chap6 {
 
   struct TNull {};
 
-  template<typename S>
+  template&lt;typename S&gt;
   struct FNull {};
 
-  template<
+  template&lt;
     typename S, 
-    template<typename> typename F = FNull, 
-    typename T = TNull>
+    template&lt;typename&gt; typename F = FNull, 
+    typename T = TNull&gt;
   class Logger { 
     /*-- used to set specialization structure */ 
   };
 
-  template<typename S>
-  class Logger<S, FNull, TNull> {
+  template&lt;typename S&gt;
+  class Logger&lt;S, FNull, TNull&gt; {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {}
     void write(S s) {
-      (*pStream_) << prefix_ << s;
+      (*pStream_) &lt;&lt; prefix_ &lt;&lt; s;
     }
   private:
     std::string prefix_ = "\n  ";
@@ -48,32 +48,32 @@ namespace Chap6 {
 
   /*---------------------------------------------------------
     template class partial specialization on Formatter class
-    Formatter class used to specialize Logger<S,Formatter,T>
-    - this is partial class specialization since S and F
-      are still unspecified
+    Formatter class used to specialize Logger&lt;S,Formatter,T&gt;
+    - this is partial class specialization since S is
+      still unspecified
   ---------------------------------------------------------*/
 
-  template<typename S>
+  template&lt;typename S&gt;
   struct Formatter {
-    const char* prefix_ = "\n  <-- ";
-    const char* suffix_ = " -->";
-    std::string transform(const S& s) {
+    const char* prefix_ = "\n  &lt;-- ";
+    const char* suffix_ = " --&gt;";
+    std::string transform(const S&amp; s) {
       return prefix_ + s + suffix_;
     }
   };
 
-  template<typename S, template<typename> typename F>
-  class Logger<S, F, TNull> {
+  template&lt;typename S, template&lt;typename&gt; typename F&gt;
+  class Logger&lt;S, F, TNull&gt; {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {}
     void write(S s) {
-      (*pStream_) << f.transform(s);
+      (*pStream_) &lt;&lt; f.transform(s);
     }
   private:
     std::string prefix_ = "\n  ";
     std::ostream* pStream_;
-    F<S> f;
+    F&lt;S&gt; f;
   };
   
   /*---------------------------------------------------------
@@ -81,8 +81,8 @@ namespace Chap6 {
     - See Timer.h for details
   ---------------------------------------------------------*/
 
-  template<typename S, typename T>
-  class Logger<S, FNull, T> {
+  template&lt;typename S, typename T&gt;
+  class Logger&lt;S, FNull, T&gt; {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}
     ~Logger() {
@@ -95,13 +95,13 @@ namespace Chap6 {
       timer_.stop();
     }
     void write(S s) {
-      (*pStream_) << prefix_ << std::setw(6) 
-                  << timer_.elapsedMicroseconds() 
-                  << " microsec : " << s;
+      (*pStream_) &lt;&lt; prefix_ &lt;&lt; std::setw(6) 
+                  &lt;&lt; timer_.elapsedMicroseconds() 
+                  &lt;&lt; " microsec : " &lt;&lt; s;
     }
   private:
     std::string prefix_ = "\n  ";
     T timer_;
     std::ostream* pStream_;
   };
-}
+}</pre>

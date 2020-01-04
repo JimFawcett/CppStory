@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////
+<pre>///////////////////////////////////////////////////////////////
 // TemplateSpecialization.cpp - template specialization demo //
 //                                                           //
 // Jim Fawcett, Teaching Professor Emeritus, Syracuse Univ   //
@@ -6,7 +6,7 @@
 
 
 #include "TemplateSpecialization.h"
-#include <string>
+#include &lt;string&gt;
 #include "../Display/Display.h"
 #include "Timer.h"
 
@@ -18,7 +18,7 @@ int main() {
 
   displayDemo("--- Unadorned Logger ---\n");
   /* using defaults F=FNull, T=TNull */
-  Logger<std::string> log(&std::cout);
+  Logger&lt;std::string&gt; log(&amp;std::cout);
   log.write("first log item");
   log.write("second log item");
 
@@ -26,7 +26,7 @@ int main() {
     "\n  --- Logger specialization for formatted logs ---\n"
   );
   /* using default T = TNull */
-  Logger<std::string, Formatter> flog(&std::cout);
+  Logger&lt;std::string, Formatter&gt; flog(&amp;std::cout);
   flog.write("first formatted log item");
   flog.write("second formatted log item");
 
@@ -34,11 +34,11 @@ int main() {
     "\n  --- Logger specialization for timed logs ---\n"
   );
   /* must cite FNull because defaults only at end */
-  Logger<std::string, FNull, Timer> tlog(&std::cout);
+  Logger&lt;std::string, FNull, Timer&gt; tlog(&amp;std::cout);
   tlog.start();
   tlog.write("first timed log item");
   tlog.write("second timed log item");
   tlog.write("third timed log item");
 
-  std::cout << "\n\n";
-}
+  std::cout &lt;&lt; "\n\n";
+}</pre>
