@@ -1,6 +1,6 @@
-// Chap6CodeFragments.cpp
+<pre>// Chap6CodeFragments.cpp
 
-#include <iostream>
+#include &lt;iostream&gt;
 #include "../Display/Display.h"
 
 /*-----------------------------------------
@@ -9,39 +9,39 @@
 class P0 {
 public:
   void doProc() {
-    std::cout << "\n  doing P0 processing";
+    std::cout &lt;&lt; "\n  doing P0 processing";
   }
 };
 
 class Q0 {
 public:
   void doProc() {
-    std::cout << "\n  doing Q0 processing";
+    std::cout &lt;&lt; "\n  doing Q0 processing";
   }
 };
 
 class P1 {
 public:
   void doProc() {
-    std::cout << "\n  doing P1 processing";
+    std::cout &lt;&lt; "\n  doing P1 processing";
   }
 };
 
 class Q1 {
 public:
   void doProc() {
-    std::cout << "\n  doing Q1 processing";
+    std::cout &lt;&lt; "\n  doing Q1 processing";
   }
 };
 
 /*-----------------------------------------
    Class used for generic operations
 */
-template<typename P = P0, typename Q = Q0>
+template&lt;typename P = P0, typename Q = Q0&gt;
 class X {
 public:
   X() {
-    std::cout << "\n  Generic X Template";
+    std::cout &lt;&lt; "\n  Generic X Template";
   }
   void doProc() {
     p_.doProc();
@@ -54,11 +54,11 @@ private:
 /*-----------------------------------------
    Class specialized to use Q1
 */
-template<typename P>
-class X<P, Q1> {
+template&lt;typename P&gt;
+class X&lt;P, Q1&gt; {
 public:
   X() {
-    std::cout << 
+    std::cout &lt;&lt; 
       "\n  X partially specialized for Q1";
   }
   void doProc() {
@@ -72,11 +72,11 @@ private:
 /*-----------------------------------------
    Class specialized to use P1
 */
-template<typename Q>
-class X<P1, Q> {
+template&lt;typename Q&gt;
+class X&lt;P1, Q&gt; {
 public:
   X() {
-    std::cout << 
+    std::cout &lt;&lt; 
       "\n  X partially specialized for P1";
   }
   void doProc() {
@@ -90,12 +90,12 @@ private:
 /*-----------------------------------------
   Class fully specialized to use P1 and Q1
 */
-template<>
-class X<P1, Q1> {
+template&lt;&gt;
+class X&lt;P1, Q1&gt; {
 public:
   X() {
-    std::cout << 
-      "\n  X fully specialized for P1 & Q1";
+    std::cout &lt;&lt; 
+      "\n  X fully specialized for P1 &amp; Q1";
   }
   void doProc() {
     p_.doProc();
@@ -109,32 +109,33 @@ private:
 int main() {
 
   displayDemo("-- generic processing --");
-  X<P0, Q0> x1;
+  X&lt;P0, Q0&gt; x1;
   x1.doProc();
 
   displayDemo(
     "\n  -- using default template args --"
   );
-  X<> x2;
+  X&lt;&gt; x2;
   x2.doProc();
 
   displayDemo(
     "\n  -- Using full specializ'n --"
   );
-  X<P1, Q1> x3;
+  X&lt;P1, Q1&gt; x3;
   x3.doProc();
 
   displayDemo(
     "\n  -- Using specializ'n for P1 --"
   );
-  X<P1, Q0> x4;
+  X&lt;P1, Q0&gt; x4;
   x4.doProc();
 
   displayDemo(
     "\n  -- Using specializ'n for Q1 --"
   );
-  X<P0, Q1> x5;
+  X&lt;P0, Q1&gt; x5;
   x5.doProc();
 
   putline(2);
 }
+</pre>

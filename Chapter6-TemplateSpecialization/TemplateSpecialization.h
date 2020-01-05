@@ -27,7 +27,7 @@ namespace Chap6 {
 
   template<
     typename S, 
-    template<typename> typename F = FNull, 
+    template<typename S> typename F = FNull, 
     typename T = TNull>
   class Logger { 
     /*-- used to set specialization structure */ 
@@ -62,7 +62,7 @@ namespace Chap6 {
     }
   };
 
-  template<typename S, template<typename> typename F>
+  template<typename S, template<typename S> typename F>
   class Logger<S, F, TNull> {
   public:
     Logger(std::ostream* pStr) : pStream_(pStr) {}

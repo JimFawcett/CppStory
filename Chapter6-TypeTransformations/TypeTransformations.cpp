@@ -20,6 +20,11 @@ void testTrans0(int iarr[3]) {
   std::cout << "\n  boost type of iarr is " << boost::typeindex::type_id_runtime(iarr).pretty_name();
   std::cout << "\n  boost type of decltype(iarr) is " << boost::typeindex::type_id_with_cvr<decltype(iarr)>().pretty_name();
 }
+void testTrans0(const char* strLit) {
+  displayDemo("--- testTrans0(\"a string literal\") ---");
+  std::cout << "\n  boost type of \"a string literal\" is " << boost::typeindex::type_id_runtime("a string literal").pretty_name();
+  std::cout << "\n  boost type of decltype(\"a string literal\") is " << boost::typeindex::type_id_with_cvr<decltype("a string literal")>().pretty_name();
+}
 template<typename T>
 void testTrans1(T t) {
   displayDemo("--- testTrans1(T t) ---");
@@ -100,6 +105,13 @@ int main() {
   std::cout << "\n\n  ---  int iarr[4]; ---";
   std::cout << "\n  before call Boost type of iarr[4] is " << boost::typeindex::type_id_runtime(iarr).pretty_name();
 
+  const char* strLit = "a string literal";
+  std::cout << "\n\n  --- \"a string literal\"";
+  std::cout << "\n  before call Boost type of " << strLit << " is " << boost::typeindex::type_id_runtime("a literal string").pretty_name();
+
+  std::cout << "\n  --- 42";
+  std::cout << "\n  before call Boost type of " << 42 << " is " << boost::typeindex::type_id_runtime(42).pretty_name();
+
   std::cout << "\n\n  testTrans0";
   std::cout << "\n\n  param is i declared as int i";
   testTrans0(i);
@@ -109,7 +121,11 @@ int main() {
   testTrans0(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans0(iarr);
-  
+  std::cout << "\n\n  param is \"a string literal\"";
+  testTrans0("a string literal");
+  std::cout << "\n\n  param is int literal 42";
+  testTrans0(42);
+
   std::cout << "\n\n  testTrans1";
   std::cout << "\n\n  param is i declared as int i";
   testTrans1(i);
@@ -119,6 +135,10 @@ int main() {
   testTrans1(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans1(iarr);
+  std::cout << "\n\n  param is \"a string literal\"";
+  testTrans1("a string literal");
+  std::cout << "\n\n  param is int literal 42";
+  testTrans1(42);
 
   std::cout << "\n\n  testTrans2";
   std::cout << "\n\n  param is i declared as int i";
@@ -129,6 +149,11 @@ int main() {
   testTrans2(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans2(iarr);
+  std::cout << "\n\n  param is \"a string literal\"";
+  testTrans2("a string literal");
+  // won't compile - trying to bind rvalue to lvalue reference
+  //std::cout << "\n\n  param is int literal 42";
+  //testTrans2(42);
 
   std::cout << "\n\n  testTrans2C";
   std::cout << "\n\n  param is i declared as int i";
@@ -139,6 +164,10 @@ int main() {
   testTrans2C(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans2C(iarr);
+  std::cout << "\n\n  param is \"a string literal\"";
+  testTrans2C("a string literal");
+  std::cout << "\n\n  param is int literal 42";
+  testTrans2C(42);
 
   std::cout << "\n\n  testTrans3";
   //std::cout << "\n\n  param is i declared as int i";
@@ -149,6 +178,8 @@ int main() {
   testTrans3(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans3(iarr);
+  std::cout << "\n\n  param is \"a string literal\"";
+  testTrans3("a string literal");
 
   std::cout << "\n\n  testTrans3C";
   //std::cout << "\n\n  param is i declared as int i";
@@ -159,6 +190,8 @@ int main() {
   testTrans3C(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans3C(iarr);
+  std::cout << "\n\n  param is \"a string literal\"";
+  testTrans3C("a string literal");
 
   std::cout << "\n\n  testTrans4";
   std::cout << "\n\n  param is i declared as int i";
@@ -169,6 +202,10 @@ int main() {
   testTrans4(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans4(iarr);
+  std::cout << "\n\n  param is \"a string literal\"";
+  testTrans4("a string literal");
+  std::cout << "\n\n  param is int literal 42";
+  testTrans4(42);
   putline();
 
   displaySubtitle("Passing Array");
