@@ -1,0 +1,33 @@
+<pre>// Chap6QuickExample.cpp
+
+#include &lt;iostream&gt;
+#include &lt;typeinfo&gt;
+#include &lt;tuple&gt;
+#include "../Display/Display.h"
+
+// https://stackoverflow.com/questions/1198260/how-can-you-iterate-over-the-elements-of-an-stdtuple
+
+namespace Chap7 {
+  template&lt;std::size_t I = 0, typename... Tp&gt;
+  inline typename std::enable_if&lt;I == sizeof...(Tp), void&gt;::type
+    displayTuple(std::tuple&lt;Tp...&gt;&amp; t) { }
+
+  template&lt;std::size_t I = 0, typename... Tp&gt;
+  inline typename std::enable_if &lt; I &lt; sizeof...(Tp), void&gt;::type
+    displayTuple(std::tuple&lt;Tp...&gt; &amp; t)
+  {
+    std::cout &lt;&lt; std::get&lt;I&gt;(t) &lt;&lt; " ";
+    displayTuple&lt;I + 1, Tp...&gt;(t);
+  }
+}
+
+int main() {
+
+  displayTitle("Demonstrate TMP with std::tuple display");
+
+  std::tuple t{ 1, 2.5, 'a', "a string" };
+  std::cout &lt;&lt; "\n  ";
+  Chap7::displayTuple(t);
+
+  std::cout &lt;&lt; "\n\n";
+}</pre>
