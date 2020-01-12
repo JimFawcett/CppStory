@@ -58,8 +58,28 @@ void testTrans2C(const T& t) {
   std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
 }
 template<typename T>
-void testTrans3(T&& t) {
-  displayDemo("--- testTrans3(T&& t) ---");
+void testTrans3(T* t) {
+  displayDemo("--- testTrans4(T&& t) ---");
+  std::cout << "\n  typeid of T is " << typeid(T).name();
+  std::cout << "\n  typeid of t is " << typeid(t).name();
+  std::cout << "\n  typeid of decltype(t) is " << typeid(decltype(t)).name();
+  std::cout << "\n  boost type of T is " << boost::typeindex::type_id_with_cvr<T>().pretty_name();
+  std::cout << "\n  boost type of t is " << boost::typeindex::type_id_runtime(t).pretty_name();
+  std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
+}
+template<typename T>
+void testTrans3C(const T* t) {
+  displayDemo("--- testTrans4(T&& t) ---");
+  std::cout << "\n  typeid of T is " << typeid(T).name();
+  std::cout << "\n  typeid of t is " << typeid(t).name();
+  std::cout << "\n  typeid of decltype(t) is " << typeid(decltype(t)).name();
+  std::cout << "\n  boost type of T is " << boost::typeindex::type_id_with_cvr<T>().pretty_name();
+  std::cout << "\n  boost type of t is " << boost::typeindex::type_id_runtime(t).pretty_name();
+  std::cout << "\n  boost type of decltype(t) is " << boost::typeindex::type_id_with_cvr<decltype(t)>().pretty_name();
+}
+template<typename T>
+void testTrans4(T&& t) {
+  displayDemo("--- testTrans4(T&& t) ---");
   std::cout << "\n  typeid of T is " << typeid(T).name();
   std::cout << "\n  typeid of t is " << typeid(t).name();
   std::cout << "\n  typeid of decltype(t) is " << typeid(decltype(t)).name();
@@ -105,6 +125,8 @@ int main() {
   testTrans0(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans0(iarr);
+  std::cout << "\n\n  param is iarr declared as int iarr[4]";
+  testTrans0(42);
 
   std::cout << "\n\n  testTrans1";
   std::cout << "\n\n  param is i declared as int i";
@@ -115,6 +137,10 @@ int main() {
   testTrans1(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans1(iarr);
+  std::cout << "\n\n  param is string literal \"a string literal\"";
+  testTrans1("a string literal");
+  std::cout << "\n\n  param is an int literal 42";
+  testTrans1(42);
 
   std::cout << "\n\n  testTrans2";
   std::cout << "\n\n  param is i declared as int i";
@@ -125,6 +151,12 @@ int main() {
   testTrans2(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans2(iarr);
+  std::cout << "\n\n  param is string literal \"a string literal\"";
+  testTrans2("a string literal");
+  /////////////////////////////////////////////////////
+  //won't compile
+  //std::cout << "\n\n  param is an int literal 42";
+  //testTrans2(42);
 
   std::cout << "\n\n  testTrans2C";
   std::cout << "\n\n  param is i declared as int i";
@@ -135,16 +167,40 @@ int main() {
   testTrans2C(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans2C(iarr);
+  std::cout << "\n\n  param is string literal \"a string literal\"";
+  testTrans2C("a string literal");
+  std::cout << "\n\n  param is an int literal 42";
+  testTrans2C(42);
 
   std::cout << "\n\n  testTrans3";
-  std::cout << "\n\n  param is i declared as int i";
-  testTrans3(i);
-  std::cout << "\n\n  param is j declared as const int& j";
-  testTrans3(j);
   std::cout << "\n\n  param is pI declared as const int* pI";
   testTrans3(pI);
   std::cout << "\n\n  param is iarr declared as int iarr[4]";
   testTrans3(iarr);
+  std::cout << "\n\n  param is string literal \"a string literal\"";
+  testTrans3("a string literal");
+
+  std::cout << "\n\n  testTrans3C";
+  std::cout << "\n\n  param is pI declared as const int* pI";
+  testTrans3C(pI);
+  std::cout << "\n\n  param is iarr declared as int iarr[4]";
+  testTrans3C(iarr);
+  std::cout << "\n\n  param is string literal \"a string literal\"";
+  testTrans3C("a string literal");
+
+  std::cout << "\n\n  testTrans4";
+  std::cout << "\n\n  param is i declared as int i";
+  testTrans4(i);
+  std::cout << "\n\n  param is j declared as const int& j";
+  testTrans4(j);
+  std::cout << "\n\n  param is pI declared as const int* pI";
+  testTrans4(pI);
+  std::cout << "\n\n  param is iarr declared as int iarr[4]";
+  testTrans4(iarr);
+  std::cout << "\n\n  param is string literal \"a string literal\"";
+  testTrans4("a string literal");
+  std::cout << "\n\n  param is an int literal 42";
+  testTrans4(42);
 
   std::cout << "\n\n";
 }

@@ -1,0 +1,66 @@
+<pre>///////////////////////////////////////////////////////////////////
+// VariadicFunctionTemplates.cpp - demonstrates variadic mixins  //
+//                                                               //
+// Jim Fawcett, CSE687 - Object Oriented Design, Spring 2018     //
+///////////////////////////////////////////////////////////////////
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include "../Display/Display.h"
+
+/*-- Helper function --*/
+
+std::string strTrunc(
+  const std::string&amp; src, size_t Max = 50
+) {
+  if (src.size() &gt; Max) {
+    return src.substr(0, Max - 4) + " ...";
+  }
+  else {
+    return src;
+  }
+}
+
+/*-- Templ specializ'n stops recursive eval --*/
+
+template&lt;typename T&gt;
+void f(T t)
+{
+  std::cout &lt;&lt; "\n  " &lt;&lt; t &lt;&lt; " : "
+    &lt;&lt; strTrunc(typeid(t).name(), 40)
+    &lt;&lt; std::endl;
+}
+
+/*-- Recursive definition of template function --
+   Args is a "parameter pack
+   https://en.cppreference.com
+*/
+template&lt;typename T, typename... Args&gt;
+void f(T t, Args... args)
+{
+  std::cout &lt;&lt; "\n  " &lt;&lt; t &lt;&lt; " : "
+    &lt;&lt; typeid(t).name() &lt;&lt; std::endl;
+  f(args...);
+}
+
+int main()
+{
+  std::cout &lt;&lt;
+    "\n  Demonstrate Variatic Functions";
+  std::cout &lt;&lt;
+    "\n ================================\n";
+
+  displayDemo("-- function with 5 args --\n");
+  f(
+    1, 3.5, 'z',
+    "a literal string",
+    std::string("a std::string")
+  );
+  putline();
+  displayDemo("-- function with 2 args --\n");
+  f('q', "only two args");
+
+  std::cout &lt;&lt; "\n\n";
+  return 0;
+}
+</pre>
