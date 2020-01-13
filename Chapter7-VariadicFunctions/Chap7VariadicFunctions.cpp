@@ -4,10 +4,10 @@
 // Jim Fawcett, Teaching Professor Emeritus, ECE, Syracuse Univ    //
 /////////////////////////////////////////////////////////////////////
 
-#ifdef TEST_VARIADICFUNCTIONS_H
 
 #include "Chap7VariadicFunctions.h"
 #include "../Display/Display.h"
+#ifdef TEST_VARIADICFUNCTIONS
 
 int main()
 {

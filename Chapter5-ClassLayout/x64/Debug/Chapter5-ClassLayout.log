@@ -1,0 +1,3 @@
+﻿  ClassLayout.cpp
+C:\github\JimFawcett\CppStory\Chapter5-ClassLayout\ClassLayout.cpp(60,44): error C2039: 'BaseOfData': is not a member of '_IMAGE_OPTIONAL_HEADER64'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\winnt.h(16820): message : see declaration of '_IMAGE_OPTIONAL_HEADER64'

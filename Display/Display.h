@@ -15,17 +15,17 @@ inline auto putline = [](size_t n = 1) {
     std::cout << "\n";
 };
 
-void displayTitle(const std::string& title)
+inline void displayTitle(const std::string& title)
 {
   std::cout << "\n  " << title;
   std::cout << "\n " << std::string(title.size() + 2, '=') << std::endl;
 }
-void displaySubtitle(const std::string& title)
+inline void displaySubtitle(const std::string& title)
 {
   std::cout << "\n  " << title;
   std::cout << "\n " << std::string(title.size() + 2, '-');
 }
-void displayDemo(const std::string& msg)
+inline void displayDemo(const std::string& msg)
 {
   std::cout << "\n  " << msg;
 }

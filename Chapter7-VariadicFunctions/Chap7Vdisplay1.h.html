@@ -1,0 +1,22 @@
+<pre>#pragma once
+// Chap7Vdisplay.h
+
+#include &lt;iostream&gt;
+
+template &lt;template &lt;typename, typename...&gt; class ContainerType,
+  typename ValueType, typename... Args&gt;
+  void print_container(const ContainerType&lt;ValueType, Args...&gt;&amp; c) {
+  for (const auto&amp; v : c) {
+    std::cout &lt;&lt; v &lt;&lt; ' ';
+  }
+  std::cout &lt;&lt; '\n';
+}
+
+// Implement &lt;&lt; for pairs: this is needed to print out mappings where range
+// iteration goes over (key, value) pairs.
+template &lt;typename T, typename U&gt;
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const std::pair&lt;T, U&gt;&amp; p) {
+  out &lt;&lt; "[" &lt;&lt; p.first &lt;&lt; ", " &lt;&lt; p.second &lt;&lt; "]";
+  return out;
+}
+</pre>
