@@ -83,6 +83,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter7-CustomTypeTraits",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter7-VariadicFunctions", "Chapter7-VariadicFunctions\Chapter7-VariadicFunctions.vcxproj", "{F9D0E685-3853-462D-A780-F907FD00F1AE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter7-FoldExpressions", "Chapter7-FoldExpressions\Chapter7-FoldExpressions.vcxproj", "{CC8834F3-085D-41CB-828C-75C74469CB72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -411,6 +413,14 @@ Global
 		{F9D0E685-3853-462D-A780-F907FD00F1AE}.Release|x64.Build.0 = Release|x64
 		{F9D0E685-3853-462D-A780-F907FD00F1AE}.Release|x86.ActiveCfg = Release|Win32
 		{F9D0E685-3853-462D-A780-F907FD00F1AE}.Release|x86.Build.0 = Release|Win32
+		{CC8834F3-085D-41CB-828C-75C74469CB72}.Debug|x64.ActiveCfg = Debug|x64
+		{CC8834F3-085D-41CB-828C-75C74469CB72}.Debug|x64.Build.0 = Debug|x64
+		{CC8834F3-085D-41CB-828C-75C74469CB72}.Debug|x86.ActiveCfg = Debug|Win32
+		{CC8834F3-085D-41CB-828C-75C74469CB72}.Debug|x86.Build.0 = Debug|Win32
+		{CC8834F3-085D-41CB-828C-75C74469CB72}.Release|x64.ActiveCfg = Release|x64
+		{CC8834F3-085D-41CB-828C-75C74469CB72}.Release|x64.Build.0 = Release|x64
+		{CC8834F3-085D-41CB-828C-75C74469CB72}.Release|x86.ActiveCfg = Release|Win32
+		{CC8834F3-085D-41CB-828C-75C74469CB72}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

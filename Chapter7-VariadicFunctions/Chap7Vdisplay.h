@@ -16,6 +16,6 @@ template <template <typename, typename...> class ContainerType,
 // iteration goes over (key, value) pairs.
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& out, const std::pair<T, U>& p) {
-  out << "[" << p.first << ", " << p.second << "]";
+  out << "{" << p.first << ", " << p.second << "}";
   return out;
 }

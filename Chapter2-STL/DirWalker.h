@@ -53,7 +53,7 @@ namespace Utilities {
   public:
     DirWalker();
     void DisplayDirectoryTree(const fs::path& pathToShow, const Patterns& pats);
-    void DisplayDirTree(const fs::path& pathToShow, int level, const Patterns& pats);
+    void DisplayDirTree(const fs::path& pathToShow, size_t level, const Patterns& pats);
     std::shared_ptr<App> app();
   private:
     std::uintmax_t ComputeFileSize(const fs::path& pathToCheck);
@@ -141,7 +141,7 @@ namespace Utilities {
    *  Recursive directory tree walk
    */
   template<typename App>
-  void DirWalker<App>::DisplayDirTree(const fs::path& pathToShow, int level, const Patterns& pats)
+  void DirWalker<App>::DisplayDirTree(const fs::path& pathToShow, size_t level, const Patterns& pats)
   {
     std::vector<std::pair<fs::directory_entry, size_t>> dirs;
     std::vector<std::tuple<fs::directory_entry, std::string, fs::path>> files;
