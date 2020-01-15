@@ -1,0 +1,75 @@
+<pre>#pragma once
+// IPerson.h
+
+#include &lt;memory&gt;
+
+namespace Elementary {
+
+  struct IPerson {
+    using Name = std::string;
+    using Occupation = std::string;
+    using Age = int;
+    using Stats = std::tuple&lt;Name, Occupation, Age&gt;;
+
+    virtual ~IPerson() {}
+    virtual Stats stats() const = 0;
+    virtual void stats(const Stats&amp; sts) = 0;
+    virtual Name name() const = 0;
+    virtual Occupation occupation() const = 0;
+    virtual void occupation(const Occupation&amp; occup) = 0;
+    virtual Age age() const = 0;
+    virtual void age(const Age&amp; ag) = 0;
+    virtual bool isValid() const = 0;
+  };
+
+  /* defining isElemntaryPerson type trait */
+
+  template&lt;typename T&gt;
+  struct isElementaryIPerson {
+    static const bool value = false;
+  };
+
+  template&lt;&gt;
+  struct isElementaryIPerson&lt;Elementary::IPerson&gt; {
+    static const bool value = true;
+  };
+
+  //template&lt;typename T&gt;
+  //struct isElementaryPerson {
+  //  static const bool value = false;
+  //};
+
+  //template&lt;&gt;
+  //struct isElementaryPerson&lt;Elementary::Person&gt; {
+  //  static const bool value = true;
+  //};
+
+  //template&lt;typename P&gt;
+  //void displayPerson(const P&amp; person)
+  //{
+  //  if constexpr (isElementaryIPerson&lt;P&gt;::value) {
+  //    std::cout &lt;&lt; "\n  " &lt;&lt; person.name() &lt;&lt; ", " &lt;&lt; person.age() &lt;&lt; ", " &lt;&lt; person.occupation();
+  //  }
+  //  else if constexpr (isElementaryPerson&lt;P&gt;::value) {
+  //    std::cout &lt;&lt; "\n  " &lt;&lt; person.name() &lt;&lt; ", " &lt;&lt; std::get&lt;2&gt;(person.stats()) &lt;&lt; ", "
+  //      &lt;&lt; std::get&lt;1&gt;(person.stats()) &lt;&lt; ", with hobby " &lt;&lt; std::get&lt;3&gt;(person.stats());
+  //  }
+  //}
+
+  ///* generic displayInvalid does not need type traits */
+
+  //template&lt;typename P&gt;
+  //void displayInvalid(const P&amp; person) {
+  //  std::cout &lt;&lt; "\n  " &lt;&lt; person.name() &lt;&lt; " has invalid data";
+  //}
+
+  //template&lt;typename P&gt;
+  //void checkedDisplay(const P&amp; person) {
+  //  displayPerson(person);
+  //  if (!person.isValid())
+  //    displayInvalid(person);
+  //}
+
+  std::unique_ptr&lt;IPerson&gt; createPerson(const IPerson::Stats&amp; sts);
+}
+</pre>

@@ -10,21 +10,23 @@ void pushToCout1(Args&&... args) {
   (std::cout << ... << std::forward<Args>(args));
 }
 
-auto makeHelper(std::string prefix = ", ") {
-  auto f = [&prefix](auto a) {
+auto makeHelper(std::string prefix = ", ", std::string firstPrefix = "") {
+  int debug = 0;
+  auto f = [prefix, firstPrefix](auto a) mutable {
     static std::ostringstream out2;
     out2 << a;
-    std::string temp = prefix + out2.str();
+    std::string temp = firstPrefix + out2.str();
     out2.str("");
-    prefix = ", ";
+    firstPrefix = prefix;
     return temp;
   };
+  debug++;
   return f;
 }
 
 template<typename ...Args>
 void pushToCout2(const Args&... args) {
-  auto f = makeHelper();
+  static auto f = makeHelper(", ");
   (std::cout << ... << (f(args)));
 }
 
@@ -59,14 +61,15 @@ int main() {
   pushToCout1('z', 2.5, 1, "argggghhh!");
   displayDemo("\n  -- pushToCout2 -- fold on operator<< --");
   std::cout << "\n  ";
-  pushToCout2("argggghhh!", 1, 2.5, 'z');
+  pushToCout2("aaaahhhhh!", 1, 2.5, 'z');
   std::cout << "\n  ";
-  pushToCout2('z', 2.5, 1, "argggghhh!");
+  pushToCout2('z', 2.5, 1, "aaaahhhhh!");
   displayDemo("\n  -- pushToCout3 -- fold on operator<< --");
   std::cout << "\n  ";
-  pushToCout3(makeHelper(), "argggghhh!", 1, 2.5, 'z');
+  //auto f = makeHelper(", ");
+  pushToCout3(makeHelper(), "aaaahhhhh!", 1, 2.5, 'z');
   std::cout << "\n  ";
-  pushToCout3(makeHelper(), 'z', 2.5, 1, "argggghhh!");
+  pushToCout3(makeHelper(), 'z', 2.5, 1, "aaaahhhhh!");
 
   displayDemo("\n  -- fold on logical operator --");
   std::cout << std::boolalpha;
