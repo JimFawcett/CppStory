@@ -1,0 +1,61 @@
+<pre>#pragma once
+///////////////////////////////////////////////////////////////
+// Chap7VariadicClassComp.h - data composition               //
+//                                                           //
+// Minor adaption of code presented in riptutorial.com       //
+// Stackoverflow documentation                               //
+// https://riptutorial.com/cplusplus/example/19276/          //
+// variadic-template-data-structures                         //
+//                                                           //
+// Builds a public data aggregator, like std::tuple,         //
+// but uses composition instead of inheritance.              //
+///////////////////////////////////////////////////////////////
+/*
+  This DataStructure class provides the same functionality as
+  std::tuple.  It's presented  here to illustrate a technique
+  for using variadic template classes.
+
+  You should prefer to use std::tuple.
+*/
+template&lt;typename ... T&gt;
+struct DataStructure {};
+
+template&lt;size_t id, typename T&gt;
+struct GetHelper;
+
+template&lt;typename T, typename ... Rest&gt;
+struct DataStructure&lt;T, Rest ...&gt;
+{
+  DataStructure(const T&amp; first, const Rest&amp; ... rest)
+    : first(first), rest(rest...)
+  {}
+
+  T first;
+  DataStructure&lt;Rest ... &gt; rest;
+
+  template&lt;size_t id&gt;
+  auto get()
+  {
+    return GetHelper&lt;id, DataStructure&lt;T, Rest...&gt;&gt;::get(*this);
+  }
+};
+
+template&lt;typename T, typename ... Rest&gt;
+struct GetHelper&lt;0, DataStructure&lt;T, Rest ... &gt;&gt;
+{
+  static T get(DataStructure&lt;T, Rest...&gt;&amp; data)
+  {
+    return data.first;
+  }
+};
+
+template&lt;size_t id, typename T, typename ... Rest&gt;
+struct GetHelper&lt;id, DataStructure&lt;T, Rest ... &gt;&gt;
+{
+  static auto get(DataStructure&lt;T, Rest...&gt;&amp; data)
+  {
+    return GetHelper&lt;id - 1, DataStructure&lt;Rest ...&gt;&gt;::get(data.rest);
+  }
+};
+
+</pre>

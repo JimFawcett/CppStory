@@ -1,0 +1,35 @@
+<pre>/////////////////////////////////////////////////////////////////
+// Chap7VariadicClassMixins.cpp - demonstrates variadic mixins //
+//                                                             //
+// Jim Fawcett, CSE687 - Object Oriented Design, Spring 2018   //
+/////////////////////////////////////////////////////////////////
+
+#include "Chap7VariadicClassMixins.h"
+
+using namespace Chap7;
+
+int main()
+{
+  std::cout &lt;&lt; "\n  Demonstrating variadic mixin template classes";
+  std::cout &lt;&lt; "\n ===============================================\n";
+
+  A a;
+  B b;
+  C c;
+  D&lt;&gt; d;
+  d.say();
+
+  D&lt;A&gt; dA(a);
+  dA.say();
+
+  D&lt;B, C&gt; dBC(b, c);
+  dBC.say();
+
+  // Will fail to compile : incomplete argument list
+  // D&lt;B, C&gt; dBC(b);
+
+  std::cout &lt;&lt; "\n\n";
+  return 0;
+}
+
+</pre>

@@ -1,0 +1,85 @@
+<pre>// Chap7FoldExpressions.cpp
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+#include "../Display/Display.h"
+
+template&lt;typename ...Args&gt;
+void pushToCout1(Args&amp;&amp;... args) {
+  (std::cout &lt;&lt; ... &lt;&lt; std::forward&lt;Args&gt;(args));
+}
+
+auto makeHelper(std::string prefix = ", ") {
+  auto f = [&amp;prefix](auto a) {
+    static std::ostringstream out2;
+    out2 &lt;&lt; a;
+    std::string temp = prefix + out2.str();
+    out2.str("");
+    prefix = ", ";
+    return temp;
+  };
+  return f;
+}
+
+template&lt;typename ...Args&gt;
+void pushToCout2(const Args&amp;... args) {
+  auto f = makeHelper();
+  (std::cout &lt;&lt; ... &lt;&lt; (f(args)));
+}
+
+template&lt;typename F, typename ...Args&gt;
+void pushToCout3(F f, const Args&amp;... args) {
+  (std::cout &lt;&lt; ... &lt;&lt; (f(args)));
+}
+
+template&lt;typename ...Args&gt;
+auto accumulateOrs(Args... args) {
+  return ((args) || ...);
+}
+
+template&lt;typename ...Args&gt;
+auto accumulateAnds(Args... args) {
+  return ((args) &amp;&amp; ...);
+}
+
+template&lt;typename T, typename ...Args&gt;
+auto sum(T t, Args... args) {
+  return (t + ... + args);
+}
+
+int main() {
+
+  displayTitle("Demonstrate Fold Expressions");
+
+  displayDemo("-- pushToCout1 -- fold on operator&lt;&lt; --");
+  std::cout &lt;&lt; "\n  ";
+  pushToCout1("argggghhh!", 1, 2.5, 'z');
+  std::cout &lt;&lt; "\n  ";
+  pushToCout1('z', 2.5, 1, "argggghhh!");
+  displayDemo("\n  -- pushToCout2 -- fold on operator&lt;&lt; --");
+  std::cout &lt;&lt; "\n  ";
+  pushToCout2("argggghhh!", 1, 2.5, 'z');
+  std::cout &lt;&lt; "\n  ";
+  pushToCout2('z', 2.5, 1, "argggghhh!");
+  displayDemo("\n  -- pushToCout3 -- fold on operator&lt;&lt; --");
+  std::cout &lt;&lt; "\n  ";
+  pushToCout3(makeHelper(), "argggghhh!", 1, 2.5, 'z');
+  std::cout &lt;&lt; "\n  ";
+  pushToCout3(makeHelper(), 'z', 2.5, 1, "argggghhh!");
+
+  displayDemo("\n  -- fold on logical operator --");
+  std::cout &lt;&lt; std::boolalpha;
+  std::cout &lt;&lt; "\n  " &lt;&lt; accumulateOrs(0, 0, 0);
+  std::cout &lt;&lt; "\n  " &lt;&lt; accumulateOrs(false, true, false);
+  std::cout &lt;&lt; "\n  " &lt;&lt; accumulateAnds(false, true, false);
+
+  displayDemo("\n  -- fold on addition operator --");
+  std::cout &lt;&lt; "\n  " &lt;&lt; sum(1, 2.5, -2);
+  std::string s1 = "first";
+  std::string s2 = " and ";
+  std::string s3 = "second";
+  std::cout &lt;&lt; "\n  " &lt;&lt; sum(s1, s2, s3);
+  std::cout &lt;&lt; "\n\n";
+}
+</pre>
