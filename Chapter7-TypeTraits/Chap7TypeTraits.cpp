@@ -18,6 +18,7 @@ template<typename T, T v>
 struct ExpressionRep {
   using type = T;
   static constexpr T value = v;
+  constexpr operator T() { return v; }
 };
 
 template<typename T, T v>
@@ -30,8 +31,18 @@ struct ExpRep2 {
   static constexpr T subOne() { return (v - 1); }
 };
 
-//template<typename T, T v>
-//using ExpRep<T, T v> = ExpRep<
+template<typename T, T v>
+using integral_constant_t = typename std::integral_constant<T, v>::type;
+
+template<typename T, T v>
+auto integral_constant_v = std::integral_constant<T, v>::value;
+
+template<typename T>
+struct is_void : std::false_type {};
+
+template<>
+struct is_void<void> : std::true_type {};
+
 int main() {
 
   std::cout << "\n  " << typeid(TypeRep<double>::type).name();
@@ -51,8 +62,13 @@ int main() {
   putline();
   std::cout << "\n  " << typeid(std::integral_constant<int, 0>::type).name();
   std::cout << "\n  " << std::integral_constant<int, 0>::value;
-  std::cout << "\n  " << typeid(std::integral_constant_t<int, 0>).name();
+
+  std::cout << "\n  " << typeid(integral_constant_t<int, 0>).name();
+  std::cout << "\n  " << integral_constant_v<int, 0>;
   putline();
+
+  std::cout << "\n  " << is_void<void>::value;
+  std::cout << "\n  " << is_void<int>::value;
   
   std::cout << "\n\n";
 }
