@@ -1,57 +1,7 @@
 // Chap7TypeTraits.cpp
 
-#include <iostream>
-#include <type_traits>
-#include "..//Display/Display.h"
-
-template<typename T>
-struct TypeRep {
-  using type = T;
-};
-
-template<typename T, T v>
-struct ValueRep {
-  static constexpr T value = v;
-};
-
-template<typename T, T v>
-struct ExpressionRep {
-  using type = T;
-  static constexpr T value = v;
-  constexpr operator T() { return v; }
-};
-
-template<typename T, T v>
-struct ExpRep2 {
-  using type = T;
-  static constexpr T value = v;
-  constexpr operator T() { return v; }
-  static constexpr T get() { return v; }
-  static constexpr T addOne() { return (v + 1); }
-  static constexpr T subOne() { return (v - 1); }
-};
-
-template<typename T, T v>
-using integral_constant_t = typename std::integral_constant<T, v>::type;
-
-template<typename T, T v>
-auto integral_constant_v = std::integral_constant<T, v>::value;
-
-template<typename T>
-struct is_void : std::false_type {};
-
-template<>
-struct is_void<void> : std::true_type {};
-
-// https://stackoverflow.com/questions/9407367/determine-if-a-type-is-an-stl-container-at-compile-time/31105859#31105859
-
-namespace impl {
-  template<typename T> struct is_vector :std::false_type {};
-  template <typename... Args> struct is_vector < std::vector<Args...>> :std::true_type {};
-}
-template<typename T> struct is_vector {
-  static constexpr bool const value = impl::is_vector<std::decay_t<T >> ::value;
-};
+#include "Chap7TypeTraits.h"
+#include "../Chapter7-Display/Chap7Display.h"
 
 template <class T,
   typename std::enable_if<std::is_integral<T>::value,
@@ -110,4 +60,25 @@ int main() {
   std::string s("a string");
   do_stuff(s);
   std::cout << "\n\n";
+
+  displayDemo("--- std containers ---");
+  testSTL_Traits(std::array<int, 1>{1});
+  testSTL_Traits(std::string{});
+  testSTL_Traits(std::basic_string<char>{""});
+  testSTL_Traits(std::vector<int>{});
+  testSTL_Traits(std::deque<int>{});
+  testSTL_Traits(std::forward_list<int>{});
+  testSTL_Traits(std::list<int>{});
+  testSTL_Traits(std::set<int>{});
+  testSTL_Traits(std::multiset<int>{});
+  testSTL_Traits(std::map<int,int>{});
+  testSTL_Traits(std::multimap<int,int>{});
+  testSTL_Traits(std::unordered_set<int>{});
+  testSTL_Traits(std::unordered_multiset<int>{});
+  testSTL_Traits(std::unordered_map<int, int>{});
+  testSTL_Traits(std::unordered_multimap<int, int>{});
+  testSTL_Traits(std::stack<int>{});
+  testSTL_Traits(std::queue<int>{});
+  testSTL_Traits(std::priority_queue<int>{});
+  putline(2);
 }
