@@ -121,12 +121,12 @@ namespace Chap7 {
     bool r1, r2, r3, r4, r5, r6, r7, r8, r9, r10;
     if(doPut) put(typeid(t).name());
     r1 = test(std::is_fundamental<T>::value, "type is fundamental");
-    r2 = test(is_string<T>::value, "type is string");
-    r3 = test(is_vector<T>::value, "type is vector");
-    r4 = test(is_tuple<T>::value, "type is tuple");
-    r5 = test(is_pair<T>::value, "type is pair");
-    r6 = test(is_unordered_map<T>::value, "type is unordered_map");
-    r7 = test(is_pointer<T>::value, "type is pointer");
+    r2 = test(Chap7::is_string<T>::value, "type is string");
+    r3 = test(Chap7::is_vector<T>::value, "type is vector");
+    r4 = test(Demo::is_tuple<T>::value, "type is tuple");
+    r5 = test(Demo::is_pair<T>::value, "type is pair");
+    r6 = test(Demo::is_unordered_map<T>::value, "type is unordered_map");
+    r7 = test(std::is_pointer<T>::value, "type is pointer");
     r8 = test(std::is_array<T>::value, "type is array");
     r9 = test(std::is_function<T>::value, "type is function");
     r10 = test(std::is_class<T>::value, "type is class");

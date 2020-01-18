@@ -43,6 +43,32 @@ struct is_void : std::false_type {};
 template<>
 struct is_void<void> : std::true_type {};
 
+// https://stackoverflow.com/questions/9407367/determine-if-a-type-is-an-stl-container-at-compile-time/31105859#31105859
+
+namespace impl {
+  template<typename T> struct is_vector :std::false_type {};
+  template <typename... Args> struct is_vector < std::vector<Args...>> :std::true_type {};
+}
+template<typename T> struct is_vector {
+  static constexpr bool const value = impl::is_vector<std::decay_t<T >> ::value;
+};
+
+template <class T,
+  typename std::enable_if<std::is_integral<T>::value,
+  T>::type * = nullptr
+>
+void do_stuff(T& t) {
+  std::cout << "\n  doing integral stuff with type " << typeid(t).name();
+}
+
+template <class T,
+  typename std::enable_if<std::is_class<T>::value,
+  T>::type * = nullptr
+>
+void do_stuff(T& t) {
+  std::cout << "\n  doing class stuff with type " << typeid(t).name();
+}
+
 int main() {
 
   std::cout << "\n  " << typeid(TypeRep<double>::type).name();
@@ -70,5 +96,18 @@ int main() {
   std::cout << "\n  " << is_void<void>::value;
   std::cout << "\n  " << is_void<int>::value;
   
+  displayDemo("--- is_vector ---");
+  std::cout << "\n  " << is_vector<std::vector<int>>::value;
+  std::cout << "\n  " << is_vector<std::vector<double>>::value;
+  std::cout << "\n  " << is_vector<std::unordered_map<int, std::string>>::value;
+
+  displayDemo("--- enable_if ---");
+  class X {};
+  X x;
+  int i = 42;
+  do_stuff(i);
+  do_stuff(x);
+  std::string s("a string");
+  do_stuff(s);
   std::cout << "\n\n";
 }

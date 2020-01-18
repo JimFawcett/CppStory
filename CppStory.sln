@@ -91,6 +91,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter7-VariadicClassComp"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter7-TypeTraits", "Chapter7-TypeTraits\Chapter7-TypeTraits.vcxproj", "{713F4E3B-3B9E-43EF-B1F3-E78F224C6BC2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter7-TMP_Application", "Chapter7-TMP_Application\Chapter7-TMP_Application.vcxproj", "{B55400E0-AA19-4DF9-857F-E77CC167B24B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -451,6 +453,14 @@ Global
 		{713F4E3B-3B9E-43EF-B1F3-E78F224C6BC2}.Release|x64.Build.0 = Release|x64
 		{713F4E3B-3B9E-43EF-B1F3-E78F224C6BC2}.Release|x86.ActiveCfg = Release|Win32
 		{713F4E3B-3B9E-43EF-B1F3-E78F224C6BC2}.Release|x86.Build.0 = Release|Win32
+		{B55400E0-AA19-4DF9-857F-E77CC167B24B}.Debug|x64.ActiveCfg = Debug|x64
+		{B55400E0-AA19-4DF9-857F-E77CC167B24B}.Debug|x64.Build.0 = Debug|x64
+		{B55400E0-AA19-4DF9-857F-E77CC167B24B}.Debug|x86.ActiveCfg = Debug|Win32
+		{B55400E0-AA19-4DF9-857F-E77CC167B24B}.Debug|x86.Build.0 = Debug|Win32
+		{B55400E0-AA19-4DF9-857F-E77CC167B24B}.Release|x64.ActiveCfg = Release|x64
+		{B55400E0-AA19-4DF9-857F-E77CC167B24B}.Release|x64.Build.0 = Release|x64
+		{B55400E0-AA19-4DF9-857F-E77CC167B24B}.Release|x86.ActiveCfg = Release|Win32
+		{B55400E0-AA19-4DF9-857F-E77CC167B24B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

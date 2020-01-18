@@ -1,0 +1,192 @@
+<pre>// Chap7CustomTypeTraits.cpp
+
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;deque&gt;
+#include &lt;forward_list&gt;
+#include &lt;list&gt;
+#include &lt;set&gt;
+#include &lt;map&gt;
+#include &lt;unordered_set&gt;
+#include &lt;unordered_map&gt;
+#include &lt;type_traits&gt;
+#include &lt;iostream&gt;
+#include "../CustomTraits/CustomTraits.h"
+#include "../Display/Display.h"
+
+// http://www.cplusplus.com/reference/type_traits/integral_constant/
+
+namespace Chap7 {
+
+  /*---- is_array trait ----*/
+
+  template&lt;typename T&gt;
+  struct is_array : std::false_type {};
+
+  template&lt;typename T&gt;
+  struct is_array&lt;T[]&gt; : std::true_type {};
+
+  /*---- is_stdarray trait ----*/
+
+  template&lt;typename T&gt;
+  struct is_stdarray : std::false_type {};
+
+  template&lt;typename T, size_t N&gt;
+  struct is_stdarray&lt;std::array&lt;T,N&gt;&gt; : std::true_type {};
+
+  /*---- is_string trait ----*/
+
+  template &lt;typename T&gt;
+  struct is_string : std::false_type {};
+
+  template &lt;class T, class Traits, class Alloc&gt;
+  struct is_string&lt;std::basic_string&lt;T, Traits, Alloc&gt;&gt; : std::true_type {};
+
+  /*---- is_vector trait ----*/
+
+  template &lt;typename T&gt;
+  struct is_vector : std::false_type {};
+
+  template &lt;class T&gt;
+  struct is_vector&lt;std::vector&lt;T&gt;&gt; : std::true_type {};
+
+  /*---- is_deque trait ----*/
+
+  template &lt;typename T&gt;
+  struct is_deque : std::false_type {};
+
+  template &lt;class T&gt;
+  struct is_deque&lt;std::deque&lt;T&gt;&gt; : std::true_type {};
+
+  /*---- is_forward_list trait ----*/
+
+  template &lt;typename T&gt;
+  struct is_forward_list : std::false_type {};
+
+  template &lt;class T&gt;
+  struct is_forward_list&lt;std::forward_list&lt;T&gt;&gt; : std::true_type {};
+
+  /*---- is_list trait ----*/
+
+  template &lt;typename T&gt;
+  struct is_list : std::false_type {};
+
+  template &lt;class T&gt;
+  struct is_list&lt;std::list&lt;T&gt;&gt; : std::true_type {};
+
+  /*---- is_set trait ----*/
+
+  template &lt;typename T&gt;
+  struct is_set : std::false_type {};
+
+  template &lt;class T&gt;
+  struct is_set&lt;std::list&lt;T&gt;&gt; : std::true_type {};
+
+  /*---- is_pointer trait : pre C++11 style ----*/
+
+  template &lt;typename T&gt;
+  struct is_pointer
+  {
+    static const bool value = false;
+  };
+
+  template &lt;typename T&gt;
+  struct is_pointer&lt;T*&gt;
+  {
+    static const bool value = true;
+  };
+  template&lt;typename T, std::size_t N&gt;
+  struct is_array&lt;T[N]&gt; : std::true_type {};
+
+  void put(const std::string&amp; msg, size_t N = 50) {
+    std::string tmp;
+    if (msg.size() &gt; N) {
+      tmp = msg.substr(0, N-4) + " ...";
+    }
+    else {
+      tmp = msg;
+    }
+    std::cout &lt;&lt; "\n  " &lt;&lt; tmp;
+  }
+
+  bool test(bool match, const std::string&amp; msg) {
+    if (match) {
+      put(msg);
+    }
+    return match;
+  }
+
+  template&lt;typename T&gt;
+  void query(T t, bool doPut = true) {
+    bool r1, r2, r3, r4, r5, r6, r7, r8, r9, r10;
+    if(doPut) put(typeid(t).name());
+    r1 = test(std::is_fundamental&lt;T&gt;::value, "type is fundamental");
+    r2 = test(is_string&lt;T&gt;::value, "type is string");
+    r3 = test(is_vector&lt;T&gt;::value, "type is vector");
+    r4 = test(is_tuple&lt;T&gt;::value, "type is tuple");
+    r5 = test(is_pair&lt;T&gt;::value, "type is pair");
+    r6 = test(is_unordered_map&lt;T&gt;::value, "type is unordered_map");
+    r7 = test(is_pointer&lt;T&gt;::value, "type is pointer");
+    r8 = test(std::is_array&lt;T&gt;::value, "type is array");
+    r9 = test(std::is_function&lt;T&gt;::value, "type is function");
+    r10 = test(std::is_class&lt;T&gt;::value, "type is class");
+    if (r1 || r2 || r3 || r4 || r5 || r6 || r7 || r8 || r9 || r10)
+      return;
+    put("don't recognize type");
+  }
+}
+
+struct Foo {};
+
+int main() {
+
+  displayTitle("Demonstrate Custom Traits");
+
+  displayDemo("--- std::integral_constant&lt;bool,true&gt; ---");
+  std::cout &lt;&lt; std::boolalpha;
+  std::integral_constant&lt;bool, true&gt;::type typ;
+  std::cout &lt;&lt; "\n  " &lt;&lt; typeid(typ).name();
+  std::cout &lt;&lt; "\n  " &lt;&lt; typeid(std::integral_constant&lt;bool, true&gt;).name();
+  auto val = std::integral_constant&lt;bool, true&gt;::value;
+  std::cout &lt;&lt; "\n  " &lt;&lt; val;
+  std::cout &lt;&lt; "\n  " &lt;&lt; static_cast&lt;bool&gt;(val);
+  displayDemo("\n  --- std::true_type ---");
+  std::cout &lt;&lt; "\n  " &lt;&lt; typeid(std::true_type).name();
+  std::cout &lt;&lt; "\n  " &lt;&lt; std::true_type::value;
+  displayDemo("\n  --- std::false_type ---");
+  std::cout &lt;&lt; "\n  " &lt;&lt; typeid(std::false_type).name();
+  std::cout &lt;&lt; "\n  " &lt;&lt; std::false_type::value;
+
+  displayDemo("\n  --- type-traits ----");
+  Chap7::query(std::string("a string"));
+  putline();
+  Chap7::query(int{ 3 });
+  putline();
+  Chap7::query(double{ 3.14159 });
+  putline();
+  Chap7::query(std::vector&lt;int&gt;{1, 2, 3});
+  putline();
+  Chap7::query(std::pair{ 1,2.5 });
+  putline();
+  Chap7::query(std::unordered_map&lt;std::string, int&gt;{});
+  putline();
+  Chap7::query(nullptr);
+  putline();
+  Chap7::query([] {});
+  putline();
+  Chap7::query(Foo{});
+  putline();
+  Foo foo;
+  Chap7::query(&amp;foo);
+  putline();
+  Foo farr[]{ foo, foo };
+  int iarr[]{ 1,2,3 };
+  Chap7::query(iarr);
+  putline();
+  Chap7::query(Chap7::query&lt;int&gt;);
+  putline(2);
+  std::cout &lt;&lt; "\n  Foo farr[3] =&gt; Chap7::is_array&lt;decltype(farr)&gt;::value = " 
+            &lt;&lt; Chap7::is_array&lt;decltype(farr)&gt;::value;
+  putline(2);
+}
+</pre>

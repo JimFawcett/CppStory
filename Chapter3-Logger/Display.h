@@ -53,20 +53,20 @@ void displayValues(const std::initializer_list<T>& lst, const std::string& msg =
   for (auto item : lst)
   {
     try {
-      if constexpr (std::is_scalar<T>::value || is_string<T>::value)
+      if constexpr (std::is_scalar<T>::value || Demo::is_string<T>::value)
       {
         std::cout << prefix << item;
       }
-      else if constexpr (is_pair<T>::value)
+      else if constexpr (Demo::is_pair<T>::value)
       {
         std::cout << prefix << "{ " << item.first << ", " << item.second << " }";
       }
-      else if constexpr (is_tuple<T>::value)
+      else if constexpr (Demo::is_tuple<T>::value)
       {
         std::cout << prefix;
         displayTuple(item);
       }
-      else if constexpr (is_vector<T>::value)
+      else if constexpr (Demo::is_vector<T>::value)
       {
         for (auto elem : item)
         {
@@ -74,7 +74,7 @@ void displayValues(const std::initializer_list<T>& lst, const std::string& msg =
           prefix = ", ";
         }
       }
-      else if constexpr (is_unordered_map<T>::value)
+      else if constexpr (Demo::is_unordered_map<T>::value)
       {
         for (auto elem : item)
         {
