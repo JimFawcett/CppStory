@@ -2,7 +2,8 @@
 
 #include <iostream>
 #include <string>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 namespace Chap6 {
 

@@ -4,7 +4,8 @@
 #include <vector>
 #include <iostream>
 #include <locale>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 struct StrUtils {
 

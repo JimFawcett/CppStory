@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter2-Init", "Chapter1\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CustomTraits", "CustomTraits\CustomTraits.vcxproj", "{F8C8F634-8E81-4CA7-A5F8-A9CCF2F74116}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Display", "Display\Display.vcxproj", "{A674818C-12B9-4B83-BEC7-C29987C6CA64}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter1-Survey", "Chapter1-Survey\Chapter1-Survey.vcxproj", "{98908B5D-D589-4068-AE11-1D1B634AA040}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter4-classes", "Chapter4-classes\Chapter4-classes.vcxproj", "{B74B0D2B-FBEA-4BB6-9EF4-3583AD1D7488}"
@@ -119,14 +117,6 @@ Global
 		{F8C8F634-8E81-4CA7-A5F8-A9CCF2F74116}.Release|x64.Build.0 = Release|x64
 		{F8C8F634-8E81-4CA7-A5F8-A9CCF2F74116}.Release|x86.ActiveCfg = Release|Win32
 		{F8C8F634-8E81-4CA7-A5F8-A9CCF2F74116}.Release|x86.Build.0 = Release|Win32
-		{A674818C-12B9-4B83-BEC7-C29987C6CA64}.Debug|x64.ActiveCfg = Debug|x64
-		{A674818C-12B9-4B83-BEC7-C29987C6CA64}.Debug|x64.Build.0 = Debug|x64
-		{A674818C-12B9-4B83-BEC7-C29987C6CA64}.Debug|x86.ActiveCfg = Debug|Win32
-		{A674818C-12B9-4B83-BEC7-C29987C6CA64}.Debug|x86.Build.0 = Debug|Win32
-		{A674818C-12B9-4B83-BEC7-C29987C6CA64}.Release|x64.ActiveCfg = Release|x64
-		{A674818C-12B9-4B83-BEC7-C29987C6CA64}.Release|x64.Build.0 = Release|x64
-		{A674818C-12B9-4B83-BEC7-C29987C6CA64}.Release|x86.ActiveCfg = Release|Win32
-		{A674818C-12B9-4B83-BEC7-C29987C6CA64}.Release|x86.Build.0 = Release|Win32
 		{98908B5D-D589-4068-AE11-1D1B634AA040}.Debug|x64.ActiveCfg = Debug|x64
 		{98908B5D-D589-4068-AE11-1D1B634AA040}.Debug|x64.Build.0 = Debug|x64
 		{98908B5D-D589-4068-AE11-1D1B634AA040}.Debug|x86.ActiveCfg = Debug|Win32

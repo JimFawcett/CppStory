@@ -19,13 +19,15 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include <algorithm>
 #include <optional>
 #include <tuple>
 #include <initializer_list>
 #include <any>
 #include <typeinfo>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 #pragma warning (disable : 4244)  // intentionally narrowing conversions
 
@@ -78,7 +80,40 @@ void demoArraysAndPointers(int argc, char* argv[]) {
   displaySizeAndType(args, "\targs[] still has array type");
   std::cout << std::endl;
 
-  // int main(int argc, char* argv[]) {
+  displayDemo("\n  --- creating small array of doubles on heap ---");
+  double* pDbl = new double[2] {1.5, -4.3};
+  std::cout << "\n  1st element on heap = " << *pDbl;
+  std::cout << "\n  2nd element on heap = " << *(pDbl + 1) << std::endl;
+  delete[] pDbl;
+  // allocator has to remember array size and remember to delete when
+  // array is no longer needed.
+
+  displayDemo("--- creating double on heap with unique_ptr ---");
+  auto ptr0 = std::unique_ptr<double>(new double{ -1.5 });
+  std::cout << "\n  element on heap = " << *ptr0 << std::endl;
+  ptr0.release();
+
+  displayDemo("--- creating small array of doubles on heap with unique_ptr ---");
+  auto ptr1 = std::unique_ptr<double[]>(new double[2]{ -1.5, 3.2 });
+  std::cout << "\n  1st element on heap = " << ptr1[0];
+  std::cout << "\n  2nd element on heap = " << ptr1[1] << std::endl;
+  ptr1.release();
+
+  displayDemo("--- creating small array of doubles on heap with make_unique ---");
+  auto ptr2 = std::make_unique<double[]>(2);
+  ptr2[0] = 1.5;
+  ptr2[1] = -3.2;
+  std::cout << "\n  1st element on heap = " << ptr2[0];
+  std::cout << "\n  2nd element on heap = " << ptr2[1] << std::endl;
+  ptr2.release();
+
+  //displayDemo("--- creating small initialized array of doubles on heap with make_unique ---");
+  //double d[]{ -1.5, 3.2 };
+  //auto ptr3 = std::make_unique<double[]>(2);
+  //memcpy(ptr3.get(), d, 2);
+  //std::cout << "\n  1st element on heap = " << ptr3[0];
+  //std::cout << "\n  2nd element on heap = " << ptr3[1] << std::endl;
+  //ptr3.release();
 
   std::cout << "\n  displaying command line arguments using array";
   std::cout << "\n  ";

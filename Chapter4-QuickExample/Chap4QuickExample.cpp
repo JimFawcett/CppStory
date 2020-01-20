@@ -4,7 +4,8 @@
 #include <fstream>
 #include <string>
 #include <memory>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 class Logger {
 public:

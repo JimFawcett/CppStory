@@ -4,7 +4,8 @@
 #include <type_traits>
 #include <iostream>
 #include <boost/type_index.hpp>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 void testTrans0(int i) {
   displayDemo("--- testTrans0(int i) ---");

@@ -12,7 +12,8 @@
 #include <type_traits>
 #include <iostream>
 #include "../CustomTraits/CustomTraits.h"
-#include "../Display/Display.h"
+//#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
 
 // http://www.cplusplus.com/reference/type_traits/integral_constant/
 

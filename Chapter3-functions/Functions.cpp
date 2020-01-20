@@ -5,7 +5,8 @@
 #include <vector>
 #include <functional>
 #include <algorithm>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 void putLine(size_t n = 1) {
   for (size_t i = 0; i < n; ++i)

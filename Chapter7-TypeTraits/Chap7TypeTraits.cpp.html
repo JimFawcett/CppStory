@@ -1,57 +1,7 @@
 <pre>// Chap7TypeTraits.cpp
 
-#include &lt;iostream&gt;
-#include &lt;type_traits&gt;
-#include "..//Display/Display.h"
-
-template&lt;typename T&gt;
-struct TypeRep {
-  using type = T;
-};
-
-template&lt;typename T, T v&gt;
-struct ValueRep {
-  static constexpr T value = v;
-};
-
-template&lt;typename T, T v&gt;
-struct ExpressionRep {
-  using type = T;
-  static constexpr T value = v;
-  constexpr operator T() { return v; }
-};
-
-template&lt;typename T, T v&gt;
-struct ExpRep2 {
-  using type = T;
-  static constexpr T value = v;
-  constexpr operator T() { return v; }
-  static constexpr T get() { return v; }
-  static constexpr T addOne() { return (v + 1); }
-  static constexpr T subOne() { return (v - 1); }
-};
-
-template&lt;typename T, T v&gt;
-using integral_constant_t = typename std::integral_constant&lt;T, v&gt;::type;
-
-template&lt;typename T, T v&gt;
-auto integral_constant_v = std::integral_constant&lt;T, v&gt;::value;
-
-template&lt;typename T&gt;
-struct is_void : std::false_type {};
-
-template&lt;&gt;
-struct is_void&lt;void&gt; : std::true_type {};
-
-// https://stackoverflow.com/questions/9407367/determine-if-a-type-is-an-stl-container-at-compile-time/31105859#31105859
-
-namespace impl {
-  template&lt;typename T&gt; struct is_vector :std::false_type {};
-  template &lt;typename... Args&gt; struct is_vector &lt; std::vector&lt;Args...&gt;&gt; :std::true_type {};
-}
-template&lt;typename T&gt; struct is_vector {
-  static constexpr bool const value = impl::is_vector&lt;std::decay_t&lt;T &gt;&gt; ::value;
-};
+#include "Chap7TypeTraits.h"
+#include "../Chapter7-Display/Chap7Display.h"
 
 template &lt;class T,
   typename std::enable_if&lt;std::is_integral&lt;T&gt;::value,
@@ -110,4 +60,25 @@ int main() {
   std::string s("a string");
   do_stuff(s);
   std::cout &lt;&lt; "\n\n";
+
+  displayDemo("--- std containers ---");
+  testSTL_Traits(std::array&lt;int, 1&gt;{1});
+  testSTL_Traits(std::string{});
+  testSTL_Traits(std::basic_string&lt;char&gt;{""});
+  testSTL_Traits(std::vector&lt;int&gt;{});
+  testSTL_Traits(std::deque&lt;int&gt;{});
+  testSTL_Traits(std::forward_list&lt;int&gt;{});
+  testSTL_Traits(std::list&lt;int&gt;{});
+  testSTL_Traits(std::set&lt;int&gt;{});
+  testSTL_Traits(std::multiset&lt;int&gt;{});
+  testSTL_Traits(std::map&lt;int,int&gt;{});
+  testSTL_Traits(std::multimap&lt;int,int&gt;{});
+  testSTL_Traits(std::unordered_set&lt;int&gt;{});
+  testSTL_Traits(std::unordered_multiset&lt;int&gt;{});
+  testSTL_Traits(std::unordered_map&lt;int, int&gt;{});
+  testSTL_Traits(std::unordered_multimap&lt;int, int&gt;{});
+  testSTL_Traits(std::stack&lt;int&gt;{});
+  testSTL_Traits(std::queue&lt;int&gt;{});
+  testSTL_Traits(std::priority_queue&lt;int&gt;{});
+  putline(2);
 }</pre>

@@ -10,7 +10,7 @@
 
 /*-- Helper function --*/
 
-std::string strTrunc(
+inline std::string strTrunc(
   const std::string& src, size_t Max = 50
 ) {
   if (src.size() > Max) {

@@ -3,7 +3,8 @@
 #include <iostream>
 #include <string>
 #include <functional>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 std::string suffix(size_t i) {
   std::string sfx;

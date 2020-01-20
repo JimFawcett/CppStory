@@ -4,7 +4,8 @@
 // Jim Fawcett, Emeritus Teaching Professor, EECS, Syracuse University //
 /////////////////////////////////////////////////////////////////////////
 
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 #include <climits>
 #include <algorithm>
 #include <iostream>

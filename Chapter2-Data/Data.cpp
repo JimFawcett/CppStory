@@ -6,7 +6,8 @@
 
 #include <iostream>
 #include <iomanip>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 #pragma warning (disable : 4244)  // intentionally narrowing conversions
 

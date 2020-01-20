@@ -13,9 +13,12 @@
 #include <iostream>
 #include <typeinfo>
 
-inline auto putline = [](size_t n = 1) {
-  for (size_t i = 0; i < n; ++i)
+inline auto putline = [](size_t n = 1, const std::string& msg = "") {
+  for (size_t i = 0; i < n; ++i) {
     std::cout << "\n";
+  }
+  if (msg.size() > 0)
+    std::cout << msg;
 };
 
 inline void displayTitle(const std::string& title)
@@ -39,11 +42,11 @@ inline void displayDemo(const std::string& msg)
 
 template<std::size_t I = 0, typename... Tp>
 inline typename std::enable_if<I == sizeof...(Tp), void>::type
-displayTuple(std::tuple<Tp...>& t) { }
+displayTuple(const std::tuple<Tp...>& t) { }
 
 template<std::size_t I = 0, typename... Tp>
 inline typename std::enable_if < I < sizeof...(Tp), void>::type
-  displayTuple(std::tuple<Tp...> & t)
+  displayTuple(const std::tuple<Tp...> & t)
 {
   std::cout << std::get<I>(t) << " ";
   displayTuple<I + 1, Tp...>(t);
@@ -129,8 +132,8 @@ void displayTypeArgument(const std::string& msg = "", bool showSize = true) {
   if (showSize)
     std::cout << sizeof(T) << " = size of ";
   std::string typeName = typeid(T).name();
-  if (typeName.size() > 75)
-    typeName = typeName.substr(0, 75) + "...";
+  if (typeName.size() > 50)
+    typeName = typeName.substr(0, 46) + " ...";
   std::cout << typeName;
   if (msg.size() > 0)
     std::cout << msg;

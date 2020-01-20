@@ -12,7 +12,8 @@
 #include <memory>
 #include <unordered_map>
 #include <cstddef>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 /*---- demonstrate initialization ----*/
 

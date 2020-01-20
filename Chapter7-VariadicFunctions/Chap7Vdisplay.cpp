@@ -1,7 +1,8 @@
 // Chap7Vdisplay.cpp
 
 #include "Chap7Vdisplay.h"
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 #include <vector>
 #include <unordered_map>
 #include <string>

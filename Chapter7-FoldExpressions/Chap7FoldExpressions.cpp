@@ -3,7 +3,8 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 template<typename ...Args>
 void pushToCout1(Args&&... args) {

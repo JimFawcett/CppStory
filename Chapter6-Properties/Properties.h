@@ -1,7 +1,8 @@
 #pragma once
 // Properties.h
 
-#include "../Display/Display.h"
+#include "../Chapter7-Display/Chap7Display.h"
+//#include "../Display/Display.h"
 
 enum class PropertyType { Numeric, SeqContr, AssocContr, Nil };
 
