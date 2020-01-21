@@ -7,8 +7,7 @@
 
 #include "Chap7VariadicFunctions.h"
 #include "../Chapter7-Display/Chap7Display.h"
-//#include "../Display/Display.h"
-#ifdef TEST_VARIADICFUNCTIONS
+//#include "../Display/Display.h
 
 int main()
 {
@@ -30,4 +29,4 @@ int main()
   std::cout << "\n\n";
   return 0;
 }
-#endif
+
