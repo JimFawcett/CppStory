@@ -49,7 +49,6 @@ bool contains(C c, typename C::value_type v) {
 
 template<typename C>
 void show(C& c) {
-  //putline(1, "  ");
   std::cout << "  ";
   for_each(c.begin(), c.end(), ShowOp<typename C::value_type>());
 }
@@ -61,7 +60,7 @@ template<typename T>
 using Lst = std::list<T>;
 
 template<typename T>
-using iterator = typename std::vector<T>::iterator;
+using vecIterator = typename std::vector<T>::iterator;
 
 template<typename O>
 struct Null {};
@@ -92,17 +91,6 @@ typename Op<typename C::value_type> foreach(Collection<C, Op> rng) {
   return std::for_each(rng.first, rng.last, rng.op);
 }
 
-
-//template<typename Cont, typename Op>
-//void doProc(Cont c, Op op) {
-//  std::for_each(c.begin(), c.end(), op);
-//}
-//
-//template<typename Cont, typename Algo, typename Op>
-//void doProc(Cont c, Algo algo, Op op) {
-//  algo(c.begin(), c.end(), op);
-//}
-
 int main() {
 
   displayDemo("-- traditional algo use --");
@@ -117,14 +105,12 @@ int main() {
 
   std::for_each(rFriends.first, rFriends.last, rFriends.op);
 
-  /*-- prettified using range with embedded operation --*/
+  /*-- prettified using Collection with embedded operation --*/
 
   foreach(rFriends);
   
-  /*-- prettified using range and separate operation --*/
+  /*-- prettified using Collection and separate operation --*/
 
-  //Op<std::string> op;
-  //auto showCout = [&op](const std::string& s) { op(s); };
   ShowOp<std::string> showCout;
   foreach(rFriends, showCout);
   putline();
@@ -134,27 +120,25 @@ int main() {
   show(vecInt);
   std::cout << "\n  sum = " << ret.sum();
 
-  //std::cout << "\n  sum = " << foreach<Collection<Vec<int>, SumOp<int>>(vecIntColl, SumOp<int>());
-
   displayDemo("\n  -- using synonyms --");
   auto first1 = vecInt.begin();
   auto last1 = vecInt.end();
   auto rng1 = std::pair{ first1, last1 };
-  auto slop1 = ShowOp<int>();
-  auto forEachOne1 = [](decltype(first1) f, decltype(last1) l, decltype(slop1) s) {
+  auto shop1 = ShowOp<int>();
+  auto forEachOne1 = [](decltype(first1) f, decltype(last1) l, decltype(shop1) s) {
     for_each(f, l, s);
   };
-  forEachOne1(first1, last1, slop1);
+  forEachOne1(first1, last1, shop1);
 
   Lst<double> lstDbl{ 1.0, -0.5, 0.0, 0.5 };
   auto first2 = lstDbl.begin();
   auto last2 = lstDbl.end();
   auto rng2 = std::pair{ first2, last2 };
-  auto slop2 = ShowOp<double>();
-  auto forEachOne2 = [](decltype(first2) f, decltype(last2) l, decltype(slop2) s) {
+  auto shop2 = ShowOp<double>();
+  auto forEachOne2 = [](decltype(first2) f, decltype(last2) l, decltype(shop2) s) {
     for_each(f, l, s);
   };
-  forEachOne2(rng2.first, rng2.second, slop2);
+  forEachOne2(rng2.first, rng2.second, shop2);
 
   displayDemo("\n  -- all the rest --");
   putline();
@@ -173,10 +157,6 @@ int main() {
   foreach(listIntColl, ShowOp<int>());
   int sumi = foreach(listIntColl, SumOp<int>()).sum();
   std::cout << "\n  sum of list = " << sumi;
-  //foreach(vecDbl, SumOp<double>());
-  //doProc(vecInt, ShowOp<int>());
-  //doProc(vecDbl, ShowOp<double>());
-  //doProc(listInt, ShowOp<int>());
 
   putline(2);
 }
