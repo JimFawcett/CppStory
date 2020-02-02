@@ -1,82 +1,72 @@
 // Chap4QuickExample.cpp
 
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <memory>
-#include "../Chapter7-Display/Chap7Display.h"
-//#include "../Display/Display.h"
+#include "../Chapter8-Display/Chap8Display.h"
 
-class Logger {
-public:
-  Logger() : pStream_(nullptr) {}
-  Logger(std::ostream* pStr) : pStream_(pStr) {}
-  Logger(const Logger& logger) = delete;
-  ~Logger() {
-    std::ofstream* pFStrm = 
-      dynamic_cast<std::ofstream*>(pStream_);
-    if (pFStrm != nullptr)
-      pFStrm->close();
-  }
-  Logger& operator=(const Logger& logger) 
-    = delete;
-  void open(const std::string& fileName) {
-    std::ofstream* pFStrm =
-      dynamic_cast<std::ofstream*>(pStream_);
-    if (pFStrm != nullptr)
-      pFStrm->open(fileName);
-  }
-  void write(const std::string& msg) {
-    (*pStream_) << prefix_ << msg;
-  }
-private:
-  std::string prefix_ = "\n  ";
-  std::ostream* pStream_;
-};
+/*-- define function dispatcher --*/
 
-std::unique_ptr<std::ofstream> 
-makeOutFileStream(const std::string& fileName) {
-  std::unique_ptr<std::ofstream> 
-    pStrm(new std::ofstream(fileName));
-  return pStrm;
+using FPtr = void(*)();
+
+void fun1() { 
+  std::cout << "\n  index == 1 => fun1 called"; 
+}
+void fun2() { 
+  std::cout << "\n  index == 2 => fun2 called"; 
+}
+void fun3() { 
+  std::cout << "\n  index == 3 => fun3 called"; 
+}
+void oophs() {
+  std::string msg = "other index => ";
+  msg += "can't find that function";
+  std::cout << "\n  " << msg;
 }
 
-std::unique_ptr<std::ifstream> 
-makeInFileStream(const std::string& fileName) {
-  std::unique_ptr<std::ifstream> 
-    pStrm(new std::ifstream(fileName));
-  return pStrm;
+auto functionDispatcher(size_t index) {
+  switch (index) {
+  case 1:
+    return &fun1;
+    break;
+  case 2:
+    return &fun2;
+    break;
+  case 3:
+    return &fun3;
+    break;
+  default:
+    return &oophs;
+  }
+}
+
+/*-- define callback --*/
+
+void applicationSpecificCallback() {
+  std::string msg = "Pretending to cleanup ";
+  msg += "at end of function";
+  std::cout << "\n  " << msg;
+}
+
+auto functionWithCallback(FPtr callback) {
+  std::string msg = "Pretending to do some ";
+  msg += "standard function";
+  std::cout << "\n  " << msg;
+  callback();
 }
 
 int main() {
 
-  displayDemo("-- simple logger --");
+  /* must use C++17 option to compile */
 
-  std::string fileName = "log.txt";
-  /*---------------------------------------------
-     Create anonymous scope for logging so
-     logger destructor will be called before
-     trying to open log file.
-  */
-  {
-    auto pOStrm = makeOutFileStream(fileName);
-    if (!pOStrm->good()) {
-      std::cout << "\n  couldn't open \"" 
-                << fileName << " for writing\n\n";
-      return 1;
-    }
-    Logger logger(pOStrm.get());
-    logger.write("first log item");
-    logger.write("second log item");
-    logger.write("last log item");
-  }
-  auto pIStrm = makeInFileStream(fileName);
-  if (!pIStrm->good())
-  {
-    std::cout << "\n  couldn't open \"" 
-              << fileName << " for reading\n\n";
-    return 1;
-  }
-  std::cout << "\n  " << pIStrm->rdbuf();
-  putline(2);
+  displayDemo("-- function dispatcher --\n");
+  functionDispatcher(1)();
+  functionDispatcher(2)();
+  functionDispatcher(3)();
+  functionDispatcher(4)();
+
+  displayDemo("\n  -- function with callback --");
+  functionWithCallback(
+    applicationSpecificCallback
+  );
+
+  std::cout << "\n\n";
 }

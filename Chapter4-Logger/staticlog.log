@@ -1,0 +1,15 @@
+
+  test logger factory
+  Sun Feb  2 08:44:19 2020
+  log msg #1
+  log msg #2
+  test 2nd instance of logger factory
+  Sun Feb  2 08:44:19 2020
+  log2 msg #1
+  log2 msg #2
+  log2 msg #3
+  log2 msg #4
+  
+  using makeLogger
+  
+  done waiting for logger

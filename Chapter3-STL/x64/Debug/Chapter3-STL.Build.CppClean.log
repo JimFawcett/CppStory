@@ -1,6 +1,8 @@
 c:\github\jimfawcett\cppstory\chapter3-stl\x64\debug\vc142.pdb
 c:\github\jimfawcett\cppstory\chapter3-stl\x64\debug\vc142.idb
-c:\github\jimfawcett\cppstory\chapter3-stl\x64\debug\stl.obj
+c:\github\jimfawcett\cppstory\chapter3-stl\x64\debug\stl_datastructures.obj
+c:\github\jimfawcett\cppstory\chapter3-stl\x64\debug\dirwalker.obj
+c:\github\jimfawcett\cppstory\chapter3-stl\x64\debug\datetime.obj
 c:\github\jimfawcett\cppstory\x64\debug\chapter3-stl.ilk
 c:\github\jimfawcett\cppstory\x64\debug\chapter3-stl.exe
 c:\github\jimfawcett\cppstory\x64\debug\chapter3-stl.pdb

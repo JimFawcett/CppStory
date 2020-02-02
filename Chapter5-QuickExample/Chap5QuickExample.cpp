@@ -1,148 +1,81 @@
 // Chap5QuickExample.cpp
 
-#include <string>
-#include <vector>
 #include <iostream>
-#include <locale>
-#include "../Chapter7-Display/Chap7Display.h"
-//#include "../Display/Display.h"
+#include <fstream>
+#include <string>
+#include <memory>
+#include "../Chapter8-Display/Chap8Display.h"
 
-struct StrUtils {
-
-  /*-----------------------------------------
-     remove whitespace from front and back
-     of string argument
-     - does not remove newlines
-  */
-  std::string trim(const std::string& toTrim)
-  {
-    if (toTrim.size() == 0)
-      return toTrim;
-    std::string temp;
-    std::locale loc;
-    typename
-      std::string::const_iterator iter =
-      toTrim.begin();
-    while (
-      isspace(*iter, loc) && *iter != '\n'
-      )
-    {
-      if (++iter == toTrim.end())
-      {
-        break;
-      }
-    }
-    for (; iter != toTrim.end(); ++iter)
-    {
-      temp += *iter;
-    }
-    typename
-      std::string::reverse_iterator riter;
-    size_t pos = temp.size();
-    for (
-      riter = temp.rbegin();
-      riter != temp.rend();
-      ++riter
-      )
-    {
-      --pos;
-      if (
-        !isspace(*riter, loc)
-        || *riter == '\n'
-        )
-      {
-        break;
-      }
-    }
-    if (0 <= pos && pos < temp.size())
-      temp.erase(++pos);
-    return temp;
-  }
-
-  /*---------------------------------------------
-    split sentinel separated strings into a
-    vector of trimmed strings
-  */
-  template <typename T>
-  std::vector<std::string> split(
-    const std::string& toSplit,
-    T splitOn = ','
-  )
-  {
-    std::vector<std::string> splits;
-    std::string temp;
-    typename
-      std::string::const_iterator iter;
-    for (
-      iter = toSplit.begin();
-      iter != toSplit.end();
-      ++iter
-      )
-    {
-      if (*iter != splitOn)
-      {
-        temp += *iter;
-      }
-      else
-      {
-        splits.push_back(trim(temp));
-        temp.clear();
-      }
-    }
-    if (temp.length() > 0)
-      splits.push_back(trim(temp));
-    return splits;
-  }
-};
-class stringEx :
-  public std::string, private StrUtils {
+class Logger {
 public:
-  stringEx() {}
-  stringEx(const std::string& str)
-    : std::string(str) {}
-  stringEx(const char* pStr)
-    : std::string(pStr) {}
-  std::string trim() {
-    StrUtils::trim(*this);
+  Logger() : pStream_(nullptr) {}
+  Logger(std::ostream* pStr) : pStream_(pStr) {}
+  Logger(const Logger& logger) = delete;
+  ~Logger() {
+    std::ofstream* pFStrm = 
+      dynamic_cast<std::ofstream*>(pStream_);
+    if (pFStrm != nullptr)
+      pFStrm->close();
   }
-  std::vector<std::string>
-    splits(char splitOn = ',') {
-    return StrUtils::split(*this, splitOn);
+  Logger& operator=(const Logger& logger) 
+    = delete;
+  void open(const std::string& fileName) {
+    std::ofstream* pFStrm =
+      dynamic_cast<std::ofstream*>(pStream_);
+    if (pFStrm != nullptr)
+      pFStrm->open(fileName);
   }
+  void write(const std::string& msg) {
+    (*pStream_) << prefix_ << msg;
+  }
+private:
+  std::string prefix_ = "\n  ";
+  std::ostream* pStream_;
 };
 
-/*--- show collection of string splits --------*/
-
-void showSplits(
-  const std::vector<std::string>& splits,
-  std::ostream& out = std::cout
-)
-{
-  out << "\n";
-  for (auto item : splits)
-  {
-    if (item == "\n")
-      out << "\n--" << "newline";
-    else
-      out << "\n--" << item;
-  }
-  out << "\n";
+std::unique_ptr<std::ofstream> 
+makeOutFileStream(const std::string& fileName) {
+  std::unique_ptr<std::ofstream> 
+    pStrm(new std::ofstream(fileName));
+  return pStrm;
 }
 
-using Splits = std::vector<std::string>;
+std::unique_ptr<std::ifstream> 
+makeInFileStream(const std::string& fileName) {
+  std::unique_ptr<std::ifstream> 
+    pStrm(new std::ifstream(fileName));
+  return pStrm;
+}
 
 int main() {
-  displayDemo("-- SuperString demo --\n");
-  std::string arg = "one, ";
-  arg += "this is two, ";
-  arg += "and finally three";
-  stringEx superStr{ arg };
-  std::cout << "\n  superStr has the value: "
-    << superStr;
-  Splits splits = superStr.splits();
-  std::cout << "\n  superStr splits are:";
-  for (auto split : splits) {
-    std::cout << "\n    " << split;
+
+  displayDemo("-- simple logger --");
+
+  std::string fileName = "log.txt";
+  /*---------------------------------------------
+     Create anonymous scope for logging so
+     logger destructor will be called before
+     trying to open log file.
+  */
+  {
+    auto pOStrm = makeOutFileStream(fileName);
+    if (!pOStrm->good()) {
+      std::cout << "\n  couldn't open \"" 
+                << fileName << " for writing\n\n";
+      return 1;
+    }
+    Logger logger(pOStrm.get());
+    logger.write("first log item");
+    logger.write("second log item");
+    logger.write("last log item");
   }
+  auto pIStrm = makeInFileStream(fileName);
+  if (!pIStrm->good())
+  {
+    std::cout << "\n  couldn't open \"" 
+              << fileName << " for reading\n\n";
+    return 1;
+  }
+  std::cout << "\n  " << pIStrm->rdbuf();
   putline(2);
 }

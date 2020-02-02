@@ -1,65 +1,147 @@
-///////////////////////////////////////////////////////////////////////
-// Chap6QuickExample.cpp - Illustrates Lazy Compilation of Templates //
-//                                                                   //
-// Jim Fawcett, Teaching Professor Emeritus, ECE, Syracuse Univ      //
-///////////////////////////////////////////////////////////////////////
+// Chap6QuickExample.cpp
 
-#include <iostream>
 #include <string>
-#include "../Chapter7-Display/Chap7Display.h"
-//#include "../Display/Display.h"
+#include <vector>
+#include <iostream>
+#include <locale>
+#include "../Chapter8-Display/Chap8Display.h"
 
-class Parameter {
-public:
-  void say() {
-    std::cout << "\n  Parameter here";
+struct StrUtils {
+
+  /*-----------------------------------------
+     remove whitespace from front and back
+     of string argument
+     - does not remove newlines
+  */
+  std::string trim(const std::string& toTrim)
+  {
+    if (toTrim.size() == 0)
+      return toTrim;
+    std::string temp;
+    std::locale loc;
+    typename
+      std::string::const_iterator iter =
+      toTrim.begin();
+    while (
+      isspace(*iter, loc) && *iter != '\n'
+      )
+    {
+      if (++iter == toTrim.end())
+      {
+        break;
+      }
+    }
+    for (; iter != toTrim.end(); ++iter)
+    {
+      temp += *iter;
+    }
+    typename
+      std::string::reverse_iterator riter;
+    size_t pos = temp.size();
+    for (
+      riter = temp.rbegin();
+      riter != temp.rend();
+      ++riter
+      )
+    {
+      --pos;
+      if (
+        !isspace(*riter, loc)
+        || *riter == '\n'
+        )
+      {
+        break;
+      }
+    }
+    if (0 <= pos && pos < temp.size())
+      temp.erase(++pos);
+    return temp;
   }
-  /*---------------------------------------
-    when commented out illustrates lazy
-    compilation
-   */
-  //void shout() {
-  //  std::string msg = "\n  [very loudly] ";
-  //  msg += "Parameter here";
-  //  std::cout << msg;
-  //}
+
+  /*---------------------------------------------
+    split sentinel separated strings into a
+    vector of trimmed strings
+  */
+  template <typename T>
+  std::vector<std::string> split(
+    const std::string& toSplit,
+    T splitOn = ','
+  )
+  {
+    std::vector<std::string> splits;
+    std::string temp;
+    typename
+      std::string::const_iterator iter;
+    for (
+      iter = toSplit.begin();
+      iter != toSplit.end();
+      ++iter
+      )
+    {
+      if (*iter != splitOn)
+      {
+        temp += *iter;
+      }
+      else
+      {
+        splits.push_back(trim(temp));
+        temp.clear();
+      }
+    }
+    if (temp.length() > 0)
+      splits.push_back(trim(temp));
+    return splits;
+  }
+};
+class stringEx :
+  public std::string, private StrUtils {
+public:
+  stringEx() {}
+  stringEx(const std::string& str)
+    : std::string(str) {}
+  stringEx(const char* pStr)
+    : std::string(pStr) {}
+  std::string trim() {
+    StrUtils::trim(*this);
+  }
+  std::vector<std::string>
+    splits(char splitOn = ',') {
+    return StrUtils::split(*this, splitOn);
+  }
 };
 
-template<typename P>
-class LazyDemo {
-public:
-  void say() {
-    std::cout << "\n  LazyDemo here with ";
-    p_.say();
+/*--- show collection of string splits --------*/
+
+void showSplits(
+  const std::vector<std::string>& splits,
+  std::ostream& out = std::cout
+)
+{
+  out << "\n";
+  for (auto item : splits)
+  {
+    if (item == "\n")
+      out << "\n--" << "newline";
+    else
+      out << "\n--" << item;
   }
-  void shout() {
-    std::string msg = "\n  [very loudly] ";
-    msg += "LazyDemo here with ";
-    std::cout << msg;
-    p_.shout();
-  }
-private:
-  P p_;
-};
+  out << "\n";
+}
+
+using Splits = std::vector<std::string>;
 
 int main() {
-
-  displayDemo("-- Lazy Templ Compil --");
-
-  LazyDemo<Parameter> ld;
-  ld.say();
-
-  /*---------------------------------------
-     Uncommenting the next line will cause
-     compilation error, because Parameter
-     does not define shout.
-
-     Note that compilation does not fail
-     because LazyDemo::shout depends on
-     Parameter::shout which is commented
-     out. You only pay for what you need.
-  */
-  //ld.shout();
-
-  std::cout << "\n\n";
+  displayDemo("-- SuperString demo --\n");
+  std::string arg = "one, ";
+  arg += "this is two, ";
+  arg += "and finally three";
+  stringEx superStr{ arg };
+  std::cout << "\n  superStr has the value: "
+    << superStr;
+  Splits splits = superStr.splits();
+  std::cout << "\n  superStr splits are:";
+  for (auto split : splits) {
+    std::cout << "\n    " << split;
+  }
+  putline(2);
 }
