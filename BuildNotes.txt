@@ -1,0 +1,19 @@
+Build Notes
+---------------------------------------------------------------------
+1. All projects need to be compiled with the C++17 option
+   - Right-click on project > select Properties > General Properties 
+       > C++ Language Standard > ISO C++17 Standard (std:c++17)
+   - Unfortunately you have to do that every time you create a project.
+     There is no way, in Visual Studio, to make that the default.
+   - I've set that property, so you shouldn't have to do that. But,
+     if a project fails to compile, you will  need to reset this
+     option.
+2. All of these 49 projects are demonstrations, not intended to be
+   reusable parts, so they are structured in simple ways.
+3. There are warnings for reinterpret casts I've used just to show
+   pointer values in long integer format, a legitimet use.
+4. There are also a few warnings about unnamed objects with ...
+   This happens because I have used default arguments with types
+   that are some times used as temporary arguments to functions,
+   e.g., fun(X());
+5. I've elected not to turn off those warnings with pragmas.

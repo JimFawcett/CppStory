@@ -199,7 +199,7 @@ template<typename T> struct is_priority_queue {
   static constexpr bool const value = impl::is_priority_queue<std::decay_t<T >> ::value;
 };
 
-std::string truncStr(const std::string& s) {
+inline std::string truncStr(const std::string& s) {
   if (s.size() < 47)
     return s;
   return s.substr(0, 46) + " ...";

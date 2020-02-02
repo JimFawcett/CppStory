@@ -351,8 +351,8 @@ namespace Chap4 {
   }
 }
 
-struct Cosmetic {
-  ~Cosmetic() { std::cout << "\n\n"; }
+struct Cosmetics {
+  ~Cosmetics() { std::cout << "\n\n"; }
 } cosm;
 
 void demoClassAnatomy() {

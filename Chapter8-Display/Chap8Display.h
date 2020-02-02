@@ -2,7 +2,7 @@
 // Chap7Display.h
 
 /////////////////////////////////////////////////////////////////////////
-// Chap7Display.h - template display functions                         //
+// Chap8Display.h - template display functions                         //
 //                - most require use of custom type traits             //
 //                                                                     //
 // Jim Fawcett, Emeritus Teaching Professor, EECS, Syracuse University //
@@ -160,3 +160,8 @@ void displayValues(T t, Args... args)
   displayValues({ t });
   displayValues(args...);
 }
+
+template<size_t N=0>
+struct Cosmetic {
+  ~Cosmetic() { std::cout << "\n\n"; }
+};

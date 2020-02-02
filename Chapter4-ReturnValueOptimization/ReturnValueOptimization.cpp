@@ -66,7 +66,7 @@ Chap3::X test3() {
   return x;
 }
 
-struct Cosmetic { ~Cosmetic() { putline(2); } }cosm;
+struct Cosmetics { ~Cosmetics() { putline(2); } }cosm;
 
 int main() {
   using namespace Chap3;
