@@ -1,3 +1,4 @@
 # CppStory
 
-Work in progress for CppStory - not ready for prime time
+Code examples for C++ Story: https://JimFawcett.github.io/CppStory.html
+New code still being added.
