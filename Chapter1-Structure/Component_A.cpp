@@ -25,7 +25,7 @@ Component_A::~Component_A() {
 }
 
 Component_A::Component_A(const std::string& id) : id_{ id } {
-  std::cout << "\n  constructing instance of Component_A instance";
+  std::cout << "\n\n  constructing instance of Component_A ";
   std::cout << "\n  with id = " << id_;
 }
 

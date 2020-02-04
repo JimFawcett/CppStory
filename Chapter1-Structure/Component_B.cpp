@@ -9,8 +9,20 @@
 #include <iostream>
 #include <string>
 
+class Helper {
+public:
+  static void context();
+};
+void Helper::context() {
+#ifdef TEST_COMPONENT_B
+  std::cout << "\n  Testing Component_B";
+#else
+  std::cout << "\n  Component_B used by other classes";
+#endif
+}
 Component_B::Component_B() {
-  std::cout << "\n  default construction of Component_B instance";
+  std::cout << "\n\n  default construction of Component_B instance";
+  Helper::context();
   pA_ = createComponent_A("B's Component_A");
 }
 Component_B::~Component_B() {
