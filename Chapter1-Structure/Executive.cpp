@@ -5,7 +5,6 @@
 ///////////////////////////////////////////////////////////////
 
 #include "IComponent_A.h"
-#include "Component_A_Factory.h"
 #include "Component_B.h"
 #include "../Chapter8-Display/Chap8Display.h"
 #include <memory>

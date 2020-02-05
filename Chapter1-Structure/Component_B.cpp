@@ -5,7 +5,6 @@
 ///////////////////////////////////////////////////////////////
 
 #include "Component_B.h"
-#include "Component_A_Factory.h"
 #include <iostream>
 #include <string>
 

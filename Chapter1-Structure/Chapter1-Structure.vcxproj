@@ -140,13 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component_A.cpp" />
-    <ClCompile Include="Component_A_Factory.cpp" />
     <ClCompile Include="Component_B.cpp" />
     <ClCompile Include="Executive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component_A.h" />
-    <ClInclude Include="Component_A_Factory.h" />
     <ClInclude Include="Component_B.h" />
     <ClInclude Include="IComponent_A.h" />
   </ItemGroup>

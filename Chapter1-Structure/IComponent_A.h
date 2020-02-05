@@ -14,3 +14,4 @@ struct IComponent_A {
   virtual void say() = 0;
 };
 
+std::unique_ptr<IComponent_A> createComponent_A(const std::string& id);

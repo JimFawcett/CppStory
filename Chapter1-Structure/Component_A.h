@@ -18,4 +18,3 @@ public:
 private:
   std::string id_;
 };
-
