@@ -1,0 +1,51 @@
+
+ =======================================
+  Demonstrating stringstream operations
+ =======================================
+
+  reading from istringstream
+ ----------------------------
+
+  15 3.1415927 Now is the hour
+
+  writing to ostringstream
+ --------------------------
+
+--source-----15 3.1415927 Now is the hour
+--destin-----15 3.1415927 Now is the hour
+--stringBuf--15 3.1415927 Now is the hour
+
+  writing to custom buffer no longer supported in ostringstream
+ ---------------------------------------------------------------
+
+  parsing input buffer
+ ----------------------
+
+  i = 15
+  d = 3.14159
+  savebuf = Now
+  savebuf = is
+  savebuf = the
+  savebuf = hour
+
+  safe parsing using destination string
+ ---------------------------------------
+
+  15
+  3.1415927
+  Now
+  is
+  the
+  hour
+
+
+  char-by-char parsing
+ ----------------------
+
+  15
+  3.1415927
+  Now
+  is
+  the
+  hourÿ
+

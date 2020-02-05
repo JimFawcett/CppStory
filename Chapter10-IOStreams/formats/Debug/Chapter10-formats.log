@@ -1,0 +1,3 @@
+﻿  FORMATS.CPP
+FORMATS.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  Chapter10-formats.vcxproj -> C:\github\JimFawcett\CppStory\Chapter10-IOStreams\formats\.\Debug\Chapter10-formats.exe

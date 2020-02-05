@@ -1,0 +1,679 @@
+///////////////////////////////////////////////////////////
+// formats.cpp                                           //
+//   demonstrate ios formating                           //
+//                                                       //
+// Jim Fawcett, 24 Mar 96, modified 04 Mar 02            //
+///////////////////////////////////////////////////////////
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+//----< display titles >---------------------------------------
+
+void title(const char *t, char ul = '-', ostream &out = cout) {
+
+  int len = strlen(t) + 2;
+  string line(len,ul);
+  if(ul == '=')
+    out << "\n " << line;
+  out << "\n  " << t
+      << "\n " << line << endl;
+}
+
+//----< begin demonstration >----------------------------------
+
+void main() {
+
+  //////////////////////////////////////////
+  title("Demonstrating ios formatting",'=');
+  //////////////////////////////////////////
+
+  title("formating integers");
+  ////////////////////////////
+
+  /////////////////////////////////////////////////////////////
+  // flags:                                                  //
+  //   skipws  showbase showpoint uppercase   showpos        //
+  //  unitbuf     stdio                                      //
+  /////////////////////////////////////////////////////////////
+  //  basefield:                                             //
+  //    dec       hex       oct                              //
+  /////////////////////////////////////////////////////////////
+
+  long save = cout.flags();    // save format state
+  cout.setf(ios::showbase|ios::uppercase);
+  cout << "  " << 59 << " in hexadecimal is "
+       << hex  << 59 << dec << endl
+       << "  " << 59 << " in octal is       "
+       << oct  << 59 << dec << endl;
+  cout.flags(save);            // restore original format state
+
+//
+
+  title("formating doubles");
+  ///////////////////////////
+
+  /////////////////////////////////////////////////////////////////
+  // function:                                                   //
+  //     width()     width(n)       fill()      fill(n)          //
+  // precision() precision(n)                                    //
+  /////////////////////////////////////////////////////////////////
+  // floatfield:                                                 //
+  //  scientific        fixed    automatic                       //
+  /////////////////////////////////////////////////////////////////
+
+  cout.precision(6);
+  cout.setf(ios::right, ios::adjustfield);
+  cout.setf(ios::scientific, ios::floatfield);
+  cout.setf(ios::showpoint);
+  double d = 9;
+  int i;
+  for(i=0; i<5; i++)
+    cout << setw(14) << (d /= 3);
+  cout << endl;
+  cout.flags(save);
+
+  title("adjust, fill, and width");
+  /////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////
+  // adjustfield:                                                //
+  //        left        right     internal                       //
+  /////////////////////////////////////////////////////////////////
+
+  char *numbers[5] = { "zero", "one", "two", "three", "four" };
+  int nums[5] = { 0, 1, 2, 3, 4 };
+  cout.fill('.');
+  for(i=0; i<5; i++) {
+    cout.setf(ios::left, ios::adjustfield);
+    cout << "  " << setw(30) << numbers[i];
+    cout.setf(ios::right, ios::adjustfield);
+    cout << setw(30) << nums[i] << endl;
+  }
+  cout.flags(save);
+
+//
+
+  title("stream manipulators");
+  /////////////////////////////
+
+  /////////////////////////////////////////////////////////////
+  // manipulators:                                           //
+  //   iostream.h -  dec, oct, hex, endl, ws, ends, flush,   //
+  //   iomanip.h  -                                          //
+  //     setfill(char), setw(int), setprecision(int),        //
+  //     setiosflags(long), resetiosflags(long)              //
+  /////////////////////////////////////////////////////////////
+
+  cout << "  " << setprecision(5) << (d = 1.0/3.0) << endl;
+  cout << "  " << setfill('.') << setw(20) << d << endl;
+  cout << "  " << setiosflags(ios::left | ios::showpos)
+       << setw(20) << d << endl;
+  cout << "  " << resetiosflags(ios::left | ios::showpos)
+        << d << endl;
+  cout.flags(save);
+  cout << endl;
+}
+ ==============================
+  Demonstrating ios formatting
+ ==============================
+
+  formating integers
+ --------------------
+  59 in hexadecimal is 0X3B
+  59 in octal is       073
+
+  formating doubles
+ -------------------
+ 3.000000e+000 1.000000e+000 3.333333e-001 1.111111e-001 3.703704e-002
+
+  adjust, fill, and width
+ -------------------------
+  zero.......................................................0
+  one........................................................1
+  two........................................................2
+  three......................................................3
+  four.......................................................4
+
+  stream manipulators
+ ---------------------
+  0.33333
+  .............0.33333
+  +0.33333............
+  0.33333
+
+///////////////////////////////////////////////////////////////
+// fileio.cpp - demonstrate fstreams                         //
+//                                                           //
+// Jim Fawcett, 24 Mar 96, modified 04 Mar 02                //
+///////////////////////////////////////////////////////////////
+
+#include <iostream>     // cout, <<
+#include <fstream>      // ifstream(), <<, >>
+#include <cstdlib>      // exit(1);
+#include <sstream>
+#include <string>
+using namespace std;
+
+//----< display titles >---------------------------------------
+
+void title(const char *t, char ul = '-', ostream &out = cout) {
+
+  int len = strlen(t) + 2;
+  string line(len,ul);
+  if(ul == '=')
+    out << "\n " << line;
+  out << "\n  " << t
+      << "\n " << line << endl;
+}
+
+//----< begin demonstration >----------------------------------
+
+void main(int argc, char *argv[]) {
+
+  /////////////////////////////////////////////////
+  title("Demonstrating Basic File Operations",'=');
+  /////////////////////////////////////////////////
+
+  if(argc < 2) {
+    cout << "\nplease enter name of text file on command line\n\n";
+    exit(1);
+  }
+  const int bufSize = 80;
+  char buffer[bufSize];
+
+//
+
+  // create a scope with { } and define an input stream inside
+  // then read line-by-line and send to standard output
+  {
+    ifstream in(argv[argc-1]);
+    if(!in.good()) {
+      cout << "can't open file " << argv[argc-1] << endl;
+      exit(1);
+    }
+    else {
+      ostringstream temp;
+      temp << "processing file " << argv[argc-1]
+           << " using istream::getline()";
+
+      title(temp.str().c_str());
+      //////////////////////////
+    }
+
+    while(in.good()) {
+      in.getline(buffer,bufSize);
+      cout << buffer << endl;
+    }
+  }  // in goes out of scope and is destroyed
+
+  // define stream again at global level, get pointer to
+  // its filebuf and stream input directly to output
+
+  ostringstream temp;
+  temp << "processing file " << argv[argc-1]
+       << " using filebuf::rdbuf()";
+  title(temp.str().c_str());
+  //////////////////////////
+  
+  ifstream in(argv[argc-1]);
+  filebuf *bptr = in.rdbuf();    // get pointer to stream
+  cout << bptr << endl;          // stream input to output
+  in.close();                    // still in scope so close it
+
+//
+
+  // open stream again, seek to end to find size, and
+  // backup half way, then send last half to stdout
+
+  in.open(argv[argc-1]);         // open it again
+  in.seekg(0, ios::end);         // go to end of file
+  streampos sp = in.tellg();     // size = number of bytes from beg
+  in.seekg(-sp/2, ios::end);     // go to middle
+  in.getline(buffer,bufSize);    // go to next newline
+
+  ostringstream temp2;
+  temp2 << "processing last half of this " << sp << " byte file";
+  title(temp2.str().c_str());
+  ///////////////////////////
+
+  cout << in.rdbuf() << endl;    // output from that point to end
+
+  title("stream state goes bad when attempting to read past end of file");
+  ////////////////////////////////////////////////////////////////////////
+
+  char ch;
+  in >> ch;
+  if(!in.good())
+    cout << "  attempting to read past EOF makes stream state"
+         << " not good\n";
+
+  title("can't read any more until we clear stream to good state");
+  /////////////////////////////////////////////////////////////////
+
+  in.clear();
+  if(in.good())
+    cout << "  stream state good after clear()\n";
+  in.seekg(-1,ios::end);         // back up to good char
+  in >> ch;
+  if(in.good())
+    cout << "  after backing up and reading " << ch
+         << " stream state still good\n";
+  in >> ch;
+  if(!in.good())
+    cout << "  after reading EOF stream state not good again\n";
+  cout << endl;
+}
+
+ =====================================
+  Demonstrating Basic File Operations
+ =====================================
+
+  processing file test.txt using istream::getline()
+ ---------------------------------------------------
+this is the first line
+second line
+third line
+fourth line
+fifth line
+this is the sixth and final line
+
+  processing file test.txt using filebuf::rdbuf()
+ -------------------------------------------------
+this is the first line
+second line
+third line
+fourth line
+fifth line
+this is the sixth and final line
+
+  processing last half of this 106 byte file
+ --------------------------------------------
+fifth line
+this is the sixth and final line
+
+  stream state goes bad when attempting to read past end of file
+ ----------------------------------------------------------------
+  attempting to read past EOF makes stream state not good
+
+  can't read any more until we clear stream to good state
+ ---------------------------------------------------------
+  stream state good after clear()
+  after backing up and reading e stream state still good
+  after reading EOF stream state not good again
+
+/////////////////////////////////////////////////////////////////
+// filebuf.cpp                                                 //
+//   demonstrate low level input and output using streambufs   //
+//   built from FILE pointer and stdout                        //
+//                                                             //
+// Jim Fawcett, 24 Mar 96, modified 23 Mar 97, 01 Mar 04       //
+/////////////////////////////////////////////////////////////////
+
+#include <iostream>    // cout, <<
+#include <fstream>     // ifstream(), <<, >>
+using namespace std;
+
+//----< display titles >---------------------------------------
+
+void title(const char *t, char ul = '-', ostream &out = cout) {
+
+  int len = strlen(t) + 2;
+  std::string line(len,ul);
+  if(ul == '=')
+    out << "\n " << line.c_str();
+  out << "\n  " << t
+      << "\n " << line.c_str() << endl;
+}
+
+//----< begin demonstration >----------------------------------
+
+void main(int argc, char *argv[]) {
+
+  //////////////////////////////////////////////////////////////
+  title("Demonstrating use of Stream Buffers with File IO",'=');
+  //////////////////////////////////////////////////////////////
+
+  if(argc < 2) {
+    cout << "\nplease enter name of text file on command line\n";
+    exit(1);
+  }
+
+  title("using streambuf for input from file");
+  /////////////////////////////////////////////
+
+  filebuf ifb;                       // create filebuf
+  ifb.open(argv[argc-1],ios::in);    // attach to file
+  cout << &ifb << endl;              // stream to cout
+  cout.flush();
+//
+  title("using streambuf for output to stdout");
+  //////////////////////////////////////////////
+
+  istream in(&ifb);            // make stream in, attached to ifb
+  in.seekg(0);                 // move to top of input buffer
+  ostream out(cout.rdbuf());   // make stream out, attached to cout streambuf
+  out << &ifb << endl;         // stream it to out
+  out.flush();
+
+// could replace last statement with the lower level
+// gets and puts shown below
+
+  title("using low-level streambuf interface for output to stdout");
+  //////////////////////////////////////////////////////////////////
+
+  streambuf* pOfb = cout.rdbuf();
+  in.seekg(0);
+  char ch;
+  while((ch = ifb.sbumpc()) != EOF)
+    pOfb->sputc(ch);
+
+  cout << "\n\n";
+}
+
+
+
+ ==================================================
+  Demonstrating use of Stream Buffers with File IO
+ ==================================================
+
+  using streambuf for input from file
+ -------------------------------------
+this is the first line
+second line
+third line
+fourth line
+fifth line
+this is the sixth and final line
+
+  using streambuf for output to stdout
+ --------------------------------------
+this is the first line
+second line
+third line
+fourth line
+fifth line
+this is the sixth and final line
+
+  using low-level streambuf interface for output to stdout
+ ----------------------------------------------------------
+this is the first line
+second line
+third line
+fourth line
+fifth line
+this is the sixth and final line
+
+///////////////////////////////////////////////////////////////
+// readwrit.cpp - demonstrate read/write fstreams            //
+//                with buffer location seeking               //
+// Jim Fawcett, 24 Mar 96, modified 23 Mar 97                //
+///////////////////////////////////////////////////////////////
+
+#include <iostream>     // cout, <<
+#include <fstream>      // ifstream(), <<, >>
+#include <cstdlib>      // exit(1);
+#include <string>
+using namespace std;
+
+//----< display titles >---------------------------------------
+
+void title(const char *t, char ul = '-', ostream &out = cout) {
+
+  int len = strlen(t) + 2;
+  string line(len,ul);
+  if(ul == '=')
+    out << "\n " << line;
+  out << "\n  " << t
+      << "\n " << line << endl;
+}
+
+//----< begin demonstration >----------------------------------
+
+void main(int argc, char *argv[]) {
+
+  ///////////////////////////////////////////////////////////////
+  title("Demonstration of Reading AND Writing to a Common File",'=');
+  ///////////////////////////////////////////////////////////////
+
+  if(argc < 2) {
+    cout << "please enter file name on command line\n";
+    exit(1);
+  }
+
+//
+
+  ///////////////////////////////////////////////////////////////
+  // file open modes:        in       out       app       ate  //
+  //                             nocreate noreplace     trunc  //
+  ///////////////////////////////////////////////////////////////
+
+  // save input file contents in a temporary file 
+  // for reading and writing
+
+  ifstream masterin(argv[argc-1]);
+  ofstream tempout("tmp.tmp");
+  tempout << masterin.rdbuf();
+  masterin.close();
+  tempout.close();
+
+  // open temporary for input AND output processing
+  ifstream in("tmp.tmp", ios::in|ios::out);
+  if(!in.good()) {
+    cout << "can't open file tmp.tmp" << endl;
+    exit(1);
+  }
+
+  // use input stream buffer for output stream too
+  ostream out(in.rdbuf());
+
+  // now, try reading and writing
+  
+  title("this is a test file for reading and writing");
+  /////////////////////////////////////////////////////
+
+  cout << in.rdbuf();
+  out << "---\nthis text is added to the end\n";
+
+  // how many bytes in file?
+  streampos sp = out.tellp();
+  out.seekp(-sp, ios::end);            // back up from end
+  out << "this text overwrites beginning of file\n";
+  cout << endl;
+
+  // write it out to see what happened
+ 
+  title("modified file:");
+  ////////////////////////
+
+  in.seekg(ios::beg);                  // go to beginning
+  cout << in.rdbuf() << endl;
+}
+
+ =======================================================
+  Demonstration of Reading AND Writing to a Common File
+ =======================================================
+
+  this is a test file for reading and writing
+ ---------------------------------------------
+this is the first line
+second line
+third line
+fourth line
+fifth line
+this is the sixth and final line
+
+  modified file:
+ ----------------
+this text overwrites beginning of file
+rd line
+fourth line
+fifth line
+this is the sixth and final line---
+this text is added to the end
+
+///////////////////////////////////////////////////////////////
+// strio.cpp - demonstrate stringstreams                     //
+//                                                           //
+// Jim Fawcett, 24 Mar 96, modified 04 Mar 02                //
+///////////////////////////////////////////////////////////////
+
+#include <iostream>     // cout, <<
+#include <sstream>      // istringstream(), ostringstream(), <<, >>
+#include <string>
+
+using namespace std;
+
+//----< display titles >---------------------------------------
+
+void title(const char *t, char ul = '-', ostream &out = cout) {
+
+  int len = strlen(t) + 2;
+  string line(len,ul);
+  if(ul == '=')
+    out << "\n " << line;
+  out << "\n  " << t
+      << "\n " << line << endl;
+}
+
+//----< begin demonstration >----------------------------------
+
+void main() {
+
+  ///////////////////////////////////////////////////
+  title("Demonstrating stringstream operations",'=');
+  ///////////////////////////////////////////////////
+
+  title("reading from istringstream");
+  /////////////////////////////
+
+  istringstream source("15 3.1415927 Now is the hour");
+  cout << "\n  " << source.str() << endl;
+
+  title("writing to ostringstream");
+  ////////////////////////////////////
+
+  ostringstream destin;
+  destin << source.str();
+  stringbuf *pStringBuf = destin.rdbuf();
+  cout << "\n--source-----" << source.str();
+  cout << "\n--destin-----" << destin.str();
+  cout << "\n--stringBuf--" << pStringBuf->str() << endl;
+
+//
+
+  title("writing to custom buffer no longer supported in ostringstream");
+  ///////////////////////////////////////////////////////////////////////
+
+  title("parsing input buffer");
+  //////////////////////////////
+
+  int i;
+  const int bufSize=50; 
+  double d; 
+  char savebuf[bufSize];
+  
+  source.seekg(0);
+  source >> i >> d;
+  cout << endl;
+  cout << "  i = " << i << endl;
+  cout << "  d = " << d << endl;
+  int j;
+
+  // The following operation is dangerous!
+  //   extraction writes whole word into buffer,
+  //   even if word size is larger than buffer
+
+  for(j=0; j<4; j++) {
+    source >> savebuf;
+    cout << "  savebuf = " << savebuf << endl;
+  }
+
+  // Here is a saver, though less convenient way
+  // to read strings from a stream
+
+  title("safe parsing using destination string");
+  ///////////////////////////////////////////////
+
+  source.clear();
+  source.seekg(0);
+  string temp;
+  while(source.good()) {
+    source >> temp;
+    cout << "\n  " << temp;
+  }
+  cout << "\n\n";
+
+  title("char-by-char parsing");
+  //////////////////////////////
+
+  source.clear();
+  source.seekg(0);
+  temp = "";
+  while(source.good()) {
+    char ch = source.get();
+    if(!isspace(ch))
+      temp += ch;
+    else if(temp.size() > 0) {
+      cout << "\n  " << temp.c_str();
+      temp = "";
+    }
+  }
+  if(temp.size() > 0)
+    cout << "\n  " << temp.c_str();
+  cout << "\n\n";
+}
+
+ =======================================
+  Demonstrating stringstream operations
+ =======================================
+
+  reading from istringstream
+ ----------------------------
+
+  15 3.1415927 Now is the hour
+
+  writing to ostringstream
+ --------------------------
+
+--source-----15 3.1415927 Now is the hour
+--destin-----15 3.1415927 Now is the hour
+--stringBuf--15 3.1415927 Now is the hour
+
+  writing to custom buffer no longer supported in ostringstream
+ ---------------------------------------------------------------
+
+  parsing input buffer
+ ----------------------
+
+  i = 15
+  d = 3.14159
+  savebuf = Now
+  savebuf = is
+  savebuf = the
+  savebuf = hour
+
+  safe parsing using destination string
+ ---------------------------------------
+
+  15
+  3.1415927
+  Now
+  is
+  the
+  hour
+
+
+  char-by-char parsing
+ ----------------------
+
+  15
+  3.1415927
+  Now
+  is
+  the
+  hourÿ
+
+

@@ -1,0 +1,3 @@
+﻿  FILEIO.CPP
+FILEIO.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  Chapter10-fileIO.vcxproj -> C:\github\JimFawcett\CppStory\Chapter10-IOStreams\fileIO\.\Debug\Chapter10-fileIO.exe
