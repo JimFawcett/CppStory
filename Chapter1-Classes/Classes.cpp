@@ -15,7 +15,7 @@ public:
   using iterator = std::vector<double>::iterator;
   using const_iterator = std::vector<double>::const_iterator;
 
-  Point(const std::string& name = "none");
+  Point(size_t N, const std::string& name = "none");
   Point(std::initializer_list<double> il);
   void name(const std::string& name);
   std::string name() const;
@@ -31,9 +31,12 @@ private:
   std::vector<double> coordinates_;
 };
 
-Point::Point(const std::string& name) : name_(name) {}
+Point::Point(size_t N, const std::string& name) : name_(name) 
+{
+  coordinates_.reserve(N);
+}
 
-Point::Point(std::initializer_list<double> li) {
+Point::Point(std::initializer_list<double> li) : name_("none") {
   for (auto item : li)
     coordinates_.push_back(item);
 }
@@ -104,7 +107,7 @@ int main() {
   pt4.name("pt4 is copy of pt3");
   showPoint(pt4);
 
-  Point pt5("pt5");
+  Point pt5(3, "pt5");
   pt5 = pt3;
   pt5.name("pt5 assigned from pt3");
   showPoint(pt5);

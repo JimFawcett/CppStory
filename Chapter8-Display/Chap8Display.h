@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////
 
 #include "../Chapter8-TypeTraits/Chap8TypeTraits.h"
-//#include "../CustomTraits/CustomTraits.h"
 #include <iostream>
 #include <typeinfo>
 
