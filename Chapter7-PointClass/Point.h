@@ -18,7 +18,7 @@ public:
   using const_iterator = typename std::vector<T>::const_iterator;
 
   Point(size_t N, const std::string& name = "none");
-  Point(std::initializer_list<double> il);
+  Point(std::initializer_list<T> il);
   void name(const std::string& name);
   std::string name() const;
   T& operator[](size_t i);
@@ -40,7 +40,7 @@ Point<T>::Point(size_t N, const std::string& name) : name_(name)
 }
 
 template<typename T>
-Point<T>::Point(std::initializer_list<double> li) : name_("none") {
+Point<T>::Point(std::initializer_list<T> li) : name_("none") {
   for (auto item : li)
     coordinates_.push_back(item);
 }
