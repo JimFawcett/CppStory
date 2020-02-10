@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClInclude Include="CustomTraits.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CustomTraits.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{F8C8F634-8E81-4CA7-A5F8-A9CCF2F74116}</ProjectGuid>
@@ -79,6 +82,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

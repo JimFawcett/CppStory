@@ -1,0 +1,14 @@
+
+  test
+  Mon Feb 10 08:20:44 2020
+  Hi there from Logger.cpp
+
+  setting level = results
+  a result
+  setting level = demo
+  a demo
+  setting level = debug
+  a debug msg
+  setting level = results + demo
+  a demo
+  a result
