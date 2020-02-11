@@ -8,7 +8,7 @@ Build Notes
    - I've set that property, so you shouldn't have to do that. But,
      if a project fails to compile, you will  need to reset this
      option.
-2. All of these 49 projects are demonstrations, not intended to be
+2. All of these 57 projects are demonstrations, not intended to be
    reusable parts, so they are structured in simple ways.
 3. There are warnings for reinterpret casts I've used just to show
    pointer values in long integer format, a legitimet use.
