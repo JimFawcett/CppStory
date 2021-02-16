@@ -46,13 +46,13 @@ std::string Point::name() const { return name_; }
 void Point::name(const std::string& name) { name_ = name; }
 
 double& Point::operator[](size_t i) {
-  if (i < 0 && coordinates_.size() <= i)
+  if (i < 0 || coordinates_.size() <= i)
     throw(std::exception());
   return coordinates_[i];
 }
 
 double Point::operator[](size_t i) const {
-  if (i < 0 && coordinates_.size() <= i)
+  if (i < 0 || coordinates_.size() <= i)
     throw(std::exception());
   return coordinates_[i];
 }
